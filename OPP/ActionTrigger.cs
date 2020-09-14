@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class Tile : IDie
+    abstract class ActionTrigger
     {
-        public void Die()
-        {
-            // Get whooped
-        }
+        abstract public void DoAction(); // Trigger action
     }
 }

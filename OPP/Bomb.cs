@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class Tile : IDie
+    class Bomb : IDie
     {
         public void Die()
         {
-            // Get whooped
+            // Boom
         }
     }
 }
