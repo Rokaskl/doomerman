@@ -13,6 +13,8 @@ namespace OPP
         public Sprite sprite { get; set; }
         public Point point { get; set; }
 
+        public Entity() { }
+
         public Entity(Sprite _sprite, Point _point)
         {
             ID = Form1.IDcounter++;
