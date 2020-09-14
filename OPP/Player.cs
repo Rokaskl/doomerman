@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class Tile : IDie
+    class Player : Entity, IDie
     {
+        int health = 3;
+        int score;
+
         public void Die()
         {
-            // Get whooped
+            // Got bombed
         }
     }
 }

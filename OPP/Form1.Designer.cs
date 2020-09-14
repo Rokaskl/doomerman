@@ -40,7 +40,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxLayer = new System.Windows.Forms.TextBox();
             this.btAddSprite = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.drawingArea)).BeginInit();
             this.panelImageTest.SuspendLayout();
             this.SuspendLayout();
@@ -63,6 +62,7 @@
             this.btDraw.Name = "btDraw";
             this.btDraw.Size = new System.Drawing.Size(75, 23);
             this.btDraw.TabIndex = 1;
+            this.btDraw.TabStop = false;
             this.btDraw.Text = "Draw";
             this.btDraw.UseVisualStyleBackColor = true;
             this.btDraw.Click += new System.EventHandler(this.btDraw_Click);
@@ -73,6 +73,7 @@
             this.btLoadImage.Name = "btLoadImage";
             this.btLoadImage.Size = new System.Drawing.Size(109, 23);
             this.btLoadImage.TabIndex = 2;
+            this.btLoadImage.TabStop = false;
             this.btLoadImage.Text = "Load image...";
             this.btLoadImage.UseVisualStyleBackColor = true;
             this.btLoadImage.Click += new System.EventHandler(this.btLoadImage_Click);
@@ -83,6 +84,7 @@
             this.textBoxX.Name = "textBoxX";
             this.textBoxX.Size = new System.Drawing.Size(57, 20);
             this.textBoxX.TabIndex = 3;
+            this.textBoxX.TabStop = false;
             // 
             // textBoxY
             // 
@@ -90,6 +92,7 @@
             this.textBoxY.Name = "textBoxY";
             this.textBoxY.Size = new System.Drawing.Size(57, 20);
             this.textBoxY.TabIndex = 4;
+            this.textBoxY.TabStop = false;
             // 
             // label1
             // 
@@ -132,6 +135,7 @@
             this.btStopDraw.Name = "btStopDraw";
             this.btStopDraw.Size = new System.Drawing.Size(66, 23);
             this.btStopDraw.TabIndex = 10;
+            this.btStopDraw.TabStop = false;
             this.btStopDraw.Text = "Stop";
             this.btStopDraw.UseVisualStyleBackColor = true;
             this.btStopDraw.Click += new System.EventHandler(this.btStopDraw_Click);
@@ -151,6 +155,7 @@
             this.textBoxLayer.Name = "textBoxLayer";
             this.textBoxLayer.Size = new System.Drawing.Size(57, 20);
             this.textBoxLayer.TabIndex = 8;
+            this.textBoxLayer.TabStop = false;
             // 
             // btAddSprite
             // 
@@ -158,18 +163,10 @@
             this.btAddSprite.Name = "btAddSprite";
             this.btAddSprite.Size = new System.Drawing.Size(28, 22);
             this.btAddSprite.TabIndex = 7;
+            this.btAddSprite.TabStop = false;
             this.btAddSprite.Text = "+";
             this.btAddSprite.UseVisualStyleBackColor = true;
             this.btAddSprite.Click += new System.EventHandler(this.btAddSprite_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(54, 215);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "label4";
             // 
             // Form1
             // 
@@ -177,17 +174,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
             this.ClientSize = new System.Drawing.Size(454, 283);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.panelImageTest);
             this.Controls.Add(this.drawingArea);
             this.Name = "Form1";
-            this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.drawingArea)).EndInit();
             this.panelImageTest.ResumeLayout(false);
             this.panelImageTest.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -205,7 +199,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxLayer;
         private System.Windows.Forms.Button btStopDraw;
-        private System.Windows.Forms.Label label4;
     }
 }
 

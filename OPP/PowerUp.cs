@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class Tile : IDie
+    class PowerUp : IDie
     {
         public void Die()
         {
-            // Get whooped
+            // Got bombed or expired
         }
     }
 }

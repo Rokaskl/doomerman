@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class Tile : IDie
+    interface IDie
     {
-        public void Die()
-        {
-            // Get whooped
-        }
+        void Die();
     }
 }
