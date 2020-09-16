@@ -1,20 +1,17 @@
 ﻿using System;
-using UDP;
-
-namespace Server
+using System.Threading;
+class Program
 {
-    class Program
+    
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        Int32 port = 13000;
+        Thread t = new Thread(delegate ()
         {
-            UDPSocket s = new UDPSocket();
-            s.Server("127.0.0.1", 27000);
+            Listener myserver = new Listener("127.0.0.1", port);
+        });
+        t.Start();
 
-            UDPSocket c = new UDPSocket();
-            c.Client("127.0.0.1", 27000);
-            c.Send("TEST!");
-
-            Console.ReadKey();
-        }
+        Console.WriteLine("Server Started...!");
     }
 }

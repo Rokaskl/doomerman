@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class Tile : IDie
+    class Tile 
     {
         public void Die()
         {
