@@ -62,7 +62,22 @@ namespace OPP
                     {                    
                         imageGfx.DrawImage(entity.Value.sprite.image, entity.Value.sprite.pointPosition.X, entity.Value.sprite.pointPosition.Y);
                     }
-                    screenGfx.DrawImage(bitmap, 0, 0);
+                    screenGfx.DrawImage(bitmap, 0, 0, 1440, 1440);
+
+                    /*if (drawingArea.InvokeRequired)
+                    {
+                        drawingArea.Invoke(new MethodInvoker(
+                        delegate ()
+                        {
+                            drawingArea.Image = bitmap;
+                            drawingArea.SizeMode = PictureBoxSizeMode.Zoom;
+                        }));
+                    }
+                    else
+                    {
+                        drawingArea.Image = bitmap;
+                        drawingArea.SizeMode = PictureBoxSizeMode.Zoom;
+                    }*/
                 }
             }
         }

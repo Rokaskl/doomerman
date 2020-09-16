@@ -46,13 +46,13 @@
             // 
             // drawingArea
             // 
+            this.drawingArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.drawingArea.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.drawingArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.drawingArea.Image = global::OPP.Properties.Resources.Background;
-            this.drawingArea.Location = new System.Drawing.Point(188, 12);
+            this.drawingArea.Location = new System.Drawing.Point(182, 12);
             this.drawingArea.Name = "drawingArea";
-            this.drawingArea.Size = new System.Drawing.Size(240, 240);
-            this.drawingArea.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.drawingArea.Size = new System.Drawing.Size(674, 674);
+            this.drawingArea.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.drawingArea.TabIndex = 0;
             this.drawingArea.TabStop = false;
             // 
@@ -173,7 +173,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SlateGray;
-            this.ClientSize = new System.Drawing.Size(454, 283);
+            this.ClientSize = new System.Drawing.Size(914, 748);
             this.Controls.Add(this.panelImageTest);
             this.Controls.Add(this.drawingArea);
             this.Name = "Form1";

@@ -16,6 +16,7 @@ namespace OPP
         public void Die()
         {
             tileGfx = Image.FromFile("/Resources/empty.png");
+            
         }
 
         public void UpdateGfx()
