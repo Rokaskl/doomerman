@@ -8,5 +8,16 @@ namespace OPP
 {
     class Grid
     {
+        bool listenForGrid = true;
+
+        public void ListenGrid()
+        {
+            while (listenForGrid)
+            {             
+
+
+            }
+        }
+
     }
 }

@@ -6,14 +6,25 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class Player : Entity, IDie
+    class Player : IDie
     {
-        int health = 3;
-        int score;
+        private int ID;
+
+        public bool isReady = false;
 
         public void Die()
         {
             // Got bombed
+        }
+
+        public void UpdatePlayerInfo(int _ID)
+        {
+            ID = _ID;
+        }
+
+        public int GetID()
+        {
+            return ID;
         }
     }
 }

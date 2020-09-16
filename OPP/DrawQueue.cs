@@ -34,14 +34,7 @@ namespace OPP
         {
             Entities.Add(entity.ID, entity);
 
-            List<KeyValuePair<int, Entity>> list = Entities.ToList<KeyValuePair<int, Entity>>();
-            list.Sort(
-                delegate(KeyValuePair<int, Entity> pair1,
-                KeyValuePair<int, Entity> pair2)
-                {
-                    return pair1.Value.sprite.layerIndex.CompareTo(pair2.Value.sprite.layerIndex);
-                }
-            );
+            Entities.OrderBy(key => key.Value.sprite.layerIndex);      
 
             count++;
         }
