@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,20 +9,52 @@ namespace Server
 {
     class GameLogic
     {
-        public List<Command> Commands;
+        private bool preventAdd;
+        private List<Command> commands;
+        public List<Command> Commands
+        {
+            get
+            {
+
+               return this.commands;
+            }
+            set
+            {
+                this.commands = value;
+            }
+        }
+        private GameArena arena;
         //public List<SpecialEffect> SpecialEffects;//For delayed special effects, ex.: bombs.
 
-        public GameLogic()
+        public GameLogic(GameArena arena)
         {
+            this.arena = arena;
             this.Commands = new List<Command>();
             //this.SpecialEffects = new List<SpecialEffects>();
-            Task.Run(RemoveService);
+            //Task.Run(RemoveService);
             Task.Run(Logic);
         }
 
-        public void Load(Command cmd)
+        public void AddCommand(Command cmd)
         {
-            this.Commands.Add(cmd);
+            try
+            {
+                lock (this)
+                {
+                    while (true)
+                    {
+                        if(!preventAdd)
+                        {
+                            this.Commands.Add(cmd);
+                            break;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+            }
         }
 
         private async void RemoveService()
@@ -29,7 +62,8 @@ namespace Server
             while (true)
             {
                 await Task.Delay(10);
-                Commands.RemoveAll(x => x.heuristic >= 3);
+                Commands.RemoveAll(x => x.heuristic >= 3 || x.executed);
+                Commands.ForEach(x => x.heuristic++);
             }
         }
 
@@ -38,9 +72,12 @@ namespace Server
             while (true)
             {
                 await Task.Delay(10);
+                int handledCount = 0;
+                //Padaroma listo kopija, nes enumas crashina, jei modifikuojamas saltinis.
+                this.preventAdd = true;
                 Commands.ForEach(x =>
                 {
-                    if (x.heuristic >= 3)
+                    if (x == null || x.heuristic >= 3 || x.executed)
                         return;
 
                     if(x.Cmds.Any(c => c == CommandEnum.MoveUp) && x.Author.CanMove(CommandEnum.MoveUp))
@@ -49,7 +86,7 @@ namespace Server
                     }
                     else
                     {
-                        if (x.Cmds.Any(c => c == CommandEnum.MoveUp) && x.Author.CanMove(CommandEnum.MoveDown))
+                        if (x.Cmds.Any(c => c == CommandEnum.MoveDown) && x.Author.CanMove(CommandEnum.MoveDown))
                         {
                             x.Author.MoveDown();
                         }
@@ -74,9 +111,18 @@ namespace Server
                         x.Author.DropBomb();
                         //this.SpecialEffects.Add(new Spe...);
                     }
+
+                    x.executed = true;
+                    handledCount++;
                 });
+                this.Commands = null;
+                this.Commands = new List<Command>();
+                this.preventAdd = false;
                 //All commands executed.
-                ProcessData();
+                if (handledCount > 0)
+                {
+                    ProcessData();
+                }
             }
         }
 
@@ -84,7 +130,9 @@ namespace Server
         {
             //int object identifier - int object id - int x coord - int y coord;
             //Sudaro byte array informacijos ir siuncia i clientside kiekvienam zaidejui.
-
+            var list = this.arena.Players.Select(x => (new DataUnit() { XY = new Coordinates(x.xy.X, x.xy.Y), Id = x.User.Id })).ToList();
+            Console.WriteLine("Komandu listas");
+            list.ForEach(x => Console.WriteLine(x.ToString()));
         }
     }
 }

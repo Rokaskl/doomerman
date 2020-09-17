@@ -14,5 +14,10 @@ namespace Server
             this.X = x;
             this.Y = y;
         }
+
+        public override string ToString()
+        {
+            return "|x: " + this.X.ToString() + " | y: " + this.Y.ToString() + " | ";
+        }
     }
 }

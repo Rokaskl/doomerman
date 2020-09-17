@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,10 +25,16 @@ namespace OPP
 
         bool pressedA, pressedW, pressedS, pressedD;
 
+        TcpClient client;
+        int Id;
 
         public Form1()
         {
             InitializeComponent();
+
+            client = new TcpClient("localhost", 13000);
+            Id = 1;
+
             screenGfx = drawingArea.CreateGraphics();           
 
             drawQueue = new DrawQueue(screenGfx, drawingArea);
@@ -53,13 +60,29 @@ namespace OPP
             int yDiff = 0;
 
             if (pressedA)
-                xDiff -= 1;
+            {
+                xDiff -= 10;
+                this.SendSignal(3);
+            }
+               
             if (pressedD)
-                xDiff += 1;
+            {
+                xDiff += 10;
+                this.SendSignal(2);
+            }
+                
             if (pressedW)
-                yDiff -= 1;
+            {
+                yDiff -= 10;
+                this.SendSignal(0);
+            }
+                
             if (pressedS)
-                yDiff += 1;
+            {
+                yDiff += 10;
+                this.SendSignal(1);
+            }
+                
 
             // Let's get critical NOT SAFE FOR MULTITHREADING
             if (drawQueue.ContainsKey(0))
@@ -164,6 +187,30 @@ namespace OPP
         {
             
             
+        }
+
+        public async void SendSignal(int actionNum)
+        {
+            byte[] buffer;
+            buffer = (new List<int> { 0, this.Id, actionNum }).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
+            
+
+            while (true)
+            {
+                await Task.Delay(10);
+                try
+                {
+                    if (client.GetStream().CanWrite)
+                    {
+                        client.GetStream().Write(buffer, 0, buffer.Length);
+                        break;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    break;
+                }
+            }
         }
     }
 }

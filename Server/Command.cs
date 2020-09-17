@@ -10,6 +10,7 @@ namespace Server
         public List<CommandEnum> Cmds;
         public DateTime TimeStamp;
         public int heuristic = 0;
+        public bool executed = false;
 
         public Command()
         {

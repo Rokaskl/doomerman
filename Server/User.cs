@@ -17,9 +17,17 @@ namespace Server
             set => client = value;
         }
 
-        public User(string username = null)
+        public User(int id = 0, string username = null)
         {
-            this.Id = counter++;
+            if(id == 0)
+            {
+                this.Id = counter++;
+            }
+            else
+            {
+                this.Id = id;
+            }
+            
             this.Username = username ?? ("user" + (counter - 1).ToString()); 
         }
 

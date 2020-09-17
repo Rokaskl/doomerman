@@ -11,7 +11,7 @@ namespace OPP
     {
        public Listener(String server, Int32 port)
         {
-            Connect(server, port);
+            //Connect(server, port);
         }
         static void Connect(String server,  Int32 port)
         {
@@ -47,6 +47,5 @@ namespace OPP
 
             Console.Read();
         }
-    }
-   
+    } 
 }

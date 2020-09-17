@@ -14,17 +14,19 @@ class Listener
     GameArena Arena = new GameArena(0);//Test
     public Listener(string ip, int port)
     {
+        
         IPAddress localAddr = IPAddress.Parse(ip);
         server = new TcpListener(localAddr, port);
         server.Start();
         StartBoth();
+        Console.Read();
     }
 
     public async void StartBoth()
     {
          Task.Run(StartListener);//Connect players
-         Task.Run(StartSender);
-        StartSender2();
+       //  Task.Run(StartSender);
+       // StartSender2();
         Console.Read();
     }
     public async void StartSender()
@@ -40,12 +42,12 @@ class Listener
         //{
         //buffer = BitConverter.GetBytes(int.Parse(message_number)).ToArray();
         //}
-        buffer = (new List<int> { 0, 1, 0, 1, 2, 3, 4 }).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
+        buffer = (new List<int> { 0, 1, 3 }).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
         TcpClient cl = new TcpClient("localhost", 13000);
 
         while (true)
         {
-            await Task.Delay(1000);
+            await Task.Delay(100);
             try
             {
                 if (cl.GetStream().CanWrite)
@@ -74,12 +76,12 @@ class Listener
         //{
         //buffer = BitConverter.GetBytes(int.Parse(message_number)).ToArray();
         //}
-        buffer = (new List<int> { 0, 2, 0, 1, 4}).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
+        buffer = (new List<int> { 0, 2, 1}).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
         TcpClient cl = new TcpClient("localhost", 13000);
 
         while (true)
         {
-            await Task.Delay(1000);
+            await Task.Delay(78);
             try
             {
                 if (cl.GetStream().CanWrite)
@@ -135,10 +137,11 @@ class Listener
                     }
                     else
                     {
-                        user = App.Inst.UserRepo.AddUser(new User());
+                        user = App.Inst.UserRepo.AddUser(new User(userId));
                         user.Client = client;
                     }
-                    Arena.Players.Add(new Player(user));
+                    Console.WriteLine("Client " + user.Id.ToString() + "connected.");
+                    Arena.AddPlayer(new Player(user));
                     //else jei userio nera.
                     //if(buffer.Length > 8)
                     //{
