@@ -22,8 +22,8 @@ class Listener
 
     public async void StartBoth()
     {
-        Task.Run(StartListener);//Connect players
-        Task.Run(StartSender);
+         Task.Run(StartListener);//Connect players
+         Task.Run(StartSender);
         StartSender2();
         Console.Read();
     }

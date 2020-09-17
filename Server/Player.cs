@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server
 {
-    public class Player
+    public class Player : IPlayer
     {
         public User User;
         public Coordinates xy;
@@ -71,6 +71,11 @@ namespace Server
         public void MoveLeft()
         {
             this.xy.X--;
+        }
+        public void Update(Grid grid)
+        {
+            Console.WriteLine("Notified {0} of Grid update " ,User.Id );
+            //Send grid for player
         }
     }
 }
