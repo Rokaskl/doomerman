@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class Grid
+    abstract class ActionTrigger
     {
+        abstract public void DoAction(); // Trigger action
     }
 }
