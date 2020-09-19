@@ -146,10 +146,13 @@ namespace OPP
         {
             lock (drawQueue._spriteLock)
             {
-                Entity entity;
-                Sprite sprite = new Sprite(currentImage, int.Parse(textBoxLayer.Text), new Point(int.Parse(textBoxX.Text), int.Parse(textBoxY.Text)));
-                entity = new Entity(sprite, sprite.pointPosition);
-                drawQueue.AddEntity(entity);
+                if (currentImage != null)
+                {
+                    Entity entity;
+                    Sprite sprite = new Sprite(currentImage, int.Parse(textBoxLayer.Text), new Point(int.Parse(textBoxX.Text), int.Parse(textBoxY.Text)));
+                    entity = new Entity(sprite, sprite.pointPosition);
+                    drawQueue.AddEntity(entity);
+                }
             }
         }
 
