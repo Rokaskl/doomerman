@@ -9,7 +9,7 @@ using static OPP.TileEnumerator;
 
 namespace OPP
 {
-    class Tile : IDie
+    class Tile 
     {
         private Image tileGfx = Image.FromFile("/Resources/empty.png");
         private TileTypeEnum tileType = TileTypeEnum.Empty;
