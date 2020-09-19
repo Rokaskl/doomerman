@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace OPP
 {
@@ -26,8 +27,9 @@ namespace OPP
         {
             screenGfx = _screenGfx;
             drawingArea = _drawingArea;
-            bitmap = new Bitmap(512, 512);
+            bitmap = new Bitmap(480, 480);
             imageGfx = Graphics.FromImage(bitmap);
+            screenGfx.InterpolationMode = InterpolationMode.NearestNeighbor;
         }
 
         public void AddEntity(Entity entity)
@@ -62,7 +64,7 @@ namespace OPP
                     {                    
                         imageGfx.DrawImage(entity.Value.sprite.image, entity.Value.sprite.pointPosition.X, entity.Value.sprite.pointPosition.Y);
                     }
-                    screenGfx.DrawImage(bitmap, 0, 0, 1440, 1440);
+                    screenGfx.DrawImage(bitmap, 0, 0, 960, 960);
 
                     /*if (drawingArea.InvokeRequired)
                     {
