@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace OPP
 {
@@ -20,28 +21,22 @@ namespace OPP
 
         public bool draw = true;
 
-        public int count = 0; 
-        
+        public int count = 0;
+
         public DrawQueue(Graphics _screenGfx, PictureBox _drawingArea)
         {
             screenGfx = _screenGfx;
             drawingArea = _drawingArea;
-            bitmap = new Bitmap(512, 512);
+            bitmap = new Bitmap(480, 480);
             imageGfx = Graphics.FromImage(bitmap);
+            screenGfx.InterpolationMode = InterpolationMode.NearestNeighbor;
         }
 
         public void AddEntity(Entity entity)
         {
             Entities.Add(entity.ID, entity);
 
-            List<KeyValuePair<int, Entity>> list = Entities.ToList<KeyValuePair<int, Entity>>();
-            list.Sort(
-                delegate(KeyValuePair<int, Entity> pair1,
-                KeyValuePair<int, Entity> pair2)
-                {
-                    return pair1.Value.sprite.layerIndex.CompareTo(pair2.Value.sprite.layerIndex);
-                }
-            );
+            Entities.OrderBy(key => key.Value.sprite.layerIndex);
 
             count++;
         }
@@ -66,13 +61,14 @@ namespace OPP
                     imageGfx.DrawImage(drawingArea.Image, 0, 0);
 
                     foreach (var entity in Entities)
-                    {                    
+                    {
                         imageGfx.DrawImage(entity.Value.sprite.image, entity.Value.sprite.pointPosition.X, entity.Value.sprite.pointPosition.Y);
                     }
-                    screenGfx.DrawImage(bitmap, 0, 0);
+                    screenGfx.DrawImage(bitmap, 0, 0, 960, 960);
+
                 }
             }
         }
-        
+
     }
 }

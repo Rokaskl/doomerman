@@ -61,25 +61,25 @@ namespace OPP
 
             if (pressedA)
             {
-                xDiff -= 10;
+                //xDiff -= 10;
                 this.SendSignal(3);
             }
                
             if (pressedD)
             {
-                xDiff += 10;
+                //xDiff += 10;
                 this.SendSignal(2);
             }
                 
             if (pressedW)
             {
-                yDiff -= 10;
+                //yDiff -= 10;
                 this.SendSignal(0);
             }
                 
             if (pressedS)
             {
-                yDiff += 10;
+                //yDiff += 10;
                 this.SendSignal(1);
             }
                 
