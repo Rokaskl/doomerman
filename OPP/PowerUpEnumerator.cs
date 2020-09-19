@@ -10,8 +10,11 @@ namespace OPP
     {
         public enum PowerUpType
         {
+            None,
             IncreaseBombRange,
+            DecreaseBombRange,
             IncreaseBombCount,
+            DecreaseBombCount,
             TemporaryShield,
             TemporaryJump
         }
