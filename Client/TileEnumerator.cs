@@ -9,12 +9,20 @@ namespace OPP
     class TileEnumerator
     {
         public enum TileTypeEnum {
-            Empty,
+            Player1,
+            Player2,
+            Player3,
+            Player4,
             Bomb,
-            Player,
             Wall,
             Crate,
-            PowerUp
+            PUIncreaseBombRange,
+            PUDecreaseBombRange,
+            PUIncreaseBombCount,
+            PUDecreaseBombCount,
+            PUTemporaryShield,
+            PUTemporaryJump,
+            Empty
         }
     }
 }

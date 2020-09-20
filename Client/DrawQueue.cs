@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using System.Runtime.Remoting.Messaging;
 
 namespace OPP
 {
@@ -16,7 +17,8 @@ namespace OPP
         Bitmap bitmap;
         PictureBox drawingArea;
 
-        Dictionary<int, Entity> Entities = new Dictionary<int, Entity>();
+        Dictionary<Point, List<Tile>> Grid = new Dictionary<Point, List<Tile>>();
+        Grid grid;
         public readonly object _spriteLock = new object();
 
         public bool draw = true;
@@ -32,23 +34,29 @@ namespace OPP
             screenGfx.InterpolationMode = InterpolationMode.NearestNeighbor;
         }
 
-        public void AddEntity(Entity entity)
+        /// <summary>
+        /// Adds a list of tiles to a specified position
+        /// </summary>
+        /// <param name="pos">Graphics position</param>
+        /// <param name="tile">List of tiles</param>
+        public void AddTiles(Point pos, List<Tile> tile)
         {
-            Entities.Add(entity.ID, entity);
-
-            Entities.OrderBy(key => key.Value.sprite.layerIndex);
-
-            count++;
+            Grid.Add(pos, tile);
         }
 
-        public Entity GetEntity(int ID)
+        /// <summary>
+        /// Returns a list of tiles based on the position
+        /// </summary>
+        /// <param name="pos">Tile position on the grid</param>
+        /// <returns>List of tiles</returns>
+        public List<Tile> GetTiles(Point pos)
         {
-            return Entities[ID];
+            return Grid[pos];
         }
 
-        public bool ContainsKey(int ID)
+        public bool ContainsKey(Point pos)
         {
-            return Entities.ContainsKey(ID);
+            return Grid.ContainsKey(pos);
         }
 
         public void Draw()
@@ -60,10 +68,14 @@ namespace OPP
                     // draws background to image first
                     imageGfx.DrawImage(drawingArea.Image, 0, 0);
 
-                    foreach (var entity in Entities)
+                    foreach(var tiles in Grid)
                     {
-                        imageGfx.DrawImage(entity.Value.sprite.image, entity.Value.sprite.pointPosition.X, entity.Value.sprite.pointPosition.Y);
+                        foreach(var tile in tiles.Value)
+                        {
+                            imageGfx.DrawImage(tile.GetTileGfx(), tile.GetTileGfxPosition());
+                        }
                     }
+
                     screenGfx.DrawImage(bitmap, 0, 0, 960, 960);
 
                 }

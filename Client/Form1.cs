@@ -14,10 +14,9 @@ namespace OPP
 {
     public partial class Form1 : Form
     {
-        Graphics screenGfx;
-        DrawQueue drawQueue;
+        Graphics screenGfx; // Graphics element in which to draw
+        DrawQueue drawQueue;// Renders image elements
 
-        Image currentImage;
         Thread gfxThread;
         ThreadStart gfxThreadRef;
 
@@ -34,6 +33,8 @@ namespace OPP
 
             client = new TcpClient("localhost", 13000);
             Id = 1;
+
+
 
             screenGfx = drawingArea.CreateGraphics();           
 
@@ -82,15 +83,7 @@ namespace OPP
                 //yDiff += 10;
                 this.SendSignal(1);
             }
-                
-
-            // Let's get critical NOT SAFE FOR MULTITHREADING
-            if (drawQueue.ContainsKey(0))
-            {
-                entity = drawQueue.GetEntity(0);
-                entity.sprite.pointPosition = new Point(entity.sprite.pointPosition.X + xDiff, entity.sprite.pointPosition.Y + yDiff);
-            }
- 
+                      
         }
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
@@ -161,7 +154,7 @@ namespace OPP
 
             if (f.ShowDialog() == DialogResult.OK)
             {
-                currentImage = Image.FromFile(f.FileName);
+                //currentImage = Image.FromFile(f.FileName);
             }
         }
 
@@ -169,10 +162,7 @@ namespace OPP
         {
             lock (drawQueue._spriteLock)
             {
-                Entity entity;
-                Sprite sprite = new Sprite(currentImage, int.Parse(textBoxLayer.Text), new Point(int.Parse(textBoxX.Text), int.Parse(textBoxY.Text)));
-                entity = new Entity(sprite, sprite.pointPosition);
-                drawQueue.AddEntity(entity);
+                
             }
         }
 

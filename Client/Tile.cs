@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static OPP.PowerUpEnumerator;
 using static OPP.TileEnumerator;
 
 namespace OPP
@@ -13,7 +12,6 @@ namespace OPP
     {
         private Image tileGfx = Image.FromFile("/Resources/empty.png");
         private TileTypeEnum tileType = TileTypeEnum.Empty;
-        private PowerUpType powerUpType = PowerUpType.None;
 
         private Point gfxPosition;
 
@@ -27,63 +25,52 @@ namespace OPP
                 case TileTypeEnum.Crate:
                     tileGfx = Image.FromFile("/Resources/crate.png");
                     break;
-                case TileTypeEnum.Player:
-
-                    switch (ClientManager.Instance.GetPlayerID())
-                    {
-                        case 0:
-                            tileGfx = Image.FromFile("/Resources/player1.png");
-                            break;
-                        case 1:
-                            tileGfx = Image.FromFile("/Resources/player2.png");
-                            break;
-                        case 2:
-                            tileGfx = Image.FromFile("/Resources/player3.png");
-                            break;
-                        case 3:
-                            tileGfx = Image.FromFile("/Resources/player4.png");
-                            break;
-                    }
-
+       
+                case TileTypeEnum.Player1:
+                    tileGfx = Image.FromFile("/Resources/player1.png");
                     break;
-                case TileTypeEnum.PowerUp:
-                    // TODO
-                    switch (powerUpType)
-                    {
-                        case PowerUpType.IncreaseBombCount:
-                            tileGfx = Image.FromFile("/Resources/powerup_bombcount_increase.png");
-                            break;
 
-                        case PowerUpType.DecreaseBombCount:
-                            tileGfx = Image.FromFile("/Resources/powerup_bombcount_decrease.png");
-                            break;
+                case TileTypeEnum.Player2:
+                    tileGfx = Image.FromFile("/Resources/player2.png");
+                    break;
 
-                        case PowerUpType.IncreaseBombRange:
-                            tileGfx = Image.FromFile("/Resources/powerup_bombrange_increase.png");
-                            break;
+                case TileTypeEnum.Player3:
+                    tileGfx = Image.FromFile("/Resources/player3.png");
+                    break;
 
-                        case PowerUpType.DecreaseBombRange:
-                            tileGfx = Image.FromFile("/Resources/powerup_bombrange_decrease.png");
-                            break;
+                case TileTypeEnum.Player4:
+                    tileGfx = Image.FromFile("/Resources/player4.png");
+                    break;
 
-                        case PowerUpType.TemporaryJump:
-                            tileGfx = Image.FromFile("/Resources/powerup_jump.png");
-                            break;
+                case TileTypeEnum.PUIncreaseBombCount:
+                    tileGfx = Image.FromFile("/Resources/powerup_bombcount_increase.png");
+                    break;
 
-                        case PowerUpType.TemporaryShield:
-                            tileGfx = Image.FromFile("/Resources/powerup_shield.png");
-                            break;
+                case TileTypeEnum.PUDecreaseBombCount:
+                    tileGfx = Image.FromFile("/Resources/powerup_bombcount_decrease.png");
+                    break;
 
-                        default:
-                            tileGfx = Image.FromFile("/Resources/empty.png");
-                            break;
-                    }
+                case TileTypeEnum.PUIncreaseBombRange:
+                    tileGfx = Image.FromFile("/Resources/powerup_bombrange_increase.png");
+                    break;
+
+                case TileTypeEnum.PUDecreaseBombRange:
+                    tileGfx = Image.FromFile("/Resources/powerup_bombrange_decrease.png");
+                    break;
+
+                case TileTypeEnum.PUTemporaryJump:
+                    tileGfx = Image.FromFile("/Resources/powerup_jump.png");
+                    break;
+
+                case TileTypeEnum.PUTemporaryShield:
+                    tileGfx = Image.FromFile("/Resources/powerup_shield.png");
                     break;
 
                 case TileTypeEnum.Wall:
                     tileGfx = Image.FromFile("/Resources/wall.png");
                     break;
 
+                case TileTypeEnum.Empty:
                 default:
                     tileGfx = Image.FromFile("/Resources/empty.png");
                     break;
@@ -92,18 +79,8 @@ namespace OPP
 
         public void SetTileType(TileTypeEnum type)
         {
-            if (type == TileTypeEnum.PowerUp)
-                powerUpType = PowerUpType.None;
-
             tileType = type;
-
             UpdateGfx();
-        }
-
-        public void SetPowerUpType(PowerUpType type)
-        {
-            tileType = TileTypeEnum.PowerUp;
-            powerUpType = type;
         }
 
         public void SetTilePosition(int xGrid, int yGrid)
@@ -130,7 +107,6 @@ namespace OPP
         {
             tileGfx = Image.FromFile("/Resources/empty.png");
             tileType = TileTypeEnum.Empty;
-            powerUpType = PowerUpType.None;
         }
     }
 }
