@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class Bomb : IDie
+    class Bomb : IReset
     {
-        public void Die()
+        public void Reset()
         {
-            // Boom
+            throw new NotImplementedException();
         }
     }
 }
