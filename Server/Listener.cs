@@ -29,40 +29,7 @@ class Listener
        // StartSender2();
         Console.Read();
     }
-    public async void StartSender()
-    {
-        await Task.Delay(2000);
-        byte[] buffer;
-
-        //if (!string.IsNullOrWhiteSpace(text_data))
-        //{
-        //buffer = BitConverter.GetBytes(int.Parse("0")).Concat(BitConverter.GetBytes(1))//.Concat(BitConverter.GetBytes(.GetBytes(new int[] {0, 1, 2, 3 }));//.Concat(Encoding.UTF8.GetBytes("01234")).ToArray();
-        //}
-        //else
-        //{
-        //buffer = BitConverter.GetBytes(int.Parse(message_number)).ToArray();
-        //}
-        buffer = (new List<int> { 0, 1, 3 }).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
-        TcpClient cl = new TcpClient("localhost", 13000);
-
-        while (true)
-        {
-            await Task.Delay(100);
-            try
-            {
-                if (cl.GetStream().CanWrite)
-                {
-                    cl.GetStream().Write(buffer, 0, buffer.Length);
-                    //break;
-                }
-            }
-            catch (Exception exception)
-            {
-                break;
-            }
-        }
-    }
-
+    
     public async void StartSender2()
     {
         await Task.Delay(2000);

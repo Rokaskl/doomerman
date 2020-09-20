@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,11 +10,13 @@ namespace Server
         public User User;
         public Coordinates xy;
         public Explosive Bomb;
-
+        public Sender sender;
         public Player(User user)
         {
             this.User = user;
             this.xy = new Coordinates();
+            this.sender = new Sender(user);
+            this.sender.Send("Welcome boiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
         }
 
         public bool CanMove(CommandEnum cmd)
@@ -74,8 +77,8 @@ namespace Server
         }
         public void Update(Grid grid)
         {
-            Console.WriteLine("Notified {0} of Grid update " ,User.Id );
-            //Send grid for player
+            string json = JsonConvert.SerializeObject(grid.getGrid());
+            sender.Send(json);
         }
     }
 }

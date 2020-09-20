@@ -56,6 +56,7 @@ namespace OPP
             if (id >= 0 && id <= 3)
             {
                 currentPlayerID = id;
+                return;
             }
 
             throw new System.Exception(string.Concat("Trying to set Player's ID to an invalid value: ", id, ". Please considering using a number in range [0, 3]"));

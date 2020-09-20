@@ -26,11 +26,11 @@ namespace OPP
 
         TcpClient client;
 
-        public Form1()
+        public Form1(TcpClient client)
         {
             InitializeComponent();
 
-            client = new TcpClient("localhost", 13000);
+            this.client = new TcpClient("localhost", 13000);
             ClientManager.Instance.SetPlayerID(1);
 
 
@@ -165,7 +165,10 @@ namespace OPP
             }
         }
 
-        
+        private void drawingArea_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void btStopDraw_Click(object sender, EventArgs e)
         {

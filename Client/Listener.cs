@@ -5,34 +5,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Threading;
+using Newtonsoft.Json;
+
 namespace OPP
 {
     class Listener
     {
-       public Listener(String server, Int32 port)
-        {
-            //Connect(server, port);
-        }
-        static void Connect(String server,  Int32 port)
+       public Listener(TcpClient client)
         {
             try
             {
-                TcpClient client = new TcpClient(server, port);
                 NetworkStream stream = client.GetStream();
 
                 //Listening Server
                 while (true)
                 {
                     // Bytes Array to receive Server Response.
-                    Byte[] data = new Byte[256];
-                    String response = String.Empty;
-
-                    // Read the Tcp Server Response Bytes.
-                    Int32 bytes = stream.Read(data, 0, data.Length);
-                    response = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-                    Console.WriteLine("Received: {0}", response);
-
-                    Thread.Sleep(10);
+                    byte[] buffer = new byte[client.ReceiveBufferSize];
+                    //---read incoming stream---
+                    int bytesRead = stream.Read(buffer, 0, client.ReceiveBufferSize);
+                    //---convert the data received into a string---
+                    string dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                    Console.WriteLine("Received : " + dataReceived);
                 }
 
 
@@ -40,12 +34,13 @@ namespace OPP
                 // stream.Close();
                 // client.Close();
             }
+
             catch (Exception e)
             {
                 Console.WriteLine("Exception: {0}", e);
             }
-
-            Console.Read();
         }
+      
+
     } 
 }

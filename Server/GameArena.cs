@@ -14,7 +14,6 @@ namespace Server
         public int Id;
         public List<Player> Players;
         private GameLogic Calculator;
-
         public GameArena(int id)
         {
             this.Id = id;
@@ -31,6 +30,7 @@ namespace Server
 
         public async void PlayerService(Player player)
         {
+
             try
             {
                 Console.WriteLine("Player " + player.User.Id + " added.");

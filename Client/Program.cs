@@ -16,18 +16,20 @@ namespace OPP
         [STAThread]
         static void Main()
         {
-            /*Int32 port = 13000;
+            Int32 port = 13000;
             string ip = "127.0.0.1";
+            TcpClient client = new TcpClient(ip, port);
+
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
-            Listener serverListener= new Listener(ip, port);
+                Listener serverListener = new Listener(client);
 
-            }).Start();*/
+            }).Start();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new Form1(client));
 
             Console.ReadLine();
 
