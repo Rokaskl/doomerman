@@ -22,7 +22,7 @@ namespace OPP
 
         static public int IDcounter = 0;
 
-        bool pressedA, pressedW, pressedS, pressedD;
+        bool pressedA, pressedW, pressedS, pressedD, pressedSpace;
 
         TcpClient client;
 
@@ -54,33 +54,30 @@ namespace OPP
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Entity entity;
-
-            int xDiff = 0;
-            int yDiff = 0;
-
             if (pressedA)
             {
-                //xDiff -= 10;
-                this.SendSignal(3);
+                this.SendSignal(2);
             }
                
             if (pressedD)
             {
-                //xDiff += 10;
-                this.SendSignal(2);
+                this.SendSignal(3);
             }
                 
             if (pressedW)
             {
-                //yDiff -= 10;
                 this.SendSignal(0);
             }
                 
             if (pressedS)
             {
-                //yDiff += 10;
                 this.SendSignal(1);
+            }
+
+            if (pressedSpace)
+            {
+                this.SendSignal(4);
+                pressedSpace = false;
             }
                       
         }
@@ -133,6 +130,10 @@ namespace OPP
 
                     case Keys.D:
                         pressedD = true;
+                        break;
+
+                    case Keys.Space:
+                        pressedSpace = true;
                         break;
 
                 }
