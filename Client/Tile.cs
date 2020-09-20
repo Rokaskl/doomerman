@@ -9,17 +9,13 @@ using static OPP.TileEnumerator;
 
 namespace OPP
 {
-    class Tile : IDie
+    class Tile : IReset
     {
         private Image tileGfx = Image.FromFile("/Resources/empty.png");
         private TileTypeEnum tileType = TileTypeEnum.Empty;
         private PowerUpType powerUpType = PowerUpType.None;
 
-        public void Die()
-        {
-            tileGfx = Image.FromFile("/Resources/empty.png");
-
-        }
+        private Point gfxPosition;
 
         public void UpdateGfx()
         {
@@ -101,6 +97,7 @@ namespace OPP
 
             tileType = type;
 
+            UpdateGfx();
         }
 
         public void SetPowerUpType(PowerUpType type)
@@ -109,9 +106,31 @@ namespace OPP
             powerUpType = type;
         }
 
+        public void SetTilePosition(int xGrid, int yGrid)
+        {
+            // 16px tile width
+            gfxPosition.X = xGrid * 16; 
+            gfxPosition.Y = yGrid * 16;
+        }
+
+        public Point GetTileGfxPosition()
+        {
+            if(!gfxPosition.IsEmpty)
+                return gfxPosition;
+
+            throw new Exception("Cannot get the Tile's Graphics position, position is not set. Consider using SetTilePosition() function");
+        }
+
         public Image GetTileGfx()
         {
             return tileGfx;
+        }
+
+        public void Reset()
+        {
+            tileGfx = Image.FromFile("/Resources/empty.png");
+            tileType = TileTypeEnum.Empty;
+            powerUpType = PowerUpType.None;
         }
     }
 }
