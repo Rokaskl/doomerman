@@ -30,7 +30,7 @@ namespace OPP
         {
             InitializeComponent();
 
-            this.client = new TcpClient("localhost", 13000);
+            this.client = client;
             ClientManager.Instance.SetPlayerID(1);
 
 
