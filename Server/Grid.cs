@@ -8,19 +8,18 @@ namespace Server
 {
     public class Grid
     {
-        private int[,] _grid;
+        private List<int>[,] _grid;
         private int _size;
-        private List<IPlayer> _players = new List<IPlayer>();
 
         public Grid(int size=13)
         {
-            this._grid = new int[size,size];
+            this._grid = new List<int>[size,size];
             this._size = size;
-           
+            this.Clean();
             Console.WriteLine("Grid {0} X {0} created ", _size);
 
         }
-        public int[,] getGrid()
+        public List<int>[,] getGrid()
         {
             return this._grid;
         }
@@ -28,12 +27,11 @@ namespace Server
         {
             return this._size;
         }
-        public bool updateField(int i, int j,int value)
+        public bool UpdateTile(int i, int j,List<int> value)
         {
             try
             {
                 _grid[i, j] = value;
-                Notify();
                 return true;
             }
             catch (Exception e)
@@ -42,15 +40,21 @@ namespace Server
                 return false;
             }
         }
-        public void Notify()
+        public List<int> GetTile(int i, int j)
         {
-            foreach (Player player in _players)
-            {
-                player.Update(this);
-            }
-
+            return this._grid[i,j];
         }
+        public void Clean()
+        {
+            for (int i = 0; i < this._size; i++)
+            {
+                for (int j = 0; j < this._size; j++)
+                {
 
+                    this._grid[i, j] = new List<int>();
+                }
 
+            }
+        }
     }
 }

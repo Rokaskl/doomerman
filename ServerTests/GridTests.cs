@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Server;
 using System;
+using System.Collections.Generic;
 
 namespace ServerTests
 {
@@ -39,23 +40,9 @@ namespace ServerTests
         public void Should_ReturnFilled0_Than_Created()
         {
             Grid grid = new Grid();
-            int[,] actual = grid.getGrid();
-            int[,] expected = new int[13, 13] 
-            {
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } 
-            };
+            List<int>[,] actual = grid.getGrid();
+            List<int>[,] expected = new List<int>[13,13] ;
+           
             CollectionAssert.AreEqual(expected, actual);
 
         }

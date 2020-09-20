@@ -111,7 +111,7 @@ namespace Server
                         x.Author.DropBomb();
                         //this.SpecialEffects.Add(new Spe...);
                     }
-
+                    arena.UpdateGrid();
                     x.executed = true;
                     handledCount++;
                 });
@@ -135,4 +135,5 @@ namespace Server
             list.ForEach(x => Console.WriteLine(x.ToString()));
         }
     }
+
 }

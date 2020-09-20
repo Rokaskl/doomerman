@@ -4,9 +4,10 @@ using System.Text;
 
 namespace Server
 {
-    interface IPlayer
+    public interface IPlayer
     {
-       void Update(Grid grid);
+
+        void Update(Grid grid);
 
     }
 }

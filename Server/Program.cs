@@ -6,7 +6,6 @@ class Program
     
     static void Main(string[] args)
     {
-        Grid grid = new Grid();
         App.CreateInst();
         Int32 port = 13000;
         Thread t = new Thread(() =>

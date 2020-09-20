@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,12 +14,14 @@ namespace Server
         //Game arena is 13x13 tiles.
         public int Id;
         public List<Player> Players;
+        private Grid grid;
         private GameLogic Calculator;
         public GameArena(int id)
         {
             this.Id = id;
             this.Players = new List<Player>();
             this.Calculator = new GameLogic(this);
+            this.grid = new Grid();
             //StartGame();
         }
 
@@ -64,7 +67,28 @@ namespace Server
                 Console.WriteLine(ex.Message);
             }
         }
+        public void Notify()
+        {
+            foreach (Player player in Players)
+            {
+                player.Update(this.grid);
+            }
 
+        }
+        public void UpdateGrid()
+        {
+            grid.Clean();
+            foreach(Player player in Players)
+            {
+                int playerX = player.xy.X;
+                int playerY = player.xy.Y;
+                List<int> cleanTile = new List<int>();
+                cleanTile.Add(player.User.Id);
+                grid.UpdateTile(playerX, playerY, cleanTile);
+            }
+           Notify();
+
+        }
         //public void StartGame()
         //{
         //    Task.Run(async () =>
@@ -118,7 +142,7 @@ namespace Server
         //                    }
         //                });
 
-                        
+
         //            }
         //        }
         //        catch(Exception ex)
