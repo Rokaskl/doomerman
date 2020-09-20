@@ -56,11 +56,6 @@ namespace OPP
             tiles[x,y][layer].SetTileType(tileType);
         }
 
-        public void UpdateTile(int x, int y, PowerUpEnumerator.PowerUpType powerUpType, int layer)
-        {
-            tiles[x,y][layer].SetPowerUpType(powerUpType);
-        }
-
         public void Reset()
         {
             tiles = new List<Tile>[13, 13];
