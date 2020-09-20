@@ -78,7 +78,9 @@ namespace Server
         public void UpdateGrid()
         {
             grid.Clean();
-            foreach(Player player in Players)
+
+            List<Player> CurrentPlayers = this.Players.ToList();
+            foreach(Player player in CurrentPlayers)
             {
                 int playerX = player.xy.X;
                 int playerY = player.xy.Y;

@@ -77,7 +77,14 @@ namespace Server
         }
         public void Update(Grid grid)
         {
-            string json = JsonConvert.SerializeObject(grid.getGrid());
+            List<object> stuff = new List<object>();
+            List<int>[,] Grid =grid.getGrid();
+            int Id = User.Id;
+
+            stuff.Add(Grid);
+            stuff.Add(Id);
+
+            string json = JsonConvert.SerializeObject(stuff);
             sender.Send(json);
         }
     }
