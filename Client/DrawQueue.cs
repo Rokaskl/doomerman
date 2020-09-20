@@ -62,7 +62,14 @@ namespace OPP
                 lock (_spriteLock)
                 {
                     // draws background to image first
-                    imageGfx.DrawImage(drawingArea.Image, 0, 0);
+                    if (drawingArea.InvokeRequired)
+                    {
+                        drawingArea.Invoke(new MethodInvoker(delegate { imageGfx.DrawImage(drawingArea.Image, 0, 0); }));
+                    }
+                    else
+                    {
+                        imageGfx.DrawImage(drawingArea.Image, 0, 0);
+                    }
 
                     for(int x = 0; x < 13; x++)
                     {
