@@ -93,10 +93,10 @@ namespace OPP
 
         public Point GetTileGfxPosition()
         {
-            if(!gfxPosition.IsEmpty)
-                return gfxPosition;
+            
+            return gfxPosition;
 
-            throw new Exception("Cannot get the Tile's Graphics position, position is not set. Consider using SetTilePosition() function");
+            //throw new Exception("Cannot get the Tile's Graphics position, position is not set. Consider using SetTilePosition() function");
         }
 
         public Image GetTileGfx()

@@ -34,14 +34,15 @@ namespace OPP
             ClientManager.Instance.SetPlayerID(1);
 
 
-
             screenGfx = drawingArea.CreateGraphics();           
-
             drawQueue = new DrawQueue(screenGfx, drawingArea);
 
             gfxThreadRef = new ThreadStart(drawQueue.Draw);
             gfxThread = new Thread(gfxThreadRef);
             gfxThread.IsBackground = true;
+
+            if (!gfxThread.IsAlive)
+                gfxThread.Start();
 
             KeyPreview = true;
 

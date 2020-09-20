@@ -9,19 +9,19 @@ namespace OPP
     class Grid : IReset
     {
         // TODO: load map sizes and other settings from server; hardcoding for prototype
-
         private List<Tile>[,] tiles = new List<Tile>[13,13]; // Tile matrix
 
         public bool listenForGrid = true;
 
         public Grid()
         {
-            for(int x = 0; x < tiles.GetLength(0) - 1; x++)
+            for(int x = 0; x < tiles.GetLength(0); x++)
             {
-                for(int y = 0; y < tiles.GetLength(1) - 1; y++) 
+                for(int y = 0; y < tiles.GetLength(1); y++) 
                 {
                     tiles[x, y] = new List<Tile>();
                     tiles[x, y].Add(new Tile());
+                    tiles[x, y][0].SetTilePosition(x, y);
                 }             
             }
         }
