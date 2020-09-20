@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class PowerUp : IDie
+    class PowerUp : IReset
     {
-        public void Die()
+        public void Reset()
         {
-            // Got bombed or expired
+            throw new NotImplementedException();
         }
     }
 }
