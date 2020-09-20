@@ -6,13 +6,24 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class Grid
+    class Grid : IReset
     {
         // TODO: load map sizes and other settings from server; hardcoding for prototype
 
-        private Tile[,] tiles = new Tile[13,13]; // Tile matrix
+        private List<Tile>[,] tiles = new List<Tile>[13,13]; // Tile matrix
 
         public bool listenForGrid = true;
+
+        public Grid()
+        {
+            for(int x = 0; x < tiles.Length; x++)
+            {
+                for(int y = 0; y < tiles.Length; y++) 
+                {
+                    tiles[x, y] = new List<Tile>();                           
+                }             
+            }
+        }
 
         /// <summary>
         /// Listener for changes in grid (primary client listener for server messages)
@@ -32,21 +43,27 @@ namespace OPP
             {
                 for (int y = 0; y < 13; y++)
                 {
-                    tiles[x,y].UpdateGfx();
+                    foreach(var tile in tiles[x, y])
+                    {
+                        tile.UpdateGfx();
+                    }
                 }
             }
         }
 
-        public void UpdateTile(int x, int y, TileEnumerator.TileTypeEnum tileType)
+        public void UpdateTile(int x, int y, TileEnumerator.TileTypeEnum tileType, int layer)
         {
-            tiles[x,y].SetTileType(tileType);
-            tiles[x,y].UpdateGfx();            // Updates which image to use (maybe will make it private and do an auto update when setting type)
+            tiles[x,y][layer].SetTileType(tileType);
         }
 
-        public void UpdateTile(int x, int y, PowerUpEnumerator.PowerUpType powerUpType)
+        public void UpdateTile(int x, int y, PowerUpEnumerator.PowerUpType powerUpType, int layer)
         {
-            tiles[x,y].SetPowerUpType(powerUpType);
-            tiles[x,y].UpdateGfx();
+            tiles[x,y][layer].SetPowerUpType(powerUpType);
+        }
+
+        public void Reset()
+        {
+            tiles = new List<Tile>[13, 13];
         }
     }
 }
