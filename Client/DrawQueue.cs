@@ -17,7 +17,7 @@ namespace OPP
         Bitmap bitmap;
         PictureBox drawingArea;
 
-        Dictionary<Point, List<Tile>> Grid = new Dictionary<Point, List<Tile>>();
+        //Dictionary<Point, List<Tile>> Grid = new Dictionary<Point, List<Tile>>();
         Grid grid;
         public readonly object _spriteLock = new object();
 
@@ -32,6 +32,7 @@ namespace OPP
             bitmap = new Bitmap(480, 480);
             imageGfx = Graphics.FromImage(bitmap);
             screenGfx.InterpolationMode = InterpolationMode.NearestNeighbor;
+            grid = new Grid();
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace OPP
         /// <param name="tile">List of tiles</param>
         public void AddTiles(Point pos, List<Tile> tile)
         {
-            Grid.Add(pos, tile);
+            grid.SetTile(pos.X, pos.Y, tile);
         }
 
         /// <summary>
@@ -51,12 +52,7 @@ namespace OPP
         /// <returns>List of tiles</returns>
         public List<Tile> GetTiles(Point pos)
         {
-            return Grid[pos];
-        }
-
-        public bool ContainsKey(Point pos)
-        {
-            return Grid.ContainsKey(pos);
+            return grid.GetTile(pos.X, pos.Y);
         }
 
         public void Draw()
@@ -68,16 +64,18 @@ namespace OPP
                     // draws background to image first
                     imageGfx.DrawImage(drawingArea.Image, 0, 0);
 
-                    foreach(var tiles in Grid)
+                    for(int x = 0; x < 13; x++)
                     {
-                        foreach(var tile in tiles.Value)
+                        for(int y = 0; y < 13; y++)
                         {
-                            imageGfx.DrawImage(tile.GetTileGfx(), tile.GetTileGfxPosition());
+                            foreach(var tile in grid.GetTile(x, y))
+                            {
+                                imageGfx.DrawImage(tile.GetTileGfx(), tile.GetTileGfxPosition());
+                            }
                         }
                     }
-
+     
                     screenGfx.DrawImage(bitmap, 0, 0, 960, 960);
-
                 }
             }
         }
