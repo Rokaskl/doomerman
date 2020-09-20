@@ -20,7 +20,8 @@ namespace OPP
             {
                 for(int y = 0; y < tiles.Length; y++) 
                 {
-                    tiles[x, y] = new List<Tile>();                           
+                    tiles[x, y] = new List<Tile>();
+                    tiles[x, y].Add(new Tile());
                 }             
             }
         }
@@ -54,6 +55,16 @@ namespace OPP
         public void UpdateTile(int x, int y, TileEnumerator.TileTypeEnum tileType, int layer)
         {
             tiles[x,y][layer].SetTileType(tileType);
+        }
+
+        public void SetTile(int x, int y, List<Tile> tile)
+        {
+            tiles[x, y] = tile;
+        }
+
+        public List<Tile> GetTile(int x, int y)
+        {
+            return tiles[x, y];
         }
 
         public void Reset()
