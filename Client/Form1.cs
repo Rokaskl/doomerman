@@ -25,14 +25,13 @@ namespace OPP
         bool pressedA, pressedW, pressedS, pressedD;
 
         TcpClient client;
-        int Id;
 
         public Form1()
         {
             InitializeComponent();
 
             client = new TcpClient("localhost", 13000);
-            Id = 1;
+            ClientManager.Instance.SetPlayerID(1);
 
 
 
@@ -88,7 +87,7 @@ namespace OPP
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            if (drawQueue.count != 0)
+            if (ClientManager.Instance.GetPlayerID() >= 0)
             {
                 switch (e.KeyCode)
                 {
@@ -115,7 +114,7 @@ namespace OPP
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (drawQueue.count != 0)
+            if (ClientManager.Instance.GetPlayerID() >= 0)
             {
                 switch (e.KeyCode)
                 {
@@ -136,7 +135,7 @@ namespace OPP
                         pressedD = true;
                         break;
 
-                }               
+                }
             }
         }
 
@@ -182,7 +181,7 @@ namespace OPP
         public async void SendSignal(int actionNum)
         {
             byte[] buffer;
-            buffer = (new List<int> { 0, this.Id, actionNum }).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
+            buffer = (new List<int> { 0, ClientManager.Instance.GetPlayerID(), actionNum }).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
             
 
             while (true)
