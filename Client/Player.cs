@@ -6,16 +6,11 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class Player : IDie
+    class Player : IReset
     {
         private int ID;
 
         public bool isReady = false;
-
-        public void Die()
-        {
-            // Got bombed
-        }
 
         public void UpdatePlayerInfo(int _ID)
         {
@@ -25,6 +20,12 @@ namespace OPP
         public int GetID()
         {
             return ID;
+        }
+
+        public void Reset()
+        {
+            ID = -1;
+            isReady = false;
         }
     }
 }
