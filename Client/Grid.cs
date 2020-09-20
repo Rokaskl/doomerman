@@ -16,9 +16,9 @@ namespace OPP
 
         public Grid()
         {
-            for(int x = 0; x < tiles.Length; x++)
+            for(int x = 0; x < tiles.GetLength(0) - 1; x++)
             {
-                for(int y = 0; y < tiles.Length; y++) 
+                for(int y = 0; y < tiles.GetLength(1) - 1; y++) 
                 {
                     tiles[x, y] = new List<Tile>();
                     tiles[x, y].Add(new Tile());

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace OPP
 {
     class Tile : IReset
     {
-        private Image tileGfx = Image.FromFile("/Resources/empty.png");
+        private Image tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources/empty.png"));
         private TileTypeEnum tileType = TileTypeEnum.Empty;
 
         private Point gfxPosition;
@@ -20,59 +21,59 @@ namespace OPP
             switch (tileType)
             {
                 case TileTypeEnum.Bomb:
-                    tileGfx = Image.FromFile("/Resources/bomb.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/bomb.png"));
                     break;
                 case TileTypeEnum.Crate:
-                    tileGfx = Image.FromFile("/Resources/crate.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/crate.png"));
                     break;
        
                 case TileTypeEnum.Player1:
-                    tileGfx = Image.FromFile("/Resources/player1.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/player1.png"));
                     break;
 
                 case TileTypeEnum.Player2:
-                    tileGfx = Image.FromFile("/Resources/player2.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/player2.png"));
                     break;
 
                 case TileTypeEnum.Player3:
-                    tileGfx = Image.FromFile("/Resources/player3.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/player3.png"));
                     break;
 
                 case TileTypeEnum.Player4:
-                    tileGfx = Image.FromFile("/Resources/player4.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/player4.png"));
                     break;
 
                 case TileTypeEnum.PUIncreaseBombCount:
-                    tileGfx = Image.FromFile("/Resources/powerup_bombcount_increase.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/powerup_bombcount_increase.png"));
                     break;
 
                 case TileTypeEnum.PUDecreaseBombCount:
-                    tileGfx = Image.FromFile("/Resources/powerup_bombcount_decrease.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/powerup_bombcount_decrease.png"));
                     break;
 
                 case TileTypeEnum.PUIncreaseBombRange:
-                    tileGfx = Image.FromFile("/Resources/powerup_bombrange_increase.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/powerup_bombrange_increase.png"));
                     break;
 
                 case TileTypeEnum.PUDecreaseBombRange:
-                    tileGfx = Image.FromFile("/Resources/powerup_bombrange_decrease.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/powerup_bombrange_decrease.png"));
                     break;
 
                 case TileTypeEnum.PUTemporaryJump:
-                    tileGfx = Image.FromFile("/Resources/powerup_jump.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/powerup_jump.png"));
                     break;
 
                 case TileTypeEnum.PUTemporaryShield:
-                    tileGfx = Image.FromFile("/Resources/powerup_shield.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/powerup_shield.png"));
                     break;
 
                 case TileTypeEnum.Wall:
-                    tileGfx = Image.FromFile("/Resources/wall.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/wall.png"));
                     break;
 
                 case TileTypeEnum.Empty:
                 default:
-                    tileGfx = Image.FromFile("/Resources/empty.png");
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "Resources/empty.png"));
                     break;
             }
         }
@@ -105,7 +106,7 @@ namespace OPP
 
         public void Reset()
         {
-            tileGfx = Image.FromFile("/Resources/empty.png");
+            tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath + "/Resources/empty.png"));
             tileType = TileTypeEnum.Empty;
         }
     }

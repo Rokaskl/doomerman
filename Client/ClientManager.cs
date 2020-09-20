@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace OPP
     {
         private static ClientManager instance = null;
         private static readonly object padlock = new object();
+
+        public string ProjectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
 
         private int currentPlayerID = -1;   // ID representing the Player (0-3)
         private int score;                  // NOT IMPLEMENTED
