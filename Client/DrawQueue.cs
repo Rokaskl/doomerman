@@ -7,7 +7,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System.Runtime.Remoting.Messaging;
-using System.Threading;
 
 namespace OPP
 {
@@ -78,7 +77,6 @@ namespace OPP
      
                     screenGfx.DrawImage(bitmap, 0, 0, 960, 960);
                 }
-                Thread.Sleep(10);
             }
         }
 
