@@ -78,7 +78,6 @@ namespace Server
         public void UpdateGrid()
         {
             grid.Clean();
-
             List<Player> CurrentPlayers = this.Players.ToList();
             foreach(Player player in CurrentPlayers)
             {
@@ -88,6 +87,7 @@ namespace Server
                 cleanTile.Add(player.User.Id);
                 grid.UpdateTile(playerX, playerY, cleanTile);
             }
+
            Notify();
 
         }
