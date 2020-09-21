@@ -86,9 +86,9 @@
             // btQuit
             // 
             this.btQuit.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btQuit.BackColor = System.Drawing.Color.Gainsboro;
+            this.btQuit.BackColor = System.Drawing.Color.ForestGreen;
             this.btQuit.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btQuit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.btQuit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkGreen;
             this.btQuit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btQuit.Font = new System.Drawing.Font("Ravie", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btQuit.Location = new System.Drawing.Point(10, 60);
@@ -102,9 +102,9 @@
             // btPlay
             // 
             this.btPlay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btPlay.BackColor = System.Drawing.Color.Gainsboro;
+            this.btPlay.BackColor = System.Drawing.Color.ForestGreen;
             this.btPlay.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btPlay.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.btPlay.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkGreen;
             this.btPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btPlay.Font = new System.Drawing.Font("Ravie", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btPlay.ForeColor = System.Drawing.SystemColors.ControlText;
