@@ -19,7 +19,7 @@ namespace Server
             Console.WriteLine("Grid {0} X {0} created ", _size);
 
         }
-        public List<int>[,] getGrid()
+        public List<int>[,] GetGrid()
         {
             return this._grid;
         }

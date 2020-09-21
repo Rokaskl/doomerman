@@ -35,14 +35,6 @@ class Listener
         await Task.Delay(2000);
         byte[] buffer;
 
-        //if (!string.IsNullOrWhiteSpace(text_data))
-        //{
-        //buffer = BitConverter.GetBytes(int.Parse("0")).Concat(BitConverter.GetBytes(1))//.Concat(BitConverter.GetBytes(.GetBytes(new int[] {0, 1, 2, 3 }));//.Concat(Encoding.UTF8.GetBytes("01234")).ToArray();
-        //}
-        //else
-        //{
-        //buffer = BitConverter.GetBytes(int.Parse(message_number)).ToArray();
-        //}
         buffer = (new List<int> { 0, 2, 1}).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
         TcpClient cl = new TcpClient("localhost", 13000);
 
@@ -63,25 +55,6 @@ class Listener
             }
         }
     }
-    //public void StartListener()
-    //{
-    //    try
-    //    {
-    //        while (true)
-    //        {
-    //            Console.WriteLine("Waiting for a connection...");
-    //            TcpClient client = server.AcceptTcpClient();
-    //            Console.WriteLine("Connected!");
-    //            Thread t = new Thread(new ParameterizedThreadStart(HandleDeivce));
-    //            t.Start(client);
-    //        }
-    //    }
-    //    catch (SocketException e)
-    //    {
-    //        Console.WriteLine("SocketException: {0}", e);
-    //        server.Stop();
-    //    }
-    //}
 
     public async void StartListener()
     {
@@ -109,52 +82,11 @@ class Listener
                     }
                     Console.WriteLine("Client " + user.Id.ToString() + "connected.");
                     Arena.AddPlayer(new Player(user));
-                    //else jei userio nera.
-                    //if(buffer.Length > 8)
-                    //{
-                    //    var cmd = new Command { Author = user, TimeStamp = DateTime.UtcNow };
-                    //    int index = 1;
-                    //    while (buffer.Length >= (index + 1) * 4 + 4)
-                    //    {
-                    //        cmd.Cmds.Add((CommandEnum)BitConverter.ToInt32(buffer, (index + 1) * 4));
-                    //        index++;
-                    //    }
-                    //    cmd.Execute();
-                    //}
+                   
                     break;
                 }
             }
         }
     }
 
-    
-    //public void HandleDeivce(Object obj)
-    //{
-    //    TcpClient client = (TcpClient)obj;
-    //    var stream = client.GetStream();
-    //    string imei = String.Empty;
-    //    string data = null;
-    //    Byte[] bytes = new Byte[256];
-    //    int i;
-
-    //    try
-    //    {
-    //        int count = 0;
-
-    //        while (true)
-    //        {
-    //            string str = "Hey Device! " + count.ToString() ;
-    //            Byte[] reply = System.Text.Encoding.ASCII.GetBytes(str);
-    //            stream.Write(reply, 0, reply.Length);
-    //            count++;
-    //            Thread.Sleep(200);
-
-    //        }
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        Console.WriteLine("Exception: {0}", e.ToString());
-    //        client.Close();
-    //    }
-    //}
 }

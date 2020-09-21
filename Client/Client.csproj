@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bomb.cs" />
+    <Compile Include="Data.cs" />
     <Compile Include="ClientManager.cs" />
     <Compile Include="DrawQueue.cs" />
     <Compile Include="Entity.cs" />

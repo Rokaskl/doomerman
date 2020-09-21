@@ -11,12 +11,13 @@ namespace Server
         public Coordinates xy;
         public Explosive Bomb;
         public Sender sender;
+        public int Score = 0;
+        public bool Alive = true;
         public Player(User user)
         {
             this.User = user;
             this.xy = new Coordinates();
             this.sender = new Sender(user);
-            this.sender.Send("Welcome boiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
         }
 
         public bool CanMove(CommandEnum cmd)
@@ -77,14 +78,14 @@ namespace Server
         }
         public void Update(Grid grid)
         {
-            List<object> stuff = new List<object>();
-            List<int>[,] Grid =grid.getGrid();
-            int Id = User.Id;
+            ClientData clientData = new ClientData();
+            clientData.Grid = grid.GetGrid();
+            clientData.Id = this.User.Id;
+            clientData.Score = this.Score;
+            clientData.Alive = this.Alive;
 
-            stuff.Add(Grid);
-            stuff.Add(Id);
+            string json = JsonConvert.SerializeObject(clientData);
 
-            string json = JsonConvert.SerializeObject(stuff);
             sender.Send(json);
         }
     }

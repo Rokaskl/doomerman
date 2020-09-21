@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Server
@@ -16,9 +17,9 @@ namespace Server
 
         public void Send (string message)
         {
-            NetworkStream nwStream = this.client.GetStream();
-            byte[] bytesToSend = ASCIIEncoding.ASCII.GetBytes(message);
-            nwStream.Write(bytesToSend, 0, bytesToSend.Length);
+            NetworkStream stream = this.client.GetStream();
+            byte[] bytes = Encoding.ASCII.GetBytes(message);
+            stream.Write(bytes, 0, bytes.Length);
         }
     }
 
