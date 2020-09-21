@@ -27,6 +27,7 @@ namespace Server
 
         public void AddPlayer(Player player)
         {
+            player.Update(grid);
             this.Players.Add(player);
             Task.Run(() => PlayerService(player));
         }
@@ -77,7 +78,7 @@ namespace Server
         }
         public void UpdateGrid()
         {
-            grid.Clean();
+            grid.Clean();        
             List<Player> CurrentPlayers = this.Players.ToList();
             foreach(Player player in CurrentPlayers)
             {
