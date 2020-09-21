@@ -31,8 +31,8 @@
             this.btToggleSound = new System.Windows.Forms.Button();
             this.drawingArea = new System.Windows.Forms.PictureBox();
             this.panelMenu = new System.Windows.Forms.Panel();
-            this.btPlay = new System.Windows.Forms.Button();
             this.btQuit = new System.Windows.Forms.Button();
+            this.btPlay = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.drawingArea)).BeginInit();
             this.panelMenu.SuspendLayout();
             this.SuspendLayout();
@@ -73,13 +73,31 @@
             this.panelMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelMenu.BackColor = System.Drawing.Color.Silver;
+            this.panelMenu.BackColor = System.Drawing.Color.Transparent;
+            this.panelMenu.BackgroundImage = global::OPP.Properties.Resources.MenuBackground;
+            this.panelMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panelMenu.Controls.Add(this.btQuit);
             this.panelMenu.Controls.Add(this.btPlay);
             this.panelMenu.Location = new System.Drawing.Point(172, 275);
             this.panelMenu.Name = "panelMenu";
             this.panelMenu.Size = new System.Drawing.Size(164, 117);
             this.panelMenu.TabIndex = 2;
+            // 
+            // btQuit
+            // 
+            this.btQuit.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btQuit.BackColor = System.Drawing.Color.Gainsboro;
+            this.btQuit.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btQuit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.btQuit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btQuit.Font = new System.Drawing.Font("Ravie", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btQuit.Location = new System.Drawing.Point(10, 60);
+            this.btQuit.Name = "btQuit";
+            this.btQuit.Size = new System.Drawing.Size(147, 43);
+            this.btQuit.TabIndex = 1;
+            this.btQuit.Text = "Quit";
+            this.btQuit.UseVisualStyleBackColor = false;
+            this.btQuit.Click += new System.EventHandler(this.btQuit_Click);
             // 
             // btPlay
             // 
@@ -97,22 +115,6 @@
             this.btPlay.Text = "Play";
             this.btPlay.UseVisualStyleBackColor = false;
             this.btPlay.Click += new System.EventHandler(this.btPlay_Click);
-            // 
-            // btQuit
-            // 
-            this.btQuit.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btQuit.BackColor = System.Drawing.Color.Gainsboro;
-            this.btQuit.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btQuit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-            this.btQuit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btQuit.Font = new System.Drawing.Font("Ravie", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btQuit.Location = new System.Drawing.Point(10, 60);
-            this.btQuit.Name = "btQuit";
-            this.btQuit.Size = new System.Drawing.Size(147, 43);
-            this.btQuit.TabIndex = 1;
-            this.btQuit.Text = "Quit";
-            this.btQuit.UseVisualStyleBackColor = false;
-            this.btQuit.Click += new System.EventHandler(this.btQuit_Click);
             // 
             // Form1
             // 
