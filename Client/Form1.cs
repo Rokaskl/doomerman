@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Media;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -17,6 +19,9 @@ namespace OPP
         Graphics screenGfx; // Graphics element in which to draw
         DrawQueue drawQueue;// Renders image elements
 
+        SoundPlayer soundPlayer;
+        bool isPlaying = false;
+
         Thread gfxThread;
         ThreadStart gfxThreadRef;
 
@@ -26,13 +31,9 @@ namespace OPP
 
         TcpClient client;
 
-        public Form1(TcpClient client)
+        public Form1()
         {
-            InitializeComponent();
-
-            this.client = client;
-            ClientManager.Instance.SetPlayerID(1);
-
+            InitializeComponent();           
 
             screenGfx = drawingArea.CreateGraphics();           
             drawQueue = new DrawQueue(screenGfx, drawingArea);
@@ -40,10 +41,7 @@ namespace OPP
             gfxThreadRef = new ThreadStart(drawQueue.Draw);
             gfxThread = new Thread(gfxThreadRef);
             gfxThread.IsBackground = true;
-
-            if (!gfxThread.IsAlive)
-                gfxThread.Start();
-
+           
             KeyPreview = true;
 
             KeyDown += Form1_KeyDown;
@@ -148,6 +146,23 @@ namespace OPP
                   
         }
 
+        private void btPlay_Click(object sender, EventArgs e)
+        {
+            panelMenu.Hide();
+            ConnectClient();
+
+            drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
+
+            if (!gfxThread.IsAlive)
+                gfxThread.Start();
+
+        }
+
+        private void btQuit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
         private void btLoadImage_Click(object sender, EventArgs e)
         {
             OpenFileDialog f = new OpenFileDialog();
@@ -159,28 +174,30 @@ namespace OPP
             }
         }
 
-        private void btAddSprite_Click(object sender, EventArgs e)
+
+
+        private void btToggleSound_Click(object sender, EventArgs e)
         {
-            lock (drawQueue._spriteLock)
+            if (File.Exists(soundPlayer.SoundLocation))
             {
-                
+                if (isPlaying)
+                {
+                    soundPlayer.Stop();
+                    isPlaying = false;
+                }
+                else
+                {
+                    soundPlayer.Play();
+                    isPlaying = true;
+                }
             }
-        }
-
-        private void drawingArea_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btStopDraw_Click(object sender, EventArgs e)
-        {
-            drawQueue.draw = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
-            
+            soundPlayer = new SoundPlayer(ClientManager.Instance.ProjectPath + "\\Resources\\music.wav");
+            soundPlayer.PlayLooping();
+            isPlaying = true;
         }
 
         public async void SendSignal(int actionNum)
@@ -206,5 +223,23 @@ namespace OPP
                 }
             }
         }
+
+        public void ConnectClient()
+        {
+            Int32 port = 13000;
+            string ip = "127.0.0.1";
+            client = new TcpClient(ip, port);
+
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                Listener serverListener = new Listener(client);
+
+            }).Start();
+
+            ClientManager.Instance.SetPlayerID(1);
+        }
+
+        
     }
 }
