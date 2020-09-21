@@ -30,11 +30,11 @@ namespace Server
                     }
                 case CommandEnum.MoveDown:
                     {
-                        return xy.Y < 13;
+                        return xy.Y < 12;
                     }
                 case CommandEnum.MoveRight:
                     {
-                        return xy.X < 13;
+                        return xy.X < 12;
                     }
                 case CommandEnum.MoveLeft:
                     {
