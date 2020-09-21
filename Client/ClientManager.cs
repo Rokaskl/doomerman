@@ -16,6 +16,7 @@ namespace OPP
 
         private int currentPlayerID = -1;   // ID representing the Player (0-3)
         private int score;                  // NOT IMPLEMENTED
+        private Grid grid;
 
         ClientManager()
         {
@@ -75,6 +76,39 @@ namespace OPP
                 return false;
             else return true;
         }
+
+        public void SetGrid(Grid _grid)
+        {
+            this.grid = _grid;
+        }
+
+        public Grid GetGrid()
+        {
+            return grid;
+        }
+
+        public void SetGridFromServer(List<int>[,] grid)
+        {
+            //Instance.GetGrid().Reset();
+            for (int x = 0; x < 13; x++)
+            {
+                for (int y = 0; y < 13; y++)
+                {
+                    List<Tile> tiles = new List<Tile>();
+                    foreach (var intTile in grid[x, y])
+                    {
+                        Tile tile = new Tile();
+                        tile.SetTileType((TileEnumerator.TileTypeEnum)intTile);
+                        tile.SetTilePosition(x, y);
+                        tiles.Add(tile);
+                    }
+
+                    Instance.GetGrid().SetTile(x, y, tiles);
+                }
+            }
+            Instance.GetGrid().UpdateGrid();
+        }
+
     }
 }
 

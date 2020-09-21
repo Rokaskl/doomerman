@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class Grid : IReset
+    public class Grid : IReset
     {
         // TODO: load map sizes and other settings from server; hardcoding for prototype
         private List<Tile>[,] tiles = new List<Tile>[13,13]; // Tile matrix

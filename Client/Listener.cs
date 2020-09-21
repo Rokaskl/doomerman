@@ -24,6 +24,12 @@ namespace OPP
                     stream.Read(bytes, 0, client.ReceiveBufferSize);
                     string msg = Encoding.ASCII.GetString(bytes);
                     Data data = JsonConvert.DeserializeObject<Data>(msg);
+
+                    if (!ClientManager.Instance.IDIsSet())                   
+                        ClientManager.Instance.SetPlayerID(data.Id);
+
+                    ClientManager.Instance.SetGridFromServer(data.Grid);
+
                     Console.WriteLine(data.Grid);
                 }
 

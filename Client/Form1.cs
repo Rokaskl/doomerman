@@ -83,7 +83,7 @@ namespace OPP
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            if (ClientManager.Instance.GetPlayerID() >= 0)
+            if (ClientManager.Instance.IDIsSet())
             {
                 switch (e.KeyCode)
                 {
@@ -110,7 +110,7 @@ namespace OPP
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (ClientManager.Instance.GetPlayerID() >= 0)
+            if (ClientManager.Instance.IDIsSet())
             {
                 switch (e.KeyCode)
                 {
@@ -139,17 +139,11 @@ namespace OPP
             }
         }
 
-        private void btDraw_Click(object sender, EventArgs e)
-        {
-            if (!gfxThread.IsAlive)    
-                gfxThread.Start();
-                  
-        }
-
         private void btPlay_Click(object sender, EventArgs e)
         {
             panelMenu.Hide();
             ConnectClient();
+            SendSignal(0);
 
             drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
 
@@ -162,19 +156,6 @@ namespace OPP
         {
             Application.Exit();
         }
-
-        private void btLoadImage_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog f = new OpenFileDialog();
-            f.Filter = "Image files (*.jpg, *.png) | *.jpg; *.png";
-
-            if (f.ShowDialog() == DialogResult.OK)
-            {
-                //currentImage = Image.FromFile(f.FileName);
-            }
-        }
-
-
 
         private void btToggleSound_Click(object sender, EventArgs e)
         {
@@ -203,7 +184,10 @@ namespace OPP
         public async void SendSignal(int actionNum)
         {
             byte[] buffer;
-            buffer = (new List<int> { 0, ClientManager.Instance.GetPlayerID(), actionNum }).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
+
+            int idToSend = ClientManager.Instance.IDIsSet() ? ClientManager.Instance.GetPlayerID() : 0;
+
+            buffer = (new List<int> { 0, idToSend, actionNum }).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
             
 
             while (true)
@@ -236,8 +220,6 @@ namespace OPP
                 Listener serverListener = new Listener(client);
 
             }).Start();
-
-            ClientManager.Instance.SetPlayerID(1);
         }
 
         

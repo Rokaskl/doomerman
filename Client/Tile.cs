@@ -9,7 +9,7 @@ using static OPP.TileEnumerator;
 
 namespace OPP
 {
-    class Tile : IReset
+    public class Tile : IReset
     {
         private Image tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\empty.png"));
         private TileTypeEnum tileType = TileTypeEnum.Empty;

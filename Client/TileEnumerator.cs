@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    class TileEnumerator
+    public class TileEnumerator
     {
         public enum TileTypeEnum {
             Player1,

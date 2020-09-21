@@ -18,7 +18,7 @@ namespace OPP
         PictureBox drawingArea;
 
         //Dictionary<Point, List<Tile>> Grid = new Dictionary<Point, List<Tile>>();
-        Grid grid;
+        //Grid grid;
         public readonly object _spriteLock = new object();
 
         public bool draw = true;
@@ -32,7 +32,9 @@ namespace OPP
             bitmap = new Bitmap(480, 480);
             imageGfx = Graphics.FromImage(bitmap);
             screenGfx.InterpolationMode = InterpolationMode.NearestNeighbor;
-            grid = new Grid();
+
+            ClientManager.Instance.SetGrid( new Grid());
+
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace OPP
         /// <param name="tile">List of tiles</param>
         public void AddTiles(Point pos, List<Tile> tile)
         {
-            grid.SetTile(pos.X, pos.Y, tile);
+            ClientManager.Instance.GetGrid().SetTile(pos.X, pos.Y, tile);
         }
 
         /// <summary>
@@ -52,8 +54,8 @@ namespace OPP
         /// <returns>List of tiles</returns>
         public List<Tile> GetTiles(Point pos)
         {
-            return grid.GetTile(pos.X, pos.Y);
-        }
+            return ClientManager.Instance.GetGrid().GetTile(pos.X, pos.Y);
+        }   
 
         public void Draw()
         {
@@ -61,6 +63,8 @@ namespace OPP
             {
                 lock (_spriteLock)
                 {
+                    // Update grid
+
                     // draws background to image first
                     if (drawingArea.InvokeRequired)
                     {
@@ -75,7 +79,7 @@ namespace OPP
                     {
                         for(int y = 0; y < 13; y++)
                         {
-                            foreach(var tile in grid.GetTile(x, y))
+                            foreach(var tile in ClientManager.Instance.GetGrid().GetTile(x, y))
                             {
                                 imageGfx.DrawImage(tile.GetTileGfx(), tile.GetTileGfxPosition());
                             }

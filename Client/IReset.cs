@@ -9,7 +9,7 @@ namespace OPP
     /// <summary>
     /// Reset strategy
     /// </summary>
-    interface IReset
+    public interface IReset
     {
         void Reset();
     }
