@@ -43,7 +43,7 @@ namespace Server
                 {
                     await Task.Delay(5);
 
-                    if (stream.DataAvailable)
+                    if (stream.DataAvailable && player.User.Client.Available >= 12)
                     {
                         int available = player.User.Client.Available;
                         byte[] buffer = new byte[available];
