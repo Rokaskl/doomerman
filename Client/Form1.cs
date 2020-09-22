@@ -200,6 +200,7 @@ namespace OPP
                 {
                     if (client.GetStream().CanWrite)
                     {
+                        Console.WriteLine(actionNum.ToString());
                         client.GetStream().Write(buffer, 0, buffer.Length);
                         break;
                     }
