@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -16,6 +17,16 @@ namespace Server
         public List<Player> Players;
         private Grid grid;
         private GameLogic Calculator;
+        public List<GameObject> gameObjects { get; set; }
+
+        public void RemoveGameObject(GameObject gameObject)
+        {
+            gameObjects.Remove(gameObject);
+        }
+        public void AddGameObject(GameObject gameObject)
+        {
+            gameObjects.Add(gameObject);
+        }
         public GameArena(int id)
         {
             this.Id = id;
