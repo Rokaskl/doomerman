@@ -132,6 +132,7 @@
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "DOOMER MAN";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.drawingArea)).EndInit();
             this.panelMenu.ResumeLayout(false);

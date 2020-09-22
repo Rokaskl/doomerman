@@ -142,6 +142,8 @@ namespace OPP
         private void btPlay_Click(object sender, EventArgs e)
         {
             panelMenu.Hide();
+            drawingArea.Focus();
+
             ConnectClient();
             SendSignal(0);
 
@@ -171,6 +173,7 @@ namespace OPP
                     soundPlayer.Play();
                     isPlaying = true;
                 }
+                drawingArea.Focus();
             }
         }
 
