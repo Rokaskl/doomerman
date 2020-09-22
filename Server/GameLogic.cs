@@ -80,31 +80,68 @@ namespace Server
                     if (x == null || x.heuristic >= 3 || x.executed)
                         return;
 
-                    if(x.Cmds.Any(c => c == CommandEnum.MoveUp) && x.Author.CanMove(CommandEnum.MoveUp))
+                    x.Cmds.ForEach(z => Console.WriteLine(z.ToString() + " " + x.Author.User.Id.ToString()));
+                    switch (x.Cmds.FirstOrDefault())
                     {
-                        x.Author.MoveUp();
-                    }
-                    else
-                    {
-                        if (x.Cmds.Any(c => c == CommandEnum.MoveDown) && x.Author.CanMove(CommandEnum.MoveDown))
-                        {
-                            x.Author.MoveDown();
-                        }
-                        else
-                        {
-                            if (x.Cmds.Any(c => c == CommandEnum.MoveRight) && x.Author.CanMove(CommandEnum.MoveRight))
+                        case CommandEnum.MoveUp:
                             {
-                                x.Author.MoveRight();
+                                if (x.Author.CanMove(CommandEnum.MoveUp))
+                                {
+                                    x.Author.MoveUp();
+                                }
+                                break;
                             }
-                            else
+                        case CommandEnum.MoveDown:
                             {
-                                if (x.Cmds.Any(c => c == CommandEnum.MoveLeft) && x.Author.CanMove(CommandEnum.MoveLeft))
+                                if (x.Author.CanMove(CommandEnum.MoveDown))
+                                {
+                                    x.Author.MoveDown();
+                                }
+                                break;
+                            }
+                        case CommandEnum.MoveRight:
+                            {
+                                if (x.Author.CanMove(CommandEnum.MoveRight))
+                                {
+                                    x.Author.MoveRight();
+                                }
+                                break;
+                            }
+                        case CommandEnum.MoveLeft:
+                            {
+                                if (x.Author.CanMove(CommandEnum.MoveLeft))
                                 {
                                     x.Author.MoveLeft();
                                 }
+                                break;
                             }
-                        }
+                        
                     }
+                    //if(x.Cmds.Any(c => c == CommandEnum.MoveUp) && x.Author.CanMove(CommandEnum.MoveUp))
+                    //{
+                    //    x.Author.MoveUp();
+                    //}
+                    //else
+                    //{
+                    //    if (x.Cmds.Any(c => c == CommandEnum.MoveDown) && x.Author.CanMove(CommandEnum.MoveDown))
+                    //    {
+                    //        x.Author.MoveDown();
+                    //    }
+                    //    else
+                    //    {
+                    //        if (x.Cmds.Any(c => c == CommandEnum.MoveRight) && x.Author.CanMove(CommandEnum.MoveRight))
+                    //        {
+                    //            x.Author.MoveRight();
+                    //        }
+                    //        else
+                    //        {
+                    //            if (x.Cmds.Any(c => c == CommandEnum.MoveLeft) && x.Author.CanMove(CommandEnum.MoveLeft))
+                    //            {
+                    //                x.Author.MoveLeft();
+                    //            }
+                    //        }
+                    //    }
+                    //}
 
                     if(x.Cmds.Any(c => c == CommandEnum.DropBomb) && x.Author.CanDropBomb())
                     {
