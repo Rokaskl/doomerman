@@ -7,22 +7,12 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class GameLogic
+    public class GameLogic
     {
         private bool preventAdd;
-        private List<Command> commands;
-        public List<Command> Commands
-        {
-            get
-            {
-
-               return this.commands;
-            }
-            set
-            {
-                this.commands = value;
-            }
-        }
+ 
+        public List<Command> Commands { get; set; }
+      
         private GameArena arena;
         //public List<SpecialEffect> SpecialEffects;//For delayed special effects, ex.: bombs.
 

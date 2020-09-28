@@ -7,8 +7,6 @@ namespace Server
     public class GameObject
     {
         public Coordinates xy {get;set;}
-
-
     }
 
 }

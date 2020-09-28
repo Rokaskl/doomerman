@@ -6,8 +6,6 @@ namespace Server
 {
     public interface IPlayer
     {
-
         void Update(Grid grid);
-
     }
 }

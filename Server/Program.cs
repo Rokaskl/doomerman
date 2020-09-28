@@ -6,14 +6,17 @@ class Program
     
     static void Main(string[] args)
     {
-        App.CreateInst();
-        Int32 port = 13000;
-        Thread t = new Thread(() =>
-        {
-            Listener myserver = new Listener("127.0.0.1", port);
-        });
-        t.Start();
+        //---Set Server Options---------
+        AppOptions options = new AppOptions();
+        options.ArenaId =0;
+        options.GridSize = 13;
+        options.Port = 13000;    
+        options.Ip = "127.0.0.1";
+        //----------------------------
 
-        Console.WriteLine("Server Started...!");
+
+        App.CreateInst(options);
+        App.Inst.CreateListener();
+        
     }
 }

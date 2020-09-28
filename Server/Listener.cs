@@ -11,50 +11,18 @@ using System.Threading.Tasks;
 class Listener
 {
     TcpListener server = null;
-    GameArena Arena = new GameArena(0);//Test
-    public Listener(string ip, int port)
+    public GameArena Arena;
+    public Listener(string ip, int port, GameArena Arena)
     {
-        
+        this.Arena = Arena;
         IPAddress localAddr = IPAddress.Parse(ip);
         server = new TcpListener(localAddr, port);
         server.Start();
-        StartBoth();
-        Console.Read();
-    }
-
-    public async void StartBoth()
-    {
-         Task.Run(StartListener);//Connect players
-       //  Task.Run(StartSender);
-       // StartSender2();
+        Task.Run(StartListener);
         Console.Read();
     }
     
-    public async void StartSender2()
-    {
-        await Task.Delay(2000);
-        byte[] buffer;
-
-        buffer = (new List<int> { 0, 2, 1}).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
-        TcpClient cl = new TcpClient("localhost", 13000);
-
-        while (true)
-        {
-            await Task.Delay(78);
-            try
-            {
-                if (cl.GetStream().CanWrite)
-                {
-                    cl.GetStream().Write(buffer, 0, buffer.Length);
-                    //break;
-                }
-            }
-            catch (Exception exception)
-            {
-                break;
-            }
-        }
-    }
+  
 
     public async void StartListener()
     {

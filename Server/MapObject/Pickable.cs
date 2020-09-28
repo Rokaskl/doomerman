@@ -6,17 +6,16 @@ namespace Server
 {
     public class Pickable : GameObjectDecorator
     {
-        protected Player player;
-        public Pickable(GameObject gameObject, GameArena arena, Player player) : base(gameObject)
+       
+        public Pickable(GameObject gameObject) : base(gameObject)
         {
-            this.player = player;
+           
         }
 
-        public void  PickUp()
+        public void  PickUp(Player player)
         {
             player.AddPowerUp(this);
         }
-      
 
     }
 }

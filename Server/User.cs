@@ -7,16 +7,10 @@ namespace Server
 {
     public class User
     {
-        public static int counter = 1;
+        private static int counter = 1;
         public int Id;
         public string Username;
-        private TcpClient client;
-        public TcpClient Client
-        {
-            get => client;
-            set => client = value;
-        }
-
+        public TcpClient Client { get; set; }
         public User(int id = 0, string username = null)
         {
             if(id == 0)
