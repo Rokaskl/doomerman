@@ -34,9 +34,15 @@ namespace Server
             this.grid = new Grid();
 
             var gameObject = new GameObject(new Coordinates(1, 2));
-            var gameObject2 = new Destroyable(gameObject);
-            var gameObject3 = new Lootable(gameObject2);
-            Console.WriteLine(gameObject3.GetCoordinates());
+            var gameObject2 = new Lootable(gameObject);
+            var gameObject3 = new Destroyable(gameObject2);
+
+            var gameObject4 = new GameObject(new Coordinates(1, 2));
+            var gameObject5 = new Pickable(gameObject4);
+
+            gameObject3.AddLoot(gameObject5);
+
+
             gameObject3.PrintTags();
             Console.WriteLine("brrrrrrrrrrrrrrr");
         }

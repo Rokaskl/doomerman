@@ -24,7 +24,14 @@ namespace Server
         {
             return this.gameObject.GetCoordinates();
         }
-
+        public virtual void AddLoot(Pickable gameObject)
+        {
+             this.gameObject.AddLoot(gameObject);
+        }
+        public virtual Pickable GetLoot()
+        {
+            return this.gameObject.GetLoot();
+        }
     }
 
 }

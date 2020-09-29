@@ -6,10 +6,7 @@ namespace Server
 {
     public class Explosive : GameObjectDecorator
     {
-        public Explosive(IGameObject gameObject) : base(gameObject)
-        {
-
-        }
+        public Explosive(IGameObject gameObject) : base(gameObject) { }
 
         public override List<string> GetTags()
         {

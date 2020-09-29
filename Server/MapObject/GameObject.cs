@@ -4,11 +4,12 @@ using System.Text;
 
 namespace Server
 {
-    class GameObject : IGameObject
+    public class GameObject : IGameObject
     {
 
 
         private Coordinates xy;
+        private Pickable loot = null;
         public GameObject(Coordinates xy)
         {
             this.xy  = xy;
@@ -27,6 +28,13 @@ namespace Server
         {
             return this.xy;
         }
-
+        public void AddLoot(Pickable gameObject)
+        {
+            this.loot = gameObject;
+        }
+        public Pickable GetLoot()
+        {
+            return this.loot;
+        }
     }
 }

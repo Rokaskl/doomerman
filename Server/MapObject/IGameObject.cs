@@ -7,10 +7,9 @@ namespace Server
     public interface IGameObject
     {
         List<string> GetTags();
-
         void PrintTags();
-
         Coordinates GetCoordinates();
-
+        void AddLoot(Pickable gameObject);
+        Pickable GetLoot();
     }
 }

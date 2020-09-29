@@ -7,10 +7,7 @@ namespace Server
     public class Pickable : GameObjectDecorator
     {
        
-        public Pickable(IGameObject gameObject) : base(gameObject)
-        {
-           
-        }
+        public Pickable(IGameObject gameObject) : base(gameObject){ }
 
         public override List<string> GetTags()
         {

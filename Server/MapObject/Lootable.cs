@@ -27,5 +27,8 @@ namespace Server
         {
             return this.gameObject.GetCoordinates();
         }
+    
+
+
     }
 }
