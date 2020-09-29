@@ -149,6 +149,22 @@ namespace OPP
 
             drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
 
+            Task.Run(() =>
+            {
+                while (true)
+                {
+                    if (ClientManager.Instance.IDIsSet())
+                    {
+                        SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
+                        break;
+                    }
+                    Thread.Sleep(10);
+                }
+            });
+            
+
+
+
             if (!gfxThread.IsAlive)
                 gfxThread.Start();
 
@@ -224,6 +240,33 @@ namespace OPP
                 Listener serverListener = new Listener(client);
 
             }).Start();
+        }
+
+        public void SetConnectedPlayerIcon(int ID)
+        {
+            Graphics graphics = PB_connectedUser.CreateGraphics();
+            graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+
+            switch (ID)
+            {
+                
+                case 0:
+                    graphics.DrawImage(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\p1_icon.png")), 0, 0, 30, 30);
+                    break;
+
+                case 1:
+                    graphics.DrawImage(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\p2_icon.png")), 0, 0, 30, 30);
+                    break;
+
+                case 2:
+                    graphics.DrawImage(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\p3_icon.png")), 0, 0, 30, 30);
+                    break;
+
+                case 3:
+                    graphics.DrawImage(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\p4_icon.png")), 0, 0, 30, 30);
+                    break;
+                   
+            }
         }
 
         

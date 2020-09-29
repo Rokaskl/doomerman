@@ -34,8 +34,10 @@
             this.panelMenu = new System.Windows.Forms.Panel();
             this.btQuit = new System.Windows.Forms.Button();
             this.btPlay = new System.Windows.Forms.Button();
+            this.PB_connectedUser = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.drawingArea)).BeginInit();
             this.panelMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_connectedUser)).BeginInit();
             this.SuspendLayout();
             // 
             // btToggleSound
@@ -114,6 +116,16 @@
             this.btPlay.UseVisualStyleBackColor = false;
             this.btPlay.Click += new System.EventHandler(this.btPlay_Click);
             // 
+            // PB_connectedUser
+            // 
+            this.PB_connectedUser.BackColor = System.Drawing.Color.Transparent;
+            this.PB_connectedUser.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.PB_connectedUser.Location = new System.Drawing.Point(12, 3);
+            this.PB_connectedUser.Name = "PB_connectedUser";
+            this.PB_connectedUser.Size = new System.Drawing.Size(30, 30);
+            this.PB_connectedUser.TabIndex = 3;
+            this.PB_connectedUser.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -122,6 +134,7 @@
             this.BackgroundImage = global::OPP.Properties.Resources.main_menu;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(505, 503);
+            this.Controls.Add(this.PB_connectedUser);
             this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.btToggleSound);
             this.Controls.Add(this.drawingArea);
@@ -136,6 +149,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.drawingArea)).EndInit();
             this.panelMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PB_connectedUser)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -147,6 +161,7 @@
         private System.Windows.Forms.Panel panelMenu;
         private System.Windows.Forms.Button btQuit;
         private System.Windows.Forms.Button btPlay;
+        private System.Windows.Forms.PictureBox PB_connectedUser;
     }
 }
 

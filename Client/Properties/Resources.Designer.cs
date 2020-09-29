@@ -83,6 +83,16 @@ namespace OPP.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap connection_plug {
+            get {
+                object obj = ResourceManager.GetObject("connection_plug", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap main_menu {
             get {
                 object obj = ResourceManager.GetObject("main-menu", resourceCulture);
@@ -96,6 +106,16 @@ namespace OPP.Properties {
         internal static System.Drawing.Bitmap MenuBackground {
             get {
                 object obj = ResourceManager.GetObject("MenuBackground", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap p1_icon {
+            get {
+                object obj = ResourceManager.GetObject("p1_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
