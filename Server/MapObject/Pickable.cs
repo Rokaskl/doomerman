@@ -7,14 +7,25 @@ namespace Server
     public class Pickable : GameObjectDecorator
     {
        
-        public Pickable(GameObject gameObject) : base(gameObject)
+        public Pickable(IGameObject gameObject) : base(gameObject)
         {
            
         }
 
-        public void  PickUp(Player player)
+        public override List<string> GetTags()
         {
-            player.AddPowerUp(this);
+            List<string> newTags = base.GetTags();
+            newTags.Add("Pickable");
+            return newTags;
+        }
+
+        public override void PrintTags()
+        {
+            this.GetTags().ForEach(x => Console.WriteLine(x));
+        }
+        public override Coordinates GetCoordinates()
+        {
+            return base.GetCoordinates();
         }
 
     }

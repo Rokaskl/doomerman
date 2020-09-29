@@ -10,18 +10,13 @@ namespace Server
     public class GameLogic
     {
         private bool preventAdd;
- 
         public List<Command> Commands { get; set; }
-      
         private GameArena arena;
-        //public List<SpecialEffect> SpecialEffects;//For delayed special effects, ex.: bombs.
 
         public GameLogic(GameArena arena)
         {
             this.arena = arena;
             this.Commands = new List<Command>();
-            //this.SpecialEffects = new List<SpecialEffects>();
-            //Task.Run(RemoveService);
             Task.Run(Logic);
         }
 
@@ -107,36 +102,10 @@ namespace Server
                             }
                         
                     }
-                    //if(x.Cmds.Any(c => c == CommandEnum.MoveUp) && x.Author.CanMove(CommandEnum.MoveUp))
-                    //{
-                    //    x.Author.MoveUp();
-                    //}
-                    //else
-                    //{
-                    //    if (x.Cmds.Any(c => c == CommandEnum.MoveDown) && x.Author.CanMove(CommandEnum.MoveDown))
-                    //    {
-                    //        x.Author.MoveDown();
-                    //    }
-                    //    else
-                    //    {
-                    //        if (x.Cmds.Any(c => c == CommandEnum.MoveRight) && x.Author.CanMove(CommandEnum.MoveRight))
-                    //        {
-                    //            x.Author.MoveRight();
-                    //        }
-                    //        else
-                    //        {
-                    //            if (x.Cmds.Any(c => c == CommandEnum.MoveLeft) && x.Author.CanMove(CommandEnum.MoveLeft))
-                    //            {
-                    //                x.Author.MoveLeft();
-                    //            }
-                    //        }
-                    //    }
-                    //}
-
+                
                     if(x.Cmds.Any(c => c == CommandEnum.DropBomb) && x.Author.CanDropBomb())
                     {
                         x.Author.DropBomb();
-                        //this.SpecialEffects.Add(new Spe...);
                     }
                     arena.UpdateGrid();
                     x.executed = true;

@@ -16,13 +16,13 @@ namespace Server
         public List<Player> Players;
         private Grid grid;
         private GameLogic Calculator;
-        public List<GameObject> gameObjects { get; set; }
+        public List<IGameObject> gameObjects = new List<IGameObject>();
 
-        public void RemoveGameObject(GameObject gameObject)
+        public void RemoveGameObject(IGameObject gameObject)
         {
             gameObjects.Remove(gameObject);
         }
-        public void AddGameObject(GameObject gameObject)
+        public void AddGameObject(IGameObject gameObject)
         {
             gameObjects.Add(gameObject);
         }
@@ -32,7 +32,13 @@ namespace Server
             this.Players = new List<Player>();
             this.Calculator = new GameLogic(this);
             this.grid = new Grid();
-           
+
+            var gameObject = new GameObject(new Coordinates(1, 2));
+            var gameObject2 = new Destroyable(gameObject);
+            var gameObject3 = new Lootable(gameObject2);
+            Console.WriteLine(gameObject3.GetCoordinates());
+            gameObject3.PrintTags();
+            Console.WriteLine("brrrrrrrrrrrrrrr");
         }
 
         public void AddPlayer(Player player)
@@ -42,7 +48,6 @@ namespace Server
             new PlayerService(player, this.Calculator);
         }
 
-       
         public void Notify()
         {
             foreach (Player player in Players)
@@ -53,9 +58,11 @@ namespace Server
         }
         public void UpdateGrid()
         {
-            grid.Clean();        
+            grid.Clean();
+
+            //Add players to grid
             List<Player> CurrentPlayers = this.Players.ToList();
-            foreach(Player player in CurrentPlayers)
+            foreach (Player player in CurrentPlayers)
             {
                 int playerX = player.xy.X;
                 int playerY = player.xy.Y;
@@ -63,6 +70,7 @@ namespace Server
                 cleanTile.Add(player.User.Id);
                 grid.UpdateTile(playerX, playerY, cleanTile);
             }
+
 
            Notify();
 

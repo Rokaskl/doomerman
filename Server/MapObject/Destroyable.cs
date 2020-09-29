@@ -6,16 +6,25 @@ namespace Server
 {
     public class Destroyable : GameObjectDecorator
     {
-        private GameArena arena;
-        public Destroyable(GameObject gameObject, GameArena arena): base(gameObject)
+        public Destroyable(IGameObject gameObject): base(gameObject)
         {
-            this.arena = arena;
+           
         }
 
-        public void Destroy()
+        public override List<string> GetTags()
         {
-            this.arena.RemoveGameObject(this);
+            List<string> newTags = base.GetTags();
+            newTags.Add("Destroyable");
+            return newTags;
         }
 
+        public override void PrintTags()
+        {
+            this.GetTags().ForEach(x => Console.WriteLine(x));
+        }
+        public override Coordinates GetCoordinates()
+        {
+            return base.GetCoordinates();
+        }
     }
 }

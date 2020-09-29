@@ -21,8 +21,6 @@ class Listener
         Task.Run(StartListener);
         Console.Read();
     }
-    
-  
 
     public async void StartListener()
     {

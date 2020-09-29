@@ -4,12 +4,27 @@ using System.Text;
 
 namespace Server
 {
-    public abstract class GameObjectDecorator : GameObject
+    public abstract class GameObjectDecorator : IGameObject
     {
-        protected GameObject gameObject;
-        public GameObjectDecorator(GameObject gameObject)
+        protected IGameObject gameObject;
+        public GameObjectDecorator(IGameObject gameObject)
         {
             this.gameObject = gameObject;
         }
+
+        public virtual List<string> GetTags() 
+        {
+            return this.gameObject.GetTags();
+        }
+        public virtual void PrintTags()
+        {
+            this.gameObject.PrintTags();
+        }
+        public virtual Coordinates GetCoordinates()
+        {
+            return this.gameObject.GetCoordinates();
+        }
+
     }
+
 }

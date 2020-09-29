@@ -9,7 +9,7 @@ namespace Server
     {
         public User User;
         public Coordinates xy;
-        public GameObject Bomb;
+        public IGameObject Bomb;
         public Sender sender;
         public int Score = 0;
         public bool Alive = true;
@@ -55,8 +55,7 @@ namespace Server
 
         public void DropBomb()
         {
-            GameObject gameObject = new GameObject();
-            gameObject.xy = this.xy;
+            GameObject gameObject = new GameObject(this.xy);
             this.Bomb = new Explosive(gameObject);//unnecessary, could use explosives list/enum/etc.
         }
         public void AddPowerUp(Pickable item)

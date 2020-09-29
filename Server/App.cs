@@ -28,7 +28,6 @@ namespace Server
         public AppOptions Options;
         public Inst(AppOptions options)
         {
-           
             this.UserRepo = new UserRepository();
             this.Options = options; 
             this.Arena = new GameArena(options.ArenaId);

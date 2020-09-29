@@ -6,17 +6,26 @@ namespace Server
 {
     class Lootable : GameObjectDecorator
     {
-        private Pickable loot;
-        private GameArena arena;
-        public Lootable(GameObject gameObject, Pickable loot, GameArena arena) : base(gameObject)
+
+        public Lootable(IGameObject gameObject) : base(gameObject)
         {
-            this.arena = arena;
-            this.loot = loot;
+
         }
-        public void DropLoot()
+        public override List<string> GetTags()
         {
-            this.arena.AddGameObject(loot);
+            List<string> newTags = base.GetTags();
+            newTags.Add("Lootable");
+            return newTags;
         }
 
+        public override void PrintTags()
+        {
+            this.GetTags().ForEach(x => Console.WriteLine(x));
+        }
+        
+        public override Coordinates GetCoordinates ()
+        {
+            return this.gameObject.GetCoordinates();
+        }
     }
 }
