@@ -20,9 +20,9 @@ namespace Server
         {
             this.GetTags().ForEach(x => Console.WriteLine(x));
         }
-        public override Coordinates GetCoordinates()
+        public override Coordinates GetCords()
         {
-            return base.GetCoordinates();
+            return base.GetCords();
         }
 
     }

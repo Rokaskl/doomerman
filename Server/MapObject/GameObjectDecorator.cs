@@ -20,9 +20,9 @@ namespace Server
         {
             this.gameObject.PrintTags();
         }
-        public virtual Coordinates GetCoordinates()
+        public virtual Coordinates GetCords()
         {
-            return this.gameObject.GetCoordinates();
+            return this.gameObject.GetCords();
         }
         public virtual void AddLoot(Pickable gameObject)
         {

@@ -23,9 +23,9 @@ namespace Server
             this.GetTags().ForEach(x => Console.WriteLine(x));
         }
         
-        public override Coordinates GetCoordinates ()
+        public override Coordinates GetCords ()
         {
-            return this.gameObject.GetCoordinates();
+            return this.gameObject.GetCords();
         }
     
 

@@ -24,7 +24,7 @@ namespace Server
         {
             this.GetTags().ForEach(x => Console.WriteLine(x));
         }
-        public Coordinates GetCoordinates()
+        public Coordinates GetCords()
         {
             return this.xy;
         }

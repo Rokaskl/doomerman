@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Server
@@ -62,23 +63,52 @@ namespace Server
             }
 
         }
+        private async void RemoveBomb(int x, int y)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(3000); // kas 3 sekundes
+                grid.RemoveFromTile(x, y, 4); // 4 - bomba
+                gameObjects.RemoveAt(0); // seniausia bomba
+                UpdateGrid();
+            });
+        }
+        private void AddGameObjsToGrid()
+        {
+            foreach (IGameObject obj in gameObjects)
+            {
+                if (obj is Explosive)
+                {
+                    grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, 4);
+
+                }
+            }
+        }
         public void UpdateGrid()
         {
             grid.Clean();
 
             //Add players to grid
+
             List<Player> CurrentPlayers = this.Players.ToList();
             foreach (Player player in CurrentPlayers)
             {
+                if (!(player.Bomb is null))
+                {
+                    gameObjects.Add(new Explosive(player.Bomb.GetCords().X,
+                        player.Bomb.GetCords().Y));
+                    RemoveBomb(player.Bomb.GetCords().X, player.Bomb.GetCords().Y);
+                }
                 int playerX = player.xy.X;
                 int playerY = player.xy.Y;
                 List<int> cleanTile = new List<int>();
                 cleanTile.Add(player.User.Id);
                 grid.UpdateTile(playerX, playerY, cleanTile);
+                AddGameObjsToGrid();
             }
+            CurrentPlayers.ForEach(x => x.Bomb = null);
 
-
-           Notify();
+            Notify();
 
         }
     }

@@ -27,6 +27,32 @@ namespace Server
         {
             return this._size;
         }
+        public bool RemoveFromTile(int i, int j, int value)
+        {
+            try
+            {
+                _grid[i, j].Remove(value);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: {0}", e.ToString());
+                return false;
+            }
+        }
+        public bool AddToTile(int i, int j, int value)
+        {
+            try
+            {
+                _grid[i, j].Add(value);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: {0}", e.ToString());
+                return false;
+            }
+        }
         public bool UpdateTile(int i, int j,List<int> value)
         {
             try

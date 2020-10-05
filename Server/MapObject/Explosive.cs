@@ -6,8 +6,8 @@ namespace Server
 {
     public class Explosive : GameObjectDecorator
     {
-        public Explosive(IGameObject gameObject) : base(gameObject) { }
-
+        public Explosive(int x, int y) : base(new GameObject(new Coordinates(x,y))) { }
+        public Explosive(IGameObject obj) : base(obj) { }
         public override List<string> GetTags()
         {
             List<string> newTags = base.GetTags();
@@ -19,9 +19,9 @@ namespace Server
         {
             this.GetTags().ForEach(x => Console.WriteLine(x));
         }
-        public override Coordinates GetCoordinates()
+        public override Coordinates GetCords()
         {
-            return base.GetCoordinates();
+            return base.GetCords();
         }
     }
 }

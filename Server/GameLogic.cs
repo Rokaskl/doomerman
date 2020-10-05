@@ -100,7 +100,13 @@ namespace Server
                                 }
                                 break;
                             }
-                        
+                        case CommandEnum.DropBomb:
+                            {
+                                    x.Author.DropBomb();
+                                
+                                break;
+                            }
+
                     }
                 
                     if(x.Cmds.Any(c => c == CommandEnum.DropBomb) && x.Author.CanDropBomb())

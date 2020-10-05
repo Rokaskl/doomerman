@@ -8,7 +8,7 @@ namespace Server
     {
         List<string> GetTags();
         void PrintTags();
-        Coordinates GetCoordinates();
+        Coordinates GetCords();
         void AddLoot(Pickable gameObject);
         Pickable GetLoot();
     }
