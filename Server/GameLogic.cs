@@ -58,7 +58,6 @@ namespace Server
             {
                 await Task.Delay(10);
                 int handledCount = 0;
-                //Padaroma listo kopija, nes enumas crashina, jei modifikuojamas saltinis.
                 this.preventAdd = true;
                 Commands.ForEach(x =>
                 {
@@ -66,38 +65,29 @@ namespace Server
                         return;
 
                     x.Cmds.ForEach(z => Console.WriteLine(z.ToString() + " " + x.Author.User.Id.ToString()));
+
+                    IMoveStrategy moveStrategy = null;
+
                     switch (x.Cmds.FirstOrDefault())
                     {
                         case CommandEnum.MoveUp:
                             {
-                                if (x.Author.CanMove(CommandEnum.MoveUp))
-                                {
-                                    x.Author.MoveUp();
-                                }
+                                moveStrategy = new MoveUpStrategy();
                                 break;
                             }
                         case CommandEnum.MoveDown:
                             {
-                                if (x.Author.CanMove(CommandEnum.MoveDown))
-                                {
-                                    x.Author.MoveDown();
-                                }
+                                moveStrategy = new MoveDownStrategy();
                                 break;
                             }
                         case CommandEnum.MoveRight:
                             {
-                                if (x.Author.CanMove(CommandEnum.MoveRight))
-                                {
-                                    x.Author.MoveRight();
-                                }
+                                moveStrategy = new MoveRightStrategy();
                                 break;
                             }
                         case CommandEnum.MoveLeft:
                             {
-                                if (x.Author.CanMove(CommandEnum.MoveLeft))
-                                {
-                                    x.Author.MoveLeft();
-                                }
+                                moveStrategy = new MoveLeftStrategy();
                                 break;
                             }
                         case CommandEnum.DropBomb:
@@ -108,6 +98,9 @@ namespace Server
                             }
 
                     }
+
+                    if(moveStrategy != null)
+                        moveStrategy.Move(x.Author);
                 
                     if(x.Cmds.Any(c => c == CommandEnum.DropBomb) && x.Author.CanDropBomb())
                     {
