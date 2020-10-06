@@ -12,40 +12,109 @@ using System.Threading.Tasks;
 
 namespace Server
 {
+    //public static class App
+    //{
+    //    public static Inst Inst;
+    //    public static void CreateInst(AppOptions options)
+    //    {
+    //        Inst = new Inst(options);
+    //    }
+    //}
+    //public class Inst
+    //{
+
+    //    public UserRepository UserRepo { get; set; }
+    //    public GameArena Arena; 
+    //    public AppOptions Options;
+    //    public Inst(AppOptions options)
+    //    {
+    //        this.UserRepo = new UserRepository();
+    //        this.Options = options; 
+    //        this.Arena = new GameArena(options.ArenaId);
+    //    }
+
+    //    public void CreateListener()
+    //    {
+    //        Thread listenerThread = new Thread(() =>
+    //        {
+    //            Listener listener = new Listener(Options.Ip, Options.Port,Arena);
+    //        });
+    //        listenerThread.Start();
+
+    //        Console.WriteLine("Server Listening On {0} : {1}", Options.Ip ,Options.Port);
+    //    }
+
+
+
+    //}
+
     public static class App
     {
-        public static Inst Inst;
-        public static void CreateInst(AppOptions options)
+        public static object threadLock = new object();
+        public static Application Inst = null;
+        public static Application CreateInstance(AppOptions options)
         {
-            Inst = new Inst(options);
-        }
-    }
-    public class Inst
-    {
-       
-        public UserRepository UserRepo { get; set; }
-        public GameArena Arena; 
-        public AppOptions Options;
-        public Inst(AppOptions options)
-        {
-            this.UserRepo = new UserRepository();
-            this.Options = options; 
-            this.Arena = new GameArena(options.ArenaId);
-        }
-
-        public void CreateListener()
-        {
-            Thread listenerThread = new Thread(() =>
+            lock (threadLock)
             {
-                Listener listener = new Listener(Options.Ip, Options.Port,Arena);
-            });
-            listenerThread.Start();
-
-            Console.WriteLine("Server Listening On {0} : {1}", Options.Ip ,Options.Port);
+                if (Inst == null)
+                {
+                    Inst = new ApplicationInst(options);
+                }
+                else
+                {
+                    throw new Exception("instance cannot be created twice");
+                }
+            }
+           
+            return Inst;
         }
-       
 
-    
+        public class Application
+        {
+
+            private AppOptions options = null;
+            public AppOptions Options
+            {
+                get
+                {
+                    if (options == null)
+                    {
+                        throw new Exception("Options are not set");
+                    }
+                    else
+                    {
+                        return this.options;
+                    }
+                }
+            }
+
+            public UserRepository UserRepo { get; set; }
+            public GameArena Arena;
+
+            public void CreateListener()
+            {
+                Thread listenerThread = new Thread(() =>
+                {
+                    Listener listener = new Listener(Options.Ip, Options.Port, Arena);
+                });
+                listenerThread.Start();
+
+                Console.WriteLine("Server Listening On {0} : {1}", Options.Ip, Options.Port);
+            }
+
+            protected Application(AppOptions options)
+            {
+                this.UserRepo = new UserRepository();
+                this.options = options;
+                this.Arena = new GameArena(options.ArenaId);
+            }
+        }
+
+        private class ApplicationInst : Application
+        {
+            public ApplicationInst(AppOptions options) : base(options)
+            { }
+        }
     }
 }
 

@@ -15,7 +15,7 @@ class Program
         //----------------------------
 
 
-        App.CreateInst(options);
+        App.CreateInstance(options);
         App.Inst.CreateListener();
         
     }
