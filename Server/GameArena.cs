@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic.FileIO;
+using Server.MapObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace Server
             var gameObject5 = new Pickable(gameObject4);
 
             gameObject3.AddLoot(gameObject5);
-
+            PickableFactoryProvider.GetFactory(0).Build(0, new Coordinates(1, 2));
 
             gameObject3.PrintTags();
             Console.WriteLine("brrrrrrrrrrrrrrr");
