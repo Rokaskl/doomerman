@@ -8,6 +8,7 @@ using System.Linq;
 using System.Media;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -141,32 +142,7 @@ namespace OPP
 
         private void btPlay_Click(object sender, EventArgs e)
         {
-            panelMenu.Hide();
-            drawingArea.Focus();
-
-            ConnectClient();
-            SendSignal(0);
-
-            drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
-
-            Task.Run(() =>
-            {
-                while (true)
-                {
-                    if (ClientManager.Instance.IDIsSet())
-                    {
-                        SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
-                        break;
-                    }
-                    Thread.Sleep(10);
-                }
-            });
-            
-
-
-
-            if (!gfxThread.IsAlive)
-                gfxThread.Start();
+            panel1.Visible = true;
 
         }
 
@@ -191,6 +167,80 @@ namespace OPP
                 }
                 drawingArea.Focus();
             }
+        }
+
+        private void drawingArea_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string text = richTextBox1.Text;
+            if(Regex.IsMatch(text, @"[0-9]+(?:\.[0-9]+){3}:[0-9]+")); //Check IP:PORT pattern
+            {
+                string[] array = text.Split(':');
+                string ip = array[0];
+                Int32 port = Int32.Parse(array[1]);
+                panelMenu.Hide();
+                panel1.Visible = false;
+                drawingArea.Focus();
+                ConnectClient(port,ip);
+                SendSignal(0);
+
+                drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
+
+                Task.Run(() =>
+                {
+                    while (true)
+                    {
+                        if (ClientManager.Instance.IDIsSet())
+                        {
+                            SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
+                            break;
+                        }
+                        Thread.Sleep(10);
+                    }
+                });
+
+
+
+
+                if (!gfxThread.IsAlive)
+                    gfxThread.Start();
+            }
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            panel1.Visible = false;
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -228,10 +278,10 @@ namespace OPP
             }
         }
 
-        public void ConnectClient()
+        public void ConnectClient(Int32 port, string ip)
         {
-            Int32 port = 13000;
-            string ip = "127.0.0.1";
+           
+
             client = new TcpClient(ip, port);
 
             new Thread(() =>

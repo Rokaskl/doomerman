@@ -35,9 +35,17 @@
             this.btQuit = new System.Windows.Forms.Button();
             this.btPlay = new System.Windows.Forms.Button();
             this.PB_connectedUser = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.drawingArea)).BeginInit();
             this.panelMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_connectedUser)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btToggleSound
@@ -51,9 +59,10 @@
             this.btToggleSound.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Silver;
             this.btToggleSound.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btToggleSound.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btToggleSound.Location = new System.Drawing.Point(469, 466);
+            this.btToggleSound.Location = new System.Drawing.Point(625, 574);
+            this.btToggleSound.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btToggleSound.Name = "btToggleSound";
-            this.btToggleSound.Size = new System.Drawing.Size(30, 30);
+            this.btToggleSound.Size = new System.Drawing.Size(40, 37);
             this.btToggleSound.TabIndex = 1;
             this.btToggleSound.UseVisualStyleBackColor = false;
             this.btToggleSound.Click += new System.EventHandler(this.btToggleSound_Click);
@@ -62,12 +71,14 @@
             // 
             this.drawingArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.drawingArea.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.drawingArea.Location = new System.Drawing.Point(12, 10);
+            this.drawingArea.Location = new System.Drawing.Point(13, 4);
+            this.drawingArea.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.drawingArea.Name = "drawingArea";
-            this.drawingArea.Size = new System.Drawing.Size(480, 480);
+            this.drawingArea.Size = new System.Drawing.Size(640, 591);
             this.drawingArea.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.drawingArea.TabIndex = 0;
             this.drawingArea.TabStop = false;
+            this.drawingArea.Click += new System.EventHandler(this.drawingArea_Click);
             // 
             // panelMenu
             // 
@@ -78,9 +89,10 @@
             this.panelMenu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panelMenu.Controls.Add(this.btQuit);
             this.panelMenu.Controls.Add(this.btPlay);
-            this.panelMenu.Location = new System.Drawing.Point(172, 275);
+            this.panelMenu.Location = new System.Drawing.Point(229, 338);
+            this.panelMenu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(167, 107);
+            this.panelMenu.Size = new System.Drawing.Size(223, 132);
             this.panelMenu.TabIndex = 2;
             // 
             // btQuit
@@ -91,9 +103,10 @@
             this.btQuit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Crimson;
             this.btQuit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btQuit.Font = new System.Drawing.Font("Ravie", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btQuit.Location = new System.Drawing.Point(11, 55);
+            this.btQuit.Location = new System.Drawing.Point(15, 68);
+            this.btQuit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btQuit.Name = "btQuit";
-            this.btQuit.Size = new System.Drawing.Size(147, 43);
+            this.btQuit.Size = new System.Drawing.Size(196, 53);
             this.btQuit.TabIndex = 1;
             this.btQuit.Text = "Quit";
             this.btQuit.UseVisualStyleBackColor = false;
@@ -108,9 +121,10 @@
             this.btPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btPlay.Font = new System.Drawing.Font("Ravie", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btPlay.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btPlay.Location = new System.Drawing.Point(11, 6);
+            this.btPlay.Location = new System.Drawing.Point(15, 7);
+            this.btPlay.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btPlay.Name = "btPlay";
-            this.btPlay.Size = new System.Drawing.Size(147, 43);
+            this.btPlay.Size = new System.Drawing.Size(196, 53);
             this.btPlay.TabIndex = 0;
             this.btPlay.Text = "Play";
             this.btPlay.UseVisualStyleBackColor = false;
@@ -120,20 +134,117 @@
             // 
             this.PB_connectedUser.BackColor = System.Drawing.Color.Transparent;
             this.PB_connectedUser.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.PB_connectedUser.Location = new System.Drawing.Point(12, 3);
+            this.PB_connectedUser.Location = new System.Drawing.Point(16, 4);
+            this.PB_connectedUser.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.PB_connectedUser.Name = "PB_connectedUser";
-            this.PB_connectedUser.Size = new System.Drawing.Size(30, 30);
+            this.PB_connectedUser.Size = new System.Drawing.Size(40, 37);
             this.PB_connectedUser.TabIndex = 3;
             this.PB_connectedUser.TabStop = false;
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.richTextBox2);
+            this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.richTextBox1);
+            this.panel1.Location = new System.Drawing.Point(157, 271);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(356, 340);
+            this.panel1.TabIndex = 4;
+            this.panel1.Visible = false;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.Location = new System.Drawing.Point(25, 66);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(308, 37);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = "";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(112, 27);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(140, 36);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "IP:PORT";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button1.BackColor = System.Drawing.Color.Azure;
+            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Crimson;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Ravie", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button1.Location = new System.Drawing.Point(72, 207);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(215, 45);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Join";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button2.BackColor = System.Drawing.Color.Azure;
+            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Crimson;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Ravie", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button2.Location = new System.Drawing.Point(72, 270);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(215, 45);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "Cancel";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox2.Location = new System.Drawing.Point(25, 151);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.Size = new System.Drawing.Size(308, 37);
+            this.richTextBox2.TabIndex = 4;
+            this.richTextBox2.Text = "";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(125, 112);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(107, 36);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "NAME";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(46)))), ((int)(((byte)(39)))));
             this.BackgroundImage = global::OPP.Properties.Resources.main_menu;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ClientSize = new System.Drawing.Size(505, 503);
+            this.ClientSize = new System.Drawing.Size(673, 619);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.PB_connectedUser);
             this.Controls.Add(this.panelMenu);
             this.Controls.Add(this.btToggleSound);
@@ -141,6 +252,7 @@
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
@@ -150,6 +262,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.drawingArea)).EndInit();
             this.panelMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PB_connectedUser)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -162,6 +276,13 @@
         private System.Windows.Forms.Button btQuit;
         private System.Windows.Forms.Button btPlay;
         private System.Windows.Forms.PictureBox PB_connectedUser;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.RichTextBox richTextBox2;
     }
 }
 
