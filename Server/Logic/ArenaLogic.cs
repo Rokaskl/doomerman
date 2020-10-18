@@ -171,7 +171,7 @@ namespace Server.Logic
             }
 
             if (moveStrategy != null)
-                moveStrategy.Move(x.Author);
+                moveStrategy.Move(x.Author,arena.walls);
 
             if (x.Cmds.Any(c => c == ArenaCommandEnum.DropBomb) && x.Author.CanDropBomb())
             {

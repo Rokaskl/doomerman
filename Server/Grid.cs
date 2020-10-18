@@ -14,6 +14,7 @@ namespace Server
         public Grid(int size=13)
         {
             this._grid = new List<int>[size,size];
+            
             this._size = size;
             this.Clean();
             Console.WriteLine("Grid {0} X {0} created ", _size);

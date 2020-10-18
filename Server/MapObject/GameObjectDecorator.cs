@@ -24,6 +24,10 @@ namespace Server
         {
             return this.gameObject.GetCords();
         }
+        public virtual void SetCords(Coordinates xy)
+        {
+            gameObject.SetCords(xy);
+        }
         public virtual void AddLoot(Pickable gameObject)
         {
              this.gameObject.AddLoot(gameObject);

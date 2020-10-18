@@ -10,7 +10,7 @@ namespace Server
     {
         public User User;
         public Coordinates xy;
-        public IGameObject Bomb;
+        public Explosive Bomb;
         public Sender sender;
         public int Score = 0;
         public bool Alive = true;
@@ -19,28 +19,29 @@ namespace Server
         {
             this.User = user;
             this.xy = new Coordinates();
+            this.Bomb = new Explosive();
             this.sender = new Sender(user);
         }
 
-        public bool CanMove(ArenaCommandEnum cmd)
+        public bool CanMove(ArenaCommandEnum cmd, int[,] walls)
         {
             switch (cmd)
             {
                 case ArenaCommandEnum.MoveUp:
                     {
-                        return xy.Y > 0;
+                        return xy.Y > 0 && walls[xy.X,xy.Y-1] == 0;
                     }
                 case ArenaCommandEnum.MoveDown:
                     {
-                        return xy.Y < 12;
+                        return xy.Y < 12 && walls[xy.X, xy.Y + 1] == 0;
                     }
                 case ArenaCommandEnum.MoveRight:
                     {
-                        return xy.X < 12;
+                        return xy.X < 12 && walls[xy.X+1, xy.Y] == 0;
                     }
                 case ArenaCommandEnum.MoveLeft:
                     {
-                        return xy.X > 0;
+                        return xy.X > 0 && walls[xy.X-1, xy.Y] == 0;
                     }
                 default:
                     {
@@ -56,8 +57,9 @@ namespace Server
 
         public void DropBomb()
         {
-            GameObject gameObject = new GameObject(this.xy);
-            this.Bomb = new Explosive(gameObject);//unnecessary, could use explosives list/enum/etc.
+            this.Bomb.SetCords(xy);
+            this.Bomb.Droped = false;
+            
         }
         public void AddPowerUp(Pickable item)
         {
@@ -89,6 +91,7 @@ namespace Server
             clientData.Id = this.User.Id;
             clientData.Score = this.Score;
             clientData.Alive = this.Alive;
+            clientData.BombRadius = (this.Bomb as Explosive).Radius;
 
             string json = JsonConvert.SerializeObject(clientData);
 

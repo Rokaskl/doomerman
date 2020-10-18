@@ -6,6 +6,6 @@ namespace Server
 {
     public interface IMoveStrategy
     {
-        void Move(Player player);
+        void Move(Player player, int[,] walls);
     }
 }
