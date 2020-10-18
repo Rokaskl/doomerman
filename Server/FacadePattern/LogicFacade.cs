@@ -11,7 +11,7 @@ namespace Server.FacadePattern
         private ILogicFacade arenaLogic;
         private ILogicFacade generalLogic;
         private ILogicFacade logicBase;
-        //Reik trecio
+
         public LogicFacade(GameArena arena)
         {
             this.logicBase = new LogicBase(this);
@@ -37,6 +37,7 @@ namespace Server.FacadePattern
         {
             arenaLogic.FinalizeExecute();
             generalLogic.FinalizeExecute();
+            logicBase.FinalizeExecute();
         }
     }
 }
