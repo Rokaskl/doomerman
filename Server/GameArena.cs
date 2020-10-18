@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualBasic.FileIO;
+using Server.FacadePattern;
+using Server.Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +18,7 @@ namespace Server
         public int Id;
         public List<Player> Players;
         private Grid grid;
-        private GameLogic Calculator;
+        private LogicFacade Calculator;
         public List<IGameObject> gameObjects = new List<IGameObject>();
 
         public void RemoveGameObject(IGameObject gameObject)
@@ -31,7 +33,7 @@ namespace Server
         {
             this.Id = id;
             this.Players = new List<Player>();
-            this.Calculator = new GameLogic(this);
+            this.Calculator = new LogicFacade(this);
             this.grid = new Grid();
 
             var gameObject = new GameObject(new Coordinates(1, 2));

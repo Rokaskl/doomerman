@@ -55,27 +55,27 @@ namespace OPP
         {
             if (pressedA)
             {
-                this.SendSignal(2);
+                this.SendSignal(2, CommandTypeEnum.Arena);
             }
                
             if (pressedD)
             {
-                this.SendSignal(3);
+                this.SendSignal(3, CommandTypeEnum.Arena);
             }
                 
             if (pressedW)
             {
-                this.SendSignal(0);
+                this.SendSignal(0, CommandTypeEnum.Arena);
             }
                 
             if (pressedS)
             {
-                this.SendSignal(1);
+                this.SendSignal(1, CommandTypeEnum.Arena);
             }
 
             if (pressedSpace)
             {
-                this.SendSignal(4);
+                this.SendSignal(4, CommandTypeEnum.Arena);
                 pressedSpace = false;
             }
                       
@@ -145,7 +145,7 @@ namespace OPP
             drawingArea.Focus();
 
             ConnectClient();
-            SendSignal(0);
+            SendSignal(0, CommandTypeEnum.General);
 
             drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
 
@@ -200,13 +200,13 @@ namespace OPP
             isPlaying = true;
         }
 
-        public async void SendSignal(int actionNum)
+        public async void SendSignal(int actionNum, CommandTypeEnum commandType)
         {
             byte[] buffer;
 
             int idToSend = ClientManager.Instance.IDIsSet() ? ClientManager.Instance.GetPlayerID() : 0;
 
-            buffer = (new List<int> { 0, idToSend, actionNum }).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
+            buffer = (new List<int> { (int)commandType, idToSend, actionNum }).SelectMany(x => BitConverter.GetBytes(x)).ToArray();
             
 
             while (true)
@@ -270,5 +270,11 @@ namespace OPP
         }
 
         
+    }
+
+    public enum CommandTypeEnum
+    {
+        General,
+        Arena
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Server.CommandPattern;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,23 +22,23 @@ namespace Server
             this.sender = new Sender(user);
         }
 
-        public bool CanMove(CommandEnum cmd)
+        public bool CanMove(ArenaCommandEnum cmd)
         {
             switch (cmd)
             {
-                case CommandEnum.MoveUp:
+                case ArenaCommandEnum.MoveUp:
                     {
                         return xy.Y > 0;
                     }
-                case CommandEnum.MoveDown:
+                case ArenaCommandEnum.MoveDown:
                     {
                         return xy.Y < 12;
                     }
-                case CommandEnum.MoveRight:
+                case ArenaCommandEnum.MoveRight:
                     {
                         return xy.X < 12;
                     }
-                case CommandEnum.MoveLeft:
+                case ArenaCommandEnum.MoveLeft:
                     {
                         return xy.X > 0;
                     }
