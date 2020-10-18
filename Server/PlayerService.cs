@@ -1,5 +1,6 @@
 ﻿using Server.CommandPattern;
 using Server.FacadePattern;
+using Server.GameLobby;
 using Server.Logic;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,6 @@ namespace Server
                                         break;
                                     }
                             }
-                           // var cmd = new Command { Author = player, TimeStamp = DateTime.UtcNow };
                            
                             while (buffer.Length >= (index + 1) * 4 + 4)
                             {

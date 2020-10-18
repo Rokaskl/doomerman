@@ -17,6 +17,7 @@ namespace Server
 
         public void Send (string message)
         {
+            //Try, finallize commands undo.
             NetworkStream stream = this.client.GetStream();
             byte[] bytes = Encoding.ASCII.GetBytes(message);
             stream.Write(bytes, 0, bytes.Length);
