@@ -7,9 +7,9 @@ using System.Text;
 namespace OPP
 {
     [Serializable()]
-    class LobbyData
+    public class LobbyData
     {
-        public int Id { get; set; }
+        //public Dictionary<string, bool> 
 
         public int Score { get; set; }
         public bool Alive { get; set; }

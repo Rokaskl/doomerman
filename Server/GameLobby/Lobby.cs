@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Server.GameLobby
 {
@@ -45,6 +46,10 @@ namespace Server.GameLobby
             {
                 command.Author.Ready = true;
                 this.readyCommands.Add(command);
+                if(this.readyCommands.Count == _maxPlayerCount)
+                {
+                    StartCountdown();
+                }
                 return true;
             }
             else
@@ -81,7 +86,16 @@ namespace Server.GameLobby
             Console.WriteLine(formedData);
             //
 
-            this.players.ForEach(x => x.sender.Send(formedData));
+            this.players.ForEach(x => x.sender.Send(1, formedData));
+        }
+
+        private void StartCountdown()
+        {
+            Task.Run(() =>
+            {
+                Task.Delay(5000);
+                Console.WriteLine("Game started!");
+            });
         }
     }
 }

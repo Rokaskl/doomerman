@@ -71,8 +71,9 @@ namespace Server
         }
         public void AddPlayer(Player player)
         {
-            player.Update(grid);
+            //player.Update(grid);
             this.Players.Add(player);
+            player.sender.Send(1, "");//Answer to handshake
             new PlayerService(player, this.Calculator);
         }
 
