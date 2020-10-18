@@ -185,62 +185,34 @@ namespace OPP
                 string[] array = text.Split(':');
                 string ip = array[0];
                 Int32 port = Int32.Parse(array[1]);
-<<<<<<< HEAD
-                panelMenu.Hide();
-                panel1.Visible = false;
-                drawingArea.Focus();
-                //drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/MenuBackground.png");
-
-                //showPlayerLobby(1, true, true,"Igor");
-                //showPlayerLobby(2, true, false,"Doomer Boi");
-
-                //panel6.Visible = true;//Ready button panel
-
-                ConnectClient(ip, port);
-                SendSignal(0, CommandTypeEnum.General);
-=======
-
-
                 ConnectClient(ip, port);
                 SendSignal(0, CommandTypeEnum.General);
 
-                
+
+                //drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
+
+                //Task.Run(() =>
+                //{
+                //    while (true)
+                //    {
+                //        if (ClientManager.Instance.IDIsSet())
+                //        {
+                //            SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
+                //            break;
+                //        }
+                //        Thread.Sleep(10);
+                //    }
+                //});
 
 
 
 
-
-
-                
->>>>>>> f484a6b35e88bf56f094f94c5d691f554b1aab3e
-
-                drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
-
-                Task.Run(() =>
-                {
-                    while (true)
-                    {
-                        if (ClientManager.Instance.IDIsSet())
-                        {
-                            SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
-                            break;
-                        }
-                        Thread.Sleep(10);
-                    }
-                });
-
-
-
-
-                if (!gfxThread.IsAlive)
-                    gfxThread.Start();
+                //if (!gfxThread.IsAlive)
+                //    gfxThread.Start();
 
             }
         }
 
-<<<<<<< HEAD
-        private void showPlayerLobby(int id,bool show, bool ready,string name)
-=======
         private void CreateLobby(LobbyData lobbyData)
         {
             this.lobby = new Lobby();
@@ -250,8 +222,8 @@ namespace OPP
             drawingArea.Focus();
             drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/MenuBackground.png");
 
-            showPlayerLobby(1, true, true);
-            showPlayerLobby(2, true, false);
+            showPlayerLobby(1, true, true,"Igor");
+            showPlayerLobby(2, true, false, "Dooooooomer");
 
             panel6.Visible = true;//Ready button panel
         }
@@ -268,8 +240,7 @@ namespace OPP
             }
         }
 
-        private void showPlayerLobby(int id,bool show, bool ready)
->>>>>>> f484a6b35e88bf56f094f94c5d691f554b1aab3e
+        private void showPlayerLobby(int id,bool show, bool ready,string  name)
         {
 
             Panel playerPanel = player1Panel; // First player(id =1 ) panel 
