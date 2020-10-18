@@ -21,10 +21,6 @@ namespace Server.Logic
 
             switch (x.Cmds.FirstOrDefault())
             {
-                case GeneralCommandEnum.Handshake:
-                    {
-                        break;
-                    }
                 case GeneralCommandEnum.JoinLobby:
                     {
                         this.lobby.AddPlayer(x.Author);

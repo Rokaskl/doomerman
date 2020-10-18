@@ -26,10 +26,6 @@ namespace Server.CommandPattern
         {
             switch (Cmds.FirstOrDefault())
             {
-                case GeneralCommandEnum.Handshake:
-                    {
-                        break;
-                    }
                 case GeneralCommandEnum.JoinLobby:
                     {
                         //Cant undo.
@@ -57,7 +53,6 @@ namespace Server.CommandPattern
 
     public enum GeneralCommandEnum
     {
-        Handshake,
         JoinLobby,
         LeaveLobby,
         Ready,
