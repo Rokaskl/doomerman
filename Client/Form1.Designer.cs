@@ -52,6 +52,14 @@
             this.player4Panel = new System.Windows.Forms.Panel();
             this.player4ReadyBox = new System.Windows.Forms.PictureBox();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.player1Icon = new System.Windows.Forms.PictureBox();
+            this.player2Icon = new System.Windows.Forms.PictureBox();
+            this.player3Icon = new System.Windows.Forms.PictureBox();
+            this.player4Icon = new System.Windows.Forms.PictureBox();
+            this.player1Name = new System.Windows.Forms.Label();
+            this.player2Name = new System.Windows.Forms.Label();
+            this.player3Name = new System.Windows.Forms.Label();
+            this.player4Name = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.drawingArea)).BeginInit();
             this.panelMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_connectedUser)).BeginInit();
@@ -65,6 +73,10 @@
             this.player4Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.player4ReadyBox)).BeginInit();
             this.panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.player1Icon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player2Icon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player3Icon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player4Icon)).BeginInit();
             this.SuspendLayout();
             // 
             // btToggleSound
@@ -263,6 +275,8 @@
             // 
             // player1Panel
             // 
+            this.player1Panel.Controls.Add(this.player1Name);
+            this.player1Panel.Controls.Add(this.player1Icon);
             this.player1Panel.Controls.Add(this.player1ReadyBox);
             this.player1Panel.Location = new System.Drawing.Point(74, 58);
             this.player1Panel.Name = "player1Panel";
@@ -275,7 +289,7 @@
             this.player1ReadyBox.BackColor = System.Drawing.Color.Transparent;
             this.player1ReadyBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.player1ReadyBox.InitialImage = global::OPP.Properties.Resources.not_ready;
-            this.player1ReadyBox.Location = new System.Drawing.Point(405, 18);
+            this.player1ReadyBox.Location = new System.Drawing.Point(400, 25);
             this.player1ReadyBox.Margin = new System.Windows.Forms.Padding(0);
             this.player1ReadyBox.Name = "player1ReadyBox";
             this.player1ReadyBox.Size = new System.Drawing.Size(50, 50);
@@ -284,6 +298,8 @@
             // 
             // player2Panel
             // 
+            this.player2Panel.Controls.Add(this.player2Name);
+            this.player2Panel.Controls.Add(this.player2Icon);
             this.player2Panel.Controls.Add(this.player2ReadyBox);
             this.player2Panel.Location = new System.Drawing.Point(74, 165);
             this.player2Panel.Name = "player2Panel";
@@ -296,7 +312,7 @@
             this.player2ReadyBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.player2ReadyBox.BackColor = System.Drawing.Color.Transparent;
             this.player2ReadyBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.player2ReadyBox.Location = new System.Drawing.Point(405, 17);
+            this.player2ReadyBox.Location = new System.Drawing.Point(400, 25);
             this.player2ReadyBox.Margin = new System.Windows.Forms.Padding(4);
             this.player2ReadyBox.Name = "player2ReadyBox";
             this.player2ReadyBox.Size = new System.Drawing.Size(50, 50);
@@ -305,6 +321,8 @@
             // 
             // player3Panel
             // 
+            this.player3Panel.Controls.Add(this.player3Name);
+            this.player3Panel.Controls.Add(this.player3Icon);
             this.player3Panel.Controls.Add(this.player3ReadyBox);
             this.player3Panel.Location = new System.Drawing.Point(74, 271);
             this.player3Panel.Name = "player3Panel";
@@ -316,7 +334,7 @@
             // 
             this.player3ReadyBox.BackColor = System.Drawing.Color.Transparent;
             this.player3ReadyBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.player3ReadyBox.Location = new System.Drawing.Point(405, 13);
+            this.player3ReadyBox.Location = new System.Drawing.Point(400, 25);
             this.player3ReadyBox.Margin = new System.Windows.Forms.Padding(4);
             this.player3ReadyBox.Name = "player3ReadyBox";
             this.player3ReadyBox.Size = new System.Drawing.Size(50, 50);
@@ -325,6 +343,8 @@
             // 
             // player4Panel
             // 
+            this.player4Panel.Controls.Add(this.player4Name);
+            this.player4Panel.Controls.Add(this.player4Icon);
             this.player4Panel.Controls.Add(this.player4ReadyBox);
             this.player4Panel.Location = new System.Drawing.Point(74, 383);
             this.player4Panel.Name = "player4Panel";
@@ -336,7 +356,7 @@
             // 
             this.player4ReadyBox.BackColor = System.Drawing.Color.Transparent;
             this.player4ReadyBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.player4ReadyBox.Location = new System.Drawing.Point(405, 14);
+            this.player4ReadyBox.Location = new System.Drawing.Point(400, 25);
             this.player4ReadyBox.Margin = new System.Windows.Forms.Padding(4);
             this.player4ReadyBox.Name = "player4ReadyBox";
             this.player4ReadyBox.Size = new System.Drawing.Size(50, 50);
@@ -352,6 +372,98 @@
             this.panel6.Size = new System.Drawing.Size(114, 49);
             this.panel6.TabIndex = 7;
             this.panel6.Visible = false;
+            // 
+            // player1Icon
+            // 
+            this.player1Icon.BackColor = System.Drawing.Color.Transparent;
+            this.player1Icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.player1Icon.InitialImage = global::OPP.Properties.Resources.not_ready;
+            this.player1Icon.Location = new System.Drawing.Point(30, 30);
+            this.player1Icon.Margin = new System.Windows.Forms.Padding(0);
+            this.player1Icon.Name = "player1Icon";
+            this.player1Icon.Size = new System.Drawing.Size(40, 40);
+            this.player1Icon.TabIndex = 9;
+            this.player1Icon.TabStop = false;
+            // 
+            // player2Icon
+            // 
+            this.player2Icon.BackColor = System.Drawing.Color.Transparent;
+            this.player2Icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.player2Icon.InitialImage = global::OPP.Properties.Resources.not_ready;
+            this.player2Icon.Location = new System.Drawing.Point(30, 30);
+            this.player2Icon.Margin = new System.Windows.Forms.Padding(0);
+            this.player2Icon.Name = "player2Icon";
+            this.player2Icon.Size = new System.Drawing.Size(40, 40);
+            this.player2Icon.TabIndex = 10;
+            this.player2Icon.TabStop = false;
+            // 
+            // player3Icon
+            // 
+            this.player3Icon.BackColor = System.Drawing.Color.Transparent;
+            this.player3Icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.player3Icon.InitialImage = global::OPP.Properties.Resources.not_ready;
+            this.player3Icon.Location = new System.Drawing.Point(30, 30);
+            this.player3Icon.Margin = new System.Windows.Forms.Padding(0);
+            this.player3Icon.Name = "player3Icon";
+            this.player3Icon.Size = new System.Drawing.Size(40, 40);
+            this.player3Icon.TabIndex = 11;
+            this.player3Icon.TabStop = false;
+            // 
+            // player4Icon
+            // 
+            this.player4Icon.BackColor = System.Drawing.Color.Transparent;
+            this.player4Icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.player4Icon.InitialImage = global::OPP.Properties.Resources.not_ready;
+            this.player4Icon.Location = new System.Drawing.Point(30, 30);
+            this.player4Icon.Margin = new System.Windows.Forms.Padding(0);
+            this.player4Icon.Name = "player4Icon";
+            this.player4Icon.Size = new System.Drawing.Size(40, 40);
+            this.player4Icon.TabIndex = 12;
+            this.player4Icon.TabStop = false;
+            // 
+            // player1Name
+            // 
+            this.player1Name.AutoSize = true;
+            this.player1Name.Font = new System.Drawing.Font("Ink Free", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.player1Name.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.player1Name.Location = new System.Drawing.Point(101, 38);
+            this.player1Name.Name = "player1Name";
+            this.player1Name.Size = new System.Drawing.Size(129, 30);
+            this.player1Name.TabIndex = 10;
+            this.player1Name.Text = "DoomerBoi";
+            // 
+            // player2Name
+            // 
+            this.player2Name.AutoSize = true;
+            this.player2Name.Font = new System.Drawing.Font("Ink Free", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.player2Name.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.player2Name.Location = new System.Drawing.Point(101, 37);
+            this.player2Name.Name = "player2Name";
+            this.player2Name.Size = new System.Drawing.Size(129, 30);
+            this.player2Name.TabIndex = 11;
+            this.player2Name.Text = "DoomerBoi";
+            // 
+            // player3Name
+            // 
+            this.player3Name.AutoSize = true;
+            this.player3Name.Font = new System.Drawing.Font("Ink Free", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.player3Name.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.player3Name.Location = new System.Drawing.Point(101, 33);
+            this.player3Name.Name = "player3Name";
+            this.player3Name.Size = new System.Drawing.Size(129, 30);
+            this.player3Name.TabIndex = 12;
+            this.player3Name.Text = "DoomerBoi";
+            // 
+            // player4Name
+            // 
+            this.player4Name.AutoSize = true;
+            this.player4Name.Font = new System.Drawing.Font("Ink Free", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.player4Name.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.player4Name.Location = new System.Drawing.Point(101, 34);
+            this.player4Name.Name = "player4Name";
+            this.player4Name.Size = new System.Drawing.Size(129, 30);
+            this.player4Name.TabIndex = 13;
+            this.player4Name.Text = "DoomerBoi";
             // 
             // Form1
             // 
@@ -387,14 +499,22 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.player1Panel.ResumeLayout(false);
+            this.player1Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.player1ReadyBox)).EndInit();
             this.player2Panel.ResumeLayout(false);
+            this.player2Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.player2ReadyBox)).EndInit();
             this.player3Panel.ResumeLayout(false);
+            this.player3Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.player3ReadyBox)).EndInit();
             this.player4Panel.ResumeLayout(false);
+            this.player4Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.player4ReadyBox)).EndInit();
             this.panel6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.player1Icon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player2Icon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player3Icon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player4Icon)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -424,6 +544,14 @@
         private System.Windows.Forms.PictureBox player2ReadyBox;
         private System.Windows.Forms.PictureBox player3ReadyBox;
         private System.Windows.Forms.PictureBox player4ReadyBox;
+        private System.Windows.Forms.Label player1Name;
+        private System.Windows.Forms.PictureBox player1Icon;
+        private System.Windows.Forms.Label player2Name;
+        private System.Windows.Forms.PictureBox player2Icon;
+        private System.Windows.Forms.Label player3Name;
+        private System.Windows.Forms.PictureBox player3Icon;
+        private System.Windows.Forms.Label player4Name;
+        private System.Windows.Forms.PictureBox player4Icon;
     }
 }
 

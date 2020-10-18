@@ -186,76 +186,107 @@ namespace OPP
                 panelMenu.Hide();
                 panel1.Visible = false;
                 drawingArea.Focus();
-                drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/MenuBackground.png");
+                //drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/MenuBackground.png");
 
-                showPlayerLobby(1, true, true);
-                showPlayerLobby(2, true, false);
+                //showPlayerLobby(1, true, true,"Igor");
+                //showPlayerLobby(2, true, false,"Doomer Boi");
 
-                panel6.Visible = true;//Ready button panel
+                //panel6.Visible = true;//Ready button panel
 
-                //ConnectClient(ip, port);
-                //SendSignal(0, CommandTypeEnum.General);
+                ConnectClient(ip, port);
+                SendSignal(0, CommandTypeEnum.General);
 
-                //drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
+                drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
 
-                //Task.Run(() =>
-                //{
-                //    while (true)
-                //    {
-                //        if (ClientManager.Instance.IDIsSet())
-                //        {
-                //            SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
-                //            break;
-                //        }
-                //        Thread.Sleep(10);
-                //    }
-                //});
-
-
+                Task.Run(() =>
+                {
+                    while (true)
+                    {
+                        if (ClientManager.Instance.IDIsSet())
+                        {
+                            SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
+                            break;
+                        }
+                        Thread.Sleep(10);
+                    }
+                });
 
 
-                //if (!gfxThread.IsAlive)
-                //    gfxThread.Start();
+
+
+                if (!gfxThread.IsAlive)
+                    gfxThread.Start();
 
             }
         }
 
-        private void showPlayerLobby(int id,bool show, bool ready)
+        private void showPlayerLobby(int id,bool show, bool ready,string name)
         {
 
             Panel playerPanel = player1Panel; // First player(id =1 ) panel 
-            PictureBox playerReadyBox = player1ReadyBox; // First player(id =1 ) checkbox 
+            PictureBox playerReadyBox = player1ReadyBox; // First player(id =1 ) ready image box
+            Label playerName = player1Name; // First player(id =1 ) name label 
+            PictureBox playerIconBox = player1Icon; // First player(id =1 ) icon box
+            Image playerIcon = new Bitmap(ClientManager.Instance.ProjectPath + "\\Resources\\p1_icon.png");
+
             switch (id)
             {
                 case 1:
                     playerPanel = player1Panel;
                     playerReadyBox = player1ReadyBox;
+                    playerName = player1Name;
+                    playerIconBox = player1Icon;
+
+                    playerIcon = new Bitmap(ClientManager.Instance.ProjectPath + "\\Resources\\p1_icon.png");
+                    playerIconBox.Image = playerIcon;
+                    playerIconBox.SizeMode = PictureBoxSizeMode.StretchImage;
+
                     break;
                 case 2:
                     playerPanel = player2Panel;
                     playerReadyBox = player2ReadyBox;
+                    playerName = player2Name;
+                    playerIconBox = player2Icon;
+
+                    playerIcon = new Bitmap(ClientManager.Instance.ProjectPath + "\\Resources\\p2_icon.png");
+                    playerIconBox.Image = playerIcon;
+                    playerIconBox.SizeMode = PictureBoxSizeMode.StretchImage;
                     break;
                 case 3:
                     playerPanel = player3Panel;
                     playerReadyBox = player3ReadyBox;
+                    playerName = player3Name;
+                    playerIconBox = player3Icon;
+
+                    playerIcon = new Bitmap(ClientManager.Instance.ProjectPath + "\\Resources\\p3_icon.png");
+                    playerIconBox.Image = playerIcon;
+                    playerIconBox.SizeMode = PictureBoxSizeMode.StretchImage;
                     break;
                 case 4:
                     playerPanel = player4Panel;
                     playerReadyBox = player4ReadyBox;
+                    playerName = player4Name;
+                    playerIconBox = player4Icon;
+
+                    playerIcon = new Bitmap(ClientManager.Instance.ProjectPath + "\\Resources\\p4_icon.png");
+                    playerIconBox.Image = playerIcon;
+                    playerIconBox.SizeMode = PictureBoxSizeMode.StretchImage;
                     break;
             }
             playerPanel.Visible = show;
-            if(ready)
+            playerName.Text = name;
+           
+            if (ready)
             {
                 Image notReadyImage = new Bitmap(ClientManager.Instance.ProjectPath + "\\Resources\\not_ready.png");
                 playerReadyBox.Image = notReadyImage;
-                playerReadyBox.SizeMode = PictureBoxSizeMode.AutoSize;
+                playerReadyBox.SizeMode = PictureBoxSizeMode.StretchImage;
             }
             else
             {
                 Image readyImage = new Bitmap(ClientManager.Instance.ProjectPath + "\\Resources\\ready.png");
                 playerReadyBox.Image = readyImage;
-                playerReadyBox.SizeMode = PictureBoxSizeMode.AutoSize;
+                playerReadyBox.SizeMode = PictureBoxSizeMode.StretchImage;
 
             }
         }
