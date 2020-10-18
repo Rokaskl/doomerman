@@ -43,23 +43,27 @@
             this.label1 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button3 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.player1Panel = new System.Windows.Forms.Panel();
+            this.player1ReadyBox = new System.Windows.Forms.PictureBox();
+            this.player2Panel = new System.Windows.Forms.Panel();
+            this.player2ReadyBox = new System.Windows.Forms.PictureBox();
+            this.player3Panel = new System.Windows.Forms.Panel();
+            this.player3ReadyBox = new System.Windows.Forms.PictureBox();
+            this.player4Panel = new System.Windows.Forms.Panel();
+            this.player4ReadyBox = new System.Windows.Forms.PictureBox();
             this.panel6 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.drawingArea)).BeginInit();
             this.panelMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_connectedUser)).BeginInit();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel5.SuspendLayout();
+            this.player1Panel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.player1ReadyBox)).BeginInit();
+            this.player2Panel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.player2ReadyBox)).BeginInit();
+            this.player3Panel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.player3ReadyBox)).BeginInit();
+            this.player4Panel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.player4ReadyBox)).BeginInit();
             this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -257,78 +261,87 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // checkBox1
+            // player1Panel
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(431, 44);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(18, 17);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.player1Panel.Controls.Add(this.player1ReadyBox);
+            this.player1Panel.Location = new System.Drawing.Point(74, 58);
+            this.player1Panel.Name = "player1Panel";
+            this.player1Panel.Size = new System.Drawing.Size(500, 100);
+            this.player1Panel.TabIndex = 5;
+            this.player1Panel.Visible = false;
             // 
-            // panel2
+            // player1ReadyBox
             // 
-            this.panel2.Controls.Add(this.checkBox1);
-            this.panel2.Location = new System.Drawing.Point(74, 58);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(500, 100);
-            this.panel2.TabIndex = 5;
-            this.panel2.Visible = false;
+            this.player1ReadyBox.BackColor = System.Drawing.Color.Transparent;
+            this.player1ReadyBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.player1ReadyBox.InitialImage = global::OPP.Properties.Resources.not_ready;
+            this.player1ReadyBox.Location = new System.Drawing.Point(405, 18);
+            this.player1ReadyBox.Margin = new System.Windows.Forms.Padding(0);
+            this.player1ReadyBox.Name = "player1ReadyBox";
+            this.player1ReadyBox.Size = new System.Drawing.Size(50, 50);
+            this.player1ReadyBox.TabIndex = 8;
+            this.player1ReadyBox.TabStop = false;
             // 
-            // panel3
+            // player2Panel
             // 
-            this.panel3.Controls.Add(this.checkBox2);
-            this.panel3.Location = new System.Drawing.Point(74, 165);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(500, 100);
-            this.panel3.TabIndex = 6;
-            this.panel3.Visible = false;
+            this.player2Panel.Controls.Add(this.player2ReadyBox);
+            this.player2Panel.Location = new System.Drawing.Point(74, 165);
+            this.player2Panel.Name = "player2Panel";
+            this.player2Panel.Size = new System.Drawing.Size(500, 100);
+            this.player2Panel.TabIndex = 6;
+            this.player2Panel.Visible = false;
             // 
-            // checkBox2
+            // player2ReadyBox
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(431, 48);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(18, 17);
-            this.checkBox2.TabIndex = 0;
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.player2ReadyBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.player2ReadyBox.BackColor = System.Drawing.Color.Transparent;
+            this.player2ReadyBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.player2ReadyBox.Location = new System.Drawing.Point(405, 17);
+            this.player2ReadyBox.Margin = new System.Windows.Forms.Padding(4);
+            this.player2ReadyBox.Name = "player2ReadyBox";
+            this.player2ReadyBox.Size = new System.Drawing.Size(50, 50);
+            this.player2ReadyBox.TabIndex = 9;
+            this.player2ReadyBox.TabStop = false;
             // 
-            // panel4
+            // player3Panel
             // 
-            this.panel4.Controls.Add(this.checkBox3);
-            this.panel4.Location = new System.Drawing.Point(74, 271);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(500, 100);
-            this.panel4.TabIndex = 6;
-            this.panel4.Visible = false;
+            this.player3Panel.Controls.Add(this.player3ReadyBox);
+            this.player3Panel.Location = new System.Drawing.Point(74, 271);
+            this.player3Panel.Name = "player3Panel";
+            this.player3Panel.Size = new System.Drawing.Size(500, 100);
+            this.player3Panel.TabIndex = 6;
+            this.player3Panel.Visible = false;
             // 
-            // checkBox3
+            // player3ReadyBox
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(431, 54);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(18, 17);
-            this.checkBox3.TabIndex = 0;
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.player3ReadyBox.BackColor = System.Drawing.Color.Transparent;
+            this.player3ReadyBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.player3ReadyBox.Location = new System.Drawing.Point(405, 13);
+            this.player3ReadyBox.Margin = new System.Windows.Forms.Padding(4);
+            this.player3ReadyBox.Name = "player3ReadyBox";
+            this.player3ReadyBox.Size = new System.Drawing.Size(50, 50);
+            this.player3ReadyBox.TabIndex = 10;
+            this.player3ReadyBox.TabStop = false;
             // 
-            // panel5
+            // player4Panel
             // 
-            this.panel5.Controls.Add(this.checkBox4);
-            this.panel5.Location = new System.Drawing.Point(74, 383);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(500, 100);
-            this.panel5.TabIndex = 6;
-            this.panel5.Visible = false;
+            this.player4Panel.Controls.Add(this.player4ReadyBox);
+            this.player4Panel.Location = new System.Drawing.Point(74, 383);
+            this.player4Panel.Name = "player4Panel";
+            this.player4Panel.Size = new System.Drawing.Size(500, 100);
+            this.player4Panel.TabIndex = 6;
+            this.player4Panel.Visible = false;
             // 
-            // checkBox4
+            // player4ReadyBox
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(431, 39);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(18, 17);
-            this.checkBox4.TabIndex = 0;
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.player4ReadyBox.BackColor = System.Drawing.Color.Transparent;
+            this.player4ReadyBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.player4ReadyBox.Location = new System.Drawing.Point(405, 14);
+            this.player4ReadyBox.Margin = new System.Windows.Forms.Padding(4);
+            this.player4ReadyBox.Name = "player4ReadyBox";
+            this.player4ReadyBox.Size = new System.Drawing.Size(50, 50);
+            this.player4ReadyBox.TabIndex = 11;
+            this.player4ReadyBox.TabStop = false;
             // 
             // panel6
             // 
@@ -349,10 +362,10 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(673, 619);
             this.Controls.Add(this.panel6);
-            this.Controls.Add(this.panel5);
-            this.Controls.Add(this.panel4);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.player4Panel);
+            this.Controls.Add(this.player3Panel);
+            this.Controls.Add(this.player2Panel);
+            this.Controls.Add(this.player1Panel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.PB_connectedUser);
             this.Controls.Add(this.panelMenu);
@@ -373,14 +386,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_connectedUser)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
+            this.player1Panel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.player1ReadyBox)).EndInit();
+            this.player2Panel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.player2ReadyBox)).EndInit();
+            this.player3Panel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.player3ReadyBox)).EndInit();
+            this.player4Panel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.player4ReadyBox)).EndInit();
             this.panel6.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -402,15 +415,15 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RichTextBox richTextBox2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.Panel player1Panel;
+        private System.Windows.Forms.Panel player2Panel;
+        private System.Windows.Forms.Panel player3Panel;
+        private System.Windows.Forms.Panel player4Panel;
         private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.PictureBox player1ReadyBox;
+        private System.Windows.Forms.PictureBox player2ReadyBox;
+        private System.Windows.Forms.PictureBox player3ReadyBox;
+        private System.Windows.Forms.PictureBox player4ReadyBox;
     }
 }
 

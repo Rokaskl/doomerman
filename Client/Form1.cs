@@ -223,32 +223,41 @@ namespace OPP
         private void showPlayerLobby(int id,bool show, bool ready)
         {
 
-            Panel playerPanel = panel2; // First player(id =1 ) panel 
-            CheckBox playerCheckBox = checkBox1; // First player(id =1 ) checkbox 
+            Panel playerPanel = player1Panel; // First player(id =1 ) panel 
+            PictureBox playerReadyBox = player1ReadyBox; // First player(id =1 ) checkbox 
             switch (id)
             {
                 case 1:
-                    playerPanel = panel2;
-                    playerCheckBox = checkBox1;
+                    playerPanel = player1Panel;
+                    playerReadyBox = player1ReadyBox;
                     break;
                 case 2:
-                    playerPanel = panel3;
-                    playerCheckBox = checkBox2;
-
+                    playerPanel = player2Panel;
+                    playerReadyBox = player2ReadyBox;
                     break;
                 case 3:
-                    playerPanel = panel4;
-                    playerCheckBox = checkBox3;
-
+                    playerPanel = player3Panel;
+                    playerReadyBox = player3ReadyBox;
                     break;
                 case 4:
-                    playerPanel = panel6;
-                    playerCheckBox = checkBox4;
-
+                    playerPanel = player4Panel;
+                    playerReadyBox = player4ReadyBox;
                     break;
             }
             playerPanel.Visible = show;
-            playerCheckBox.Checked = ready;
+            if(ready)
+            {
+                Image notReadyImage = new Bitmap(ClientManager.Instance.ProjectPath + "\\Resources\\not_ready.png");
+                playerReadyBox.Image = notReadyImage;
+                playerReadyBox.SizeMode = PictureBoxSizeMode.AutoSize;
+            }
+            else
+            {
+                Image readyImage = new Bitmap(ClientManager.Instance.ProjectPath + "\\Resources\\ready.png");
+                playerReadyBox.Image = readyImage;
+                playerReadyBox.SizeMode = PictureBoxSizeMode.AutoSize;
+
+            }
         }
         private void button2_Click(object sender, EventArgs e)
         {

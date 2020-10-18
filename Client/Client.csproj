@@ -118,5 +118,8 @@
   <ItemGroup>
     <None Include="Resources\connection_plug.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\not_ready.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
