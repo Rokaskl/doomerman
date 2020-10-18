@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Server.GameLobby;
+using Server.MapObject;
 
 namespace Server
 {
@@ -22,7 +23,8 @@ namespace Server
         private LogicFacade Calculator;
         public List<IGameObject> gameObjects = new List<IGameObject>();
         private Lobby lobby;
-
+        private bool UpdateRequired;
+        public int[,] walls;
         public void RemoveGameObject(IGameObject gameObject)
         {
             gameObjects.Remove(gameObject);
@@ -38,7 +40,8 @@ namespace Server
             this.lobby = new Lobby();
             this.Calculator = new LogicFacade(this, lobby);
             this.grid = new Grid();
-
+            walls = Walls.walls;
+            UpdateRequired = false;
             var gameObject = new GameObject(new Coordinates(1, 2));
             var gameObject2 = new Lootable(gameObject);
             var gameObject3 = new Destroyable(gameObject2);
@@ -48,12 +51,24 @@ namespace Server
 
             gameObject3.AddLoot(gameObject5);
 
-            
+            UpdateAtInterval(50);
 
             gameObject3.PrintTags();
             Console.WriteLine("brrrrrrrrrrrrrrr");
         }
+        private async void UpdateAtInterval(int timeout)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                while(true)
+                {
+                    if(UpdateRequired)
+                    UpdateGrid();
 
+                    Thread.Sleep(timeout);   
+                }
+            });
+        }
         public void AddPlayer(Player player)
         {
             //player.Update(grid);
@@ -77,7 +92,7 @@ namespace Server
                 Thread.Sleep(3000); // kas 3 sekundes
                 grid.RemoveFromTile(x, y, 4); // 4 - bomba
                 gameObjects.RemoveAt(0); // seniausia bomba
-                UpdateGrid();
+                UpdateRequired = true;
             });
         }
         private void AddGameObjsToGrid()
@@ -113,7 +128,6 @@ namespace Server
                 grid.UpdateTile(playerX, playerY, cleanTile);
                 AddGameObjsToGrid();
             }
-            CurrentPlayers.ForEach(x => x.Bomb = null);
 
             Notify();
 
