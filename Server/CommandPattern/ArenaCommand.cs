@@ -18,10 +18,6 @@ namespace Server.CommandPattern
 
         public override void Execute()
         {
-            ////Fire event etc..
-            //Console.Write(this.Author.User.Id.ToString() + "   " + this.TimeStamp.ToString());
-            //Cmds.ForEach(x => Console.Write((ArenaCommandEnum)x + " "));
-            //Console.Write("\n\n");
             this.Receiver.Action(this);
         }
 

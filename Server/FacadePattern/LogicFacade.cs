@@ -1,4 +1,5 @@
 ﻿using Server.CommandPattern;
+using Server.GameLobby;
 using Server.Logic;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,11 @@ namespace Server.FacadePattern
         private ILogicFacade generalLogic;
         private ILogicFacade logicBase;
 
-        public LogicFacade(GameArena arena)
+        public LogicFacade(GameArena arena, Lobby lobby)
         {
             this.logicBase = new LogicBase(this);
             this.arenaLogic = new ArenaLogic(arena);
-            this.generalLogic = new GeneralLogic();
+            this.generalLogic = new GeneralLogic(lobby);
         }
 
         public void AddCommand(Command command)
