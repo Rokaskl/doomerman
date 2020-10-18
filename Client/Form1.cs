@@ -33,6 +33,8 @@ namespace OPP
 
         TcpClient client;
 
+        private Lobby lobby;
+
         public Form1()
         {
 
@@ -183,6 +185,7 @@ namespace OPP
                 string[] array = text.Split(':');
                 string ip = array[0];
                 Int32 port = Int32.Parse(array[1]);
+<<<<<<< HEAD
                 panelMenu.Hide();
                 panel1.Visible = false;
                 drawingArea.Focus();
@@ -195,6 +198,21 @@ namespace OPP
 
                 ConnectClient(ip, port);
                 SendSignal(0, CommandTypeEnum.General);
+=======
+
+
+                ConnectClient(ip, port);
+                SendSignal(0, CommandTypeEnum.General);
+
+                
+
+
+
+
+
+
+                
+>>>>>>> f484a6b35e88bf56f094f94c5d691f554b1aab3e
 
                 drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
 
@@ -220,7 +238,38 @@ namespace OPP
             }
         }
 
+<<<<<<< HEAD
         private void showPlayerLobby(int id,bool show, bool ready,string name)
+=======
+        private void CreateLobby(LobbyData lobbyData)
+        {
+            this.lobby = new Lobby();
+
+            panelMenu.Hide();
+            panel1.Visible = false;
+            drawingArea.Focus();
+            drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/MenuBackground.png");
+
+            showPlayerLobby(1, true, true);
+            showPlayerLobby(2, true, false);
+
+            panel6.Visible = true;//Ready button panel
+        }
+
+        public void UpdateLobby(LobbyData lobbyData)
+        {
+            if(this.lobby == null)
+            {
+                this.CreateLobby(lobbyData);
+            }
+            else
+            {
+                this.lobby.UpdateLobby(lobbyData);
+            }
+        }
+
+        private void showPlayerLobby(int id,bool show, bool ready)
+>>>>>>> f484a6b35e88bf56f094f94c5d691f554b1aab3e
         {
 
             Panel playerPanel = player1Panel; // First player(id =1 ) panel 
@@ -348,7 +397,7 @@ namespace OPP
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
-                Listener serverListener = new Listener(client);
+                Listener serverListener = new Listener(client, this);
 
             }).Start();
         }
