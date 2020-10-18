@@ -15,11 +15,15 @@ namespace Server
             this.client = user.Client;
         }
 
-        public void Send (string message)
+        public void Send (int num, string message)
         {
             //Try, finallize commands undo.
             NetworkStream stream = this.client.GetStream();
-            byte[] bytes = Encoding.ASCII.GetBytes(message);
+            byte[] numBytes = BitConverter.GetBytes(num);
+            byte[] messageBytes = Encoding.ASCII.GetBytes(message);
+            var bytes = new byte[numBytes.Length + messageBytes.Length];
+            numBytes.CopyTo(bytes, 0);
+            messageBytes.CopyTo(bytes, numBytes.Length);
             stream.Write(bytes, 0, bytes.Length);
         }
     }

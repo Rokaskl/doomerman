@@ -9,6 +9,7 @@ namespace Server
         List<string> GetTags();
         void PrintTags();
         Coordinates GetCords();
+        void SetCords(Coordinates xy);
         void AddLoot(Pickable gameObject);
         Pickable GetLoot();
     }

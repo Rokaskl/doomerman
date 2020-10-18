@@ -7,9 +7,9 @@ namespace Server
 {
     public class MoveUpStrategy : IMoveStrategy
     {
-        public void Move(Player player)
+        public void Move(Player player, int[,] walls)
         {
-            if (player.CanMove(ArenaCommandEnum.MoveUp)) player.MoveUp();
+            if (player.CanMove(ArenaCommandEnum.MoveUp, walls)) player.MoveUp();
         }
     }
 }

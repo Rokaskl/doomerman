@@ -28,6 +28,10 @@ namespace Server
         {
             return this.xy;
         }
+        public void SetCords(Coordinates xy)
+        {
+            this.xy = xy;
+        }
         public void AddLoot(Pickable gameObject)
         {
             this.loot = gameObject;
