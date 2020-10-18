@@ -24,5 +24,6 @@ namespace Server.CommandPattern
 
         public abstract void AddSubCommand(int subCommand);
         public abstract void Execute();
+        public abstract void Undo();
     }
 }

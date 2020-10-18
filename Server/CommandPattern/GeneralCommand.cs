@@ -18,7 +18,12 @@ namespace Server.CommandPattern
 
         public override void Execute()
         {
-            
+            this.Receiver.Action(this);
+        }
+
+        public override void Undo()
+        {
+            throw new NotImplementedException();
         }
     }
 

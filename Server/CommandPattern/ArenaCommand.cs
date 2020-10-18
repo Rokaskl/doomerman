@@ -18,10 +18,11 @@ namespace Server.CommandPattern
 
         public override void Execute()
         {
-            //Fire event etc..
-            Console.Write(this.Author.User.Id.ToString() + "   " + this.TimeStamp.ToString());
-            Cmds.ForEach(x => Console.Write((ArenaCommandEnum)x + " "));
-            Console.Write("\n\n");
+            ////Fire event etc..
+            //Console.Write(this.Author.User.Id.ToString() + "   " + this.TimeStamp.ToString());
+            //Cmds.ForEach(x => Console.Write((ArenaCommandEnum)x + " "));
+            //Console.Write("\n\n");
+            this.Receiver.Action(this);
         }
 
         public List<ArenaCommandEnum> GetCmds()
@@ -32,6 +33,11 @@ namespace Server.CommandPattern
         public override void AddSubCommand(int subCommand)
         {
             this.Cmds.Add((ArenaCommandEnum)subCommand);
+        }
+
+        public override void Undo()
+        {
+            throw new NotImplementedException();
         }
     }
 

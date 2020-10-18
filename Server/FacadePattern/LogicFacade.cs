@@ -10,7 +10,7 @@ namespace Server.FacadePattern
     {
         private ILogicFacade arenaLogic;
         private ILogicFacade generalLogic;
-        private LogicBase logicBase;
+        private ILogicFacade logicBase;
         //Reik trecio
         public LogicFacade(GameArena arena)
         {
@@ -30,7 +30,7 @@ namespace Server.FacadePattern
             {
                 command.Receiver = (ArenaLogic)arenaLogic;
             }
-            this.logicBase.AddCommand(command);
+            ((LogicBase)this.logicBase).AddCommand(command);
         }
 
         public void FinalizeExecute()

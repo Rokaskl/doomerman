@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server.Logic
 {
-    public class LogicBase
+    public class LogicBase : ILogicFacade
     {
         private bool preventAdd;
         private LogicFacade logicFacade;
@@ -65,7 +65,8 @@ namespace Server.Logic
 
                     // x.Cmds.ForEach(z => Console.WriteLine(z.ToString() + " " + x.Author.User.Id.ToString()));
 
-                    x.Receiver.Action(x); 
+                    x.Execute();
+                    //x.Receiver.Action(x); 
                     x.Executed = true;
                     handledCount++;
                 });
@@ -78,6 +79,11 @@ namespace Server.Logic
                     this.logicFacade.FinalizeExecute();
                 }
             }
+        }
+
+        public void FinalizeExecute()
+        {
+            
         }
     }
 }
