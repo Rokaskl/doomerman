@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Server.CommandPattern;
+using Server.GameLobby;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,8 @@ namespace Server
         public Sender sender;
         public int Score = 0;
         public bool Alive = true;
+        public bool Ready { get; set; }
+        public Lobby PlayerLobby { get; set; }
         public List<Pickable> PowerUps { get; set; }
         public Player(User user)
         {

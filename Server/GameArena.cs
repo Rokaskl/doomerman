@@ -10,6 +10,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Server.GameLobby;
 
 namespace Server
 {
@@ -20,6 +21,7 @@ namespace Server
         private Grid grid;
         private LogicFacade Calculator;
         public List<IGameObject> gameObjects = new List<IGameObject>();
+        private Lobby lobby;
 
         public void RemoveGameObject(IGameObject gameObject)
         {
@@ -33,7 +35,8 @@ namespace Server
         {
             this.Id = id;
             this.Players = new List<Player>();
-            this.Calculator = new LogicFacade(this);
+            this.lobby = new Lobby();
+            this.Calculator = new LogicFacade(this, lobby);
             this.grid = new Grid();
 
             var gameObject = new GameObject(new Coordinates(1, 2));
@@ -45,6 +48,7 @@ namespace Server
 
             gameObject3.AddLoot(gameObject5);
 
+            
 
             gameObject3.PrintTags();
             Console.WriteLine("brrrrrrrrrrrrrrr");
