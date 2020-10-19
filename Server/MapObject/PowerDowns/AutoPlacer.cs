@@ -8,7 +8,7 @@ namespace Server.MapObject.PowerUps
     {
         public AutoPlacer(GameObject gm) : base(gm)
         {
-
+            type = TileEnumerator.TileTypeEnum.PUAutoPlacer;
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Server
         public bool Ready { get; set; }
         public Lobby PlayerLobby { get; set; }
         public List<Pickable> PowerUps { get; set; }
+        public IMoveStrategy moveStrategy = new MoveNormalStrategy();
         public Player(User user)
         {
             this.User = user;
@@ -67,6 +68,21 @@ namespace Server
         public void AddPowerUp(Pickable item)
         {
             this.PowerUps.Add(item);
+
+            switch (item.type)
+            {
+                case TileEnumerator.TileTypeEnum.PUTemporaryJump:
+                    moveStrategy = new MoveJumpStrategy();
+                    break;
+
+                case TileEnumerator.TileTypeEnum.PUTemporarySwim:
+                    moveStrategy = new MoveSwimStrategy();
+                    break;
+
+                case TileEnumerator.TileTypeEnum.PUBombKick:
+                    moveStrategy = new MoveKickStrategy();
+                    break;
+            }
         }
         public void MoveUp()
         {

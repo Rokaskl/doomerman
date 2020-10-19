@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace OPP
+namespace Server
 {
     public class TileEnumerator
     {
-        public enum TileTypeEnum {
+        public enum TileTypeEnum
+        {
             Player1,
             Player2,
             Player3,

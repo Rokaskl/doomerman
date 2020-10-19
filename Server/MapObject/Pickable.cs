@@ -6,7 +6,7 @@ namespace Server
 {
     public class Pickable : GameObjectDecorator
     {
-       
+        public TileEnumerator.TileTypeEnum type = TileEnumerator.TileTypeEnum.Empty;
         public Pickable(IGameObject gameObject) : base(gameObject){ }
 
         public override List<string> GetTags()

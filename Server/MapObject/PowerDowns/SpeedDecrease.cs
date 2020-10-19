@@ -8,7 +8,7 @@ namespace Server.MapObject.PowerUps
     {
         public SpeedDecrease(GameObject gm) : base(gm)
         {
-
+            type = TileEnumerator.TileTypeEnum.PUDecreaseSpeed;
         }
     }
 }

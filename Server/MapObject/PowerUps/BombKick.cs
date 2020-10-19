@@ -8,7 +8,7 @@ namespace Server.MapObject.PowerUps
     {
         public BombKick(GameObject gm) : base(gm)
         {
-
+            type = TileEnumerator.TileTypeEnum.PUBombKick;
         }
     }
 }

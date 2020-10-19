@@ -8,7 +8,7 @@ namespace Server.MapObject.PowerUps
     {
         public ExtraLife(GameObject gm) : base(gm)
         {
-
+            type = TileEnumerator.TileTypeEnum.PUExtraLife;
         }
     }
 }

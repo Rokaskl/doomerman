@@ -8,7 +8,7 @@ namespace Server.MapObject.PowerUps
     {
         public FireIncrease(GameObject gm) : base(gm)
         {
-
+            type = TileEnumerator.TileTypeEnum.PUDecreaseBombRange;
         }
     }
 }

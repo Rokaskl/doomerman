@@ -22,6 +22,10 @@ namespace Server.MapObject.PowerUps
                     return new FireIncrease(new GameObject(xy));
                 case 5:
                     return new SpeedIncrease(new GameObject(xy));
+                case 6:
+                    return new TemporaryJump(new GameObject(xy));
+                case 7:
+                    return new TemporarySwim(new GameObject(xy));
 
                 default: return null;
             }

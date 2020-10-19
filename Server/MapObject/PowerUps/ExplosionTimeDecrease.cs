@@ -8,7 +8,7 @@ namespace Server.MapObject.PowerUps
     {
         public ExplosionTimeDecrease(GameObject gm) : base(gm)
         {
-
+            type = TileEnumerator.TileTypeEnum.PUDecreaseBombExplosionTime;
         }
     }
 }

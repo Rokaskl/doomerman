@@ -30,28 +30,27 @@ namespace Server.Logic
         public void Action(Command command)
         {
             var x = command as ArenaCommand;
-            IMoveStrategy moveStrategy = null;
 
             switch (x.Cmds.FirstOrDefault())
             {
                 case ArenaCommandEnum.MoveUp:
                     {
-                        moveStrategy = new MoveUpStrategy();
+                        x.Author.moveStrategy.MoveUp(x.Author, arena.walls);
                         break;
                     }
                 case ArenaCommandEnum.MoveDown:
                     {
-                        moveStrategy = new MoveDownStrategy();
+                        x.Author.moveStrategy.MoveDown(x.Author, arena.walls);
                         break;
                     }
                 case ArenaCommandEnum.MoveRight:
                     {
-                        moveStrategy = new MoveRightStrategy();
+                        x.Author.moveStrategy.MoveRight(x.Author, arena.walls);
                         break;
                     }
                 case ArenaCommandEnum.MoveLeft:
                     {
-                        moveStrategy = new MoveLeftStrategy();
+                        x.Author.moveStrategy.MoveLeft(x.Author, arena.walls);
                         break;
                     }
                 case ArenaCommandEnum.DropBomb:
@@ -62,9 +61,6 @@ namespace Server.Logic
                     }
 
             }
-
-            if (moveStrategy != null)
-                moveStrategy.Move(x.Author,arena.walls);
 
             if (x.Cmds.Any(c => c == ArenaCommandEnum.DropBomb) && x.Author.CanDropBomb())
             {
