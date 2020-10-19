@@ -112,7 +112,7 @@ namespace Server.GameLobby
         private void CancelCountdown()
         {
             this.source.Cancel();
-            SendInfo();//Todo remove from here
+           // SendInfo();//Todo remove from here
         }
 
         private void StartCountdown()
@@ -125,7 +125,7 @@ namespace Server.GameLobby
                 this.startingAt = DateTime.Now + TimeSpan.FromMilliseconds(5000);
                 Task.Delay(5000);
                 Console.WriteLine("Game started!");
-                this.arena.isStarted = true;
+                this.arena.StartGame();
                 this.isStarting = false;
                 this.startingAt = null;
             }, (CancellationToken)this.token);

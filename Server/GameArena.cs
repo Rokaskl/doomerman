@@ -43,19 +43,8 @@ namespace Server
             this.grid = new Grid();
             walls = Walls.walls;
             UpdateRequired = false;
-            var gameObject = new GameObject(new Coordinates(1, 2));
-            var gameObject2 = new Lootable(gameObject);
-            var gameObject3 = new Destroyable(gameObject2);
-
-            var gameObject4 = new GameObject(new Coordinates(1, 2));
-            var gameObject5 = new Pickable(gameObject4);
-
-            gameObject3.AddLoot(gameObject5);
-
+      
             UpdateAtInterval(50);
-
-            gameObject3.PrintTags();
-            Console.WriteLine("brrrrrrrrrrrrrrr");
         }
         private async void UpdateAtInterval(int timeout)
         {
@@ -98,37 +87,46 @@ namespace Server
         }
         private void AddGameObjsToGrid()
         {
-            foreach (IGameObject obj in gameObjects)
-            {
-                if (obj is Explosive)
-                {
-                    grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, 4);
+            List<IGameObject> CurrentGameObjects = this.gameObjects;
 
-                }
+            foreach (IGameObject obj in CurrentGameObjects)
+            {
+                //if (obj is Explosive)
+                //{
+                //    grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, 4);
+
+                //}
             }
         }
-        public void UpdateGrid()
+        private void AddPlayersAndBombsToGrid()
         {
-            grid.Clean();
-
-            //Add players to grid
-
             List<Player> CurrentPlayers = this.Players.ToList();
             foreach (Player player in CurrentPlayers)
             {
-                if (!(player.Bomb is null))
-                {
-                    gameObjects.Add(new Explosive(player.Bomb.GetCords().X,
-                        player.Bomb.GetCords().Y));
-                    RemoveBomb(player.Bomb.GetCords().X, player.Bomb.GetCords().Y);
-                }
+                //if (!(player.Bomb is null))
+                //{
+                //    gameObjects.Add(new Explosive(player.Bomb.GetCords().X,
+                //        player.Bomb.GetCords().Y));
+                //    RemoveBomb(player.Bomb.GetCords().X, player.Bomb.GetCords().Y);
+                //}
                 int playerX = player.xy.X;
                 int playerY = player.xy.Y;
                 List<int> cleanTile = new List<int>();
                 cleanTile.Add(player.User.Id);
                 grid.UpdateTile(playerX, playerY, cleanTile);
-                AddGameObjsToGrid();
             }
+        }
+        public void StartGame()
+        {
+            isStarted = true;
+            UpdateGrid();
+      
+        }
+        public void UpdateGrid()
+        {
+            grid.Clean();
+            AddPlayersAndBombsToGrid();
+            AddGameObjsToGrid();
 
             Notify();
 

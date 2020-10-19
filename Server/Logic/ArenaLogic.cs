@@ -56,6 +56,7 @@ namespace Server.Logic
                     }
                 case ArenaCommandEnum.DropBomb:
                     {
+
                         x.Author.DropBomb();
 
                         break;
@@ -63,13 +64,12 @@ namespace Server.Logic
 
             }
 
-            if (moveStrategy != null)
-                moveStrategy.Move(x.Author,arena.walls);
+            if (moveStrategy != null)  moveStrategy.Move(x.Author,arena.walls);
 
-            if (x.Cmds.Any(c => c == ArenaCommandEnum.DropBomb) && x.Author.CanDropBomb())
-            {
-                x.Author.DropBomb();
-            }
+            //if (x.Cmds.Any(c => c == ArenaCommandEnum.DropBomb) && x.Author.CanDropBomb())
+            //{
+            //    x.Author.DropBomb();
+            //}
         }
 
         public void FinalizeExecute()
