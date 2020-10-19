@@ -10,28 +10,34 @@ using System.Threading.Tasks;
 
 namespace Server.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class AppTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void CreateInstanceTest()
         {
-            //"Testing for thread safety is hard if not impossible in most cases.", - Alexei Levenkov 
-            int count = 0;
-            
             AppOptions options = new AppOptions();
-            
-            Parallel.For(1, 15, i =>
-             {
-                 for (int j = 0; i < 10; j++)
-                 {
-                     App.CreateInstance(options);
 
-                     Thread.Sleep(i);
-                 }
-             });
+            var instancesCount = 0;
 
-          
+            Parallel.For(0, 2000, i =>
+            {
+                try
+                {
+                    var inst = App.CreateInstance(options);
+                    if (inst != null)
+                    {
+                        instancesCount++;
+                    }
+                }
+                catch (MethodAccessException ex)
+                {
+
+                }
+
+            });
+
+            Assert.AreEqual(instancesCount, 1);
         }
     }
 }
