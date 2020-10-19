@@ -7,7 +7,7 @@ namespace Server.MapObject
 {
     class PickableFactoryProvider
     {
-        public static AbstractPickableFactory GetFactory(int which)
+        public static IAbstractPickableFactory GetFactory(int which)
         {
             switch (which)
             {

@@ -45,6 +45,14 @@ namespace Server
             UpdateRequired = false;
       
             UpdateAtInterval(50);
+
+            GameObject gameObject = new GameObject(new Coordinates(1, 1));
+            Destroyable destryable = new Destroyable(gameObject);
+            Lootable lootable = new Lootable(destryable);
+            Pickable pickable = new Pickable(new GameObject(new Coordinates(1, 2)));
+            lootable.AddLoot(pickable);
+            lootable.GetLoot();
+            Console.WriteLine(lootable);
         }
         private async void UpdateAtInterval(int timeout)
         {
