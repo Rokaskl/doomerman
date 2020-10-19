@@ -35,6 +35,15 @@ namespace OPP
 
         private Lobby lobby;
 
+        private bool handshakeSuccessful;
+        public bool HandshakeSuccessful { get => handshakeSuccessful;
+            set
+            {
+                handshakeSuccessful = value;
+                SendSignal(0, CommandTypeEnum.General);
+            }
+        }
+
         public Form1()
         {
 
@@ -180,6 +189,7 @@ namespace OPP
         private void button1_Click(object sender, EventArgs e)
         {
             string text = richTextBox1.Text;
+            text = "127.0.0.1:13000";
             if (Regex.IsMatch(text, @"[0-9]+(?:\.[0-9]+){3}:[0-9]+"))  //Check IP:PORT pattern
             {
                 string[] array = text.Split(':');
@@ -204,6 +214,7 @@ namespace OPP
                 //    }
                 //});
 
+                //Kitaip veiks nei virsuje esantis, nes cia jau po handshake.
 
 
 
@@ -213,17 +224,16 @@ namespace OPP
             }
         }
 
-        private void CreateLobby(LobbyData lobbyData)
+        private void CreateLobby()
         {
-            this.lobby = new Lobby();
+            this.lobby = new Lobby(this);
 
             panelMenu.Hide();
             panel1.Visible = false;
             drawingArea.Focus();
             drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/MenuBackground.png");
 
-            showPlayerLobby(1, true, true,"Igor");
-            showPlayerLobby(2, true, false, "Dooooooomer");
+            
 
             panel6.Visible = true;//Ready button panel
         }
@@ -232,15 +242,12 @@ namespace OPP
         {
             if(this.lobby == null)
             {
-                this.CreateLobby(lobbyData);
+                this.CreateLobby();
             }
-            else
-            {
-                this.lobby.UpdateLobby(lobbyData);
-            }
+            this.lobby.UpdateLobby(lobbyData);
         }
 
-        private void showPlayerLobby(int id,bool show, bool ready,string  name)
+        public void showPlayerLobby(int id,bool show, bool ready,string  name)
         {
 
             Panel playerPanel = player1Panel; // First player(id =1 ) panel 
@@ -296,7 +303,7 @@ namespace OPP
             playerPanel.Visible = show;
             playerName.Text = name;
            
-            if (ready)
+            if (!ready)
             {
                 Image notReadyImage = new Bitmap(ClientManager.Instance.ProjectPath + "\\Resources\\not_ready.png");
                 playerReadyBox.Image = notReadyImage;
@@ -322,7 +329,7 @@ namespace OPP
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            this.lobby.ToggleReady();
         }
 
         private void Form1_Load(object sender, EventArgs e)

@@ -73,7 +73,7 @@ namespace Server
         {
             //player.Update(grid);
             this.Players.Add(player);
-            player.sender.Send(1, "");//Answer to handshake
+            player.sender.Send(1, player.User.Id.ToString());//Answer to handshake
             new PlayerService(player, this.Calculator);
         }
 
