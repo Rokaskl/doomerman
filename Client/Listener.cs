@@ -54,8 +54,9 @@ namespace OPP
                         //Grid update
                         Data data = JsonConvert.DeserializeObject<Data>(msg);
                         ClientManager.Instance.SetGridFromServer(data.Grid);
+                        Invoke(this.form, () => this.form.ShowGame());
 
-                       // Console.WriteLine(data.Grid);
+                        // Console.WriteLine(data.Grid);
                         break;
                     }
                 case 1:

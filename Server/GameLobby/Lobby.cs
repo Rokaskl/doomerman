@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
@@ -16,12 +17,14 @@ namespace Server.GameLobby
         private const int _maxPlayerCount = 4;
         private List<Player> players;
         private List<GeneralCommand> readyCommands;
-        private bool isStarting;
+        public bool isStarting = true;
         private DateTime? startingAt;
         private CancellationToken? token;
         private CancellationTokenSource source;
-        public Lobby()
+        private GameArena arena;
+        public Lobby(GameArena arena)
         {
+            this.arena = arena;
             this.players = new List<Player>();
             this.readyCommands = new List<GeneralCommand>();
             this.source = new CancellationTokenSource();
@@ -52,7 +55,7 @@ namespace Server.GameLobby
             {
                 command.Author.Ready = true;
                 this.readyCommands.Add(command);
-                if(this.readyCommands.Count == _maxPlayerCount)
+                if(this.readyCommands.Count>= 2)
                 {
                     StartCountdown();
                 }
@@ -122,6 +125,7 @@ namespace Server.GameLobby
                 this.startingAt = DateTime.Now + TimeSpan.FromMilliseconds(5000);
                 Task.Delay(5000);
                 Console.WriteLine("Game started!");
+                this.arena.isStarted = true;
                 this.isStarting = false;
                 this.startingAt = null;
             }, (CancellationToken)this.token);

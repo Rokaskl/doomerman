@@ -198,32 +198,43 @@ namespace OPP
                 ConnectClient(ip, port);
                 SendSignal(0, CommandTypeEnum.General);
 
-
-                //drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
-
-                //Task.Run(() =>
-                //{
-                //    while (true)
-                //    {
-                //        if (ClientManager.Instance.IDIsSet())
-                //        {
-                //            SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
-                //            break;
-                //        }
-                //        Thread.Sleep(10);
-                //    }
-                //});
-
-                //Kitaip veiks nei virsuje esantis, nes cia jau po handshake.
-
-
-
-                //if (!gfxThread.IsAlive)
-                //    gfxThread.Start();
-
             }
         }
+        public void ShowGame()
+        {
+            // Hide all Lobby panels
+            for (int i = 1; i < 5;i ++) 
+            {
+                showPlayerLobby(i, false, false, "");
+            }
+          
+            panel6.Visible = false; // Hide Ready button panel
+            drawingArea.Focus();
 
+            drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
+
+            Task.Run(() =>
+            {
+            while (true)
+            {
+                if (ClientManager.Instance.IDIsSet())
+                {
+                    if (PB_connectedUser.InvokeRequired)
+                    {
+                        PB_connectedUser.Invoke(new MethodInvoker(delegate { SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());}));
+                    }
+                     else    
+                     {
+                        SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
+                     }            
+                        break;
+                    }
+                    Thread.Sleep(10);
+                }
+            });
+            if (!gfxThread.IsAlive)
+               gfxThread.Start();
+        }
         private void CreateLobby()
         {
             this.lobby = new Lobby(this);

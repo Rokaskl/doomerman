@@ -74,8 +74,11 @@ namespace Server.Logic
 
         public void FinalizeExecute()
         {
-            this.ProcessData();
-            arena.UpdateGrid();
+            if (this.arena.isStarted)
+            {
+                this.ProcessData();
+                arena.UpdateGrid();
+            }
         }
     }
 

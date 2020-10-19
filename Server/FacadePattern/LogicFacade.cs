@@ -32,6 +32,7 @@ namespace Server.FacadePattern
                 command.Receiver = (ArenaLogic)arenaLogic;
             }
             ((LogicBase)this.logicBase).AddCommand(command);
+           
         }
 
         public void FinalizeExecute()

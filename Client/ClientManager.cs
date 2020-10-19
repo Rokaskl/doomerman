@@ -17,6 +17,7 @@ namespace OPP
         private int currentPlayerID = -1;   // ID representing the Player (0-3)
         private int score;                  // NOT IMPLEMENTED
         private Grid grid;
+        private bool isStarted = false;
 
         ClientManager()
         {
@@ -86,7 +87,14 @@ namespace OPP
         {
             return grid;
         }
-
+        public void setIsStarted(bool value)
+        {
+            isStarted = value;
+        }
+        public bool getIsStarted()
+        {
+            return isStarted;
+        }
         public void SetGridFromServer(List<int>[,] grid)
         {
             //Instance.GetGrid().Reset();

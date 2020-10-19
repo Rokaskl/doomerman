@@ -25,6 +25,7 @@ namespace Server
         private Lobby lobby;
         private bool UpdateRequired;
         public int[,] walls;
+        public bool isStarted = false;
         public void RemoveGameObject(IGameObject gameObject)
         {
             gameObjects.Remove(gameObject);
@@ -37,7 +38,7 @@ namespace Server
         {
             this.Id = id;
             this.Players = new List<Player>();
-            this.lobby = new Lobby();
+            this.lobby = new Lobby(this);
             this.Calculator = new LogicFacade(this, lobby);
             this.grid = new Grid();
             walls = Walls.walls;
