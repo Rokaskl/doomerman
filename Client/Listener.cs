@@ -32,6 +32,7 @@ namespace OPP
                     stream.Read(bytes, 0, client.ReceiveBufferSize);
                     int num = BitConverter.ToInt32(bytes, 0);
                     string msg = Encoding.ASCII.GetString(bytes, 3, bytes.Length - 4);
+                    Console.WriteLine(num);
                     Resolve(num, msg);
                 }
                 // Before closing client

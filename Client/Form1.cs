@@ -189,7 +189,7 @@ namespace OPP
         private void button1_Click(object sender, EventArgs e)
         {
             string text = richTextBox1.Text;
-            text = "127.0.0.1:13000";
+            //text = "127.0.0.1:13000";
             if (Regex.IsMatch(text, @"[0-9]+(?:\.[0-9]+){3}:[0-9]+"))  //Check IP:PORT pattern
             {
                 string[] array = text.Split(':');
@@ -366,7 +366,6 @@ namespace OPP
                 {
                     if (client.GetStream().CanWrite)
                     {
-                        Console.WriteLine(actionNum.ToString());
                         client.GetStream().Write(buffer, 0, buffer.Length);
                         break;
                     }
