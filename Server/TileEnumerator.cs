@@ -8,6 +8,7 @@ namespace Server
     {
         public enum TileTypeEnum
         {
+            Empty,
             Player1,
             Player2,
             Player3,
@@ -29,7 +30,7 @@ namespace Server
             PUIncreaseBombExplosionTime,
             PUAutoPlacer,
             PUTemporarySwim,
-            Empty
+            Water
         }
     }
 }
