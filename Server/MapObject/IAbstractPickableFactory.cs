@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server.MapObject
 {
-    interface AbstractPickableFactory
+    interface IAbstractPickableFactory
     {
         Pickable Build(int which, Coordinates xy);
     }

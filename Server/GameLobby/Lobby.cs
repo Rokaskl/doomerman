@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Server.GameLobby
@@ -15,15 +17,22 @@ namespace Server.GameLobby
         private const int _maxPlayerCount = 4;
         private List<Player> players;
         private List<GeneralCommand> readyCommands;
-        public Lobby()
+        public bool isStarting = true;
+        private DateTime? startingAt;
+        private CancellationToken? token;
+        private CancellationTokenSource source;
+        private GameArena arena;
+        public Lobby(GameArena arena)
         {
+            this.arena = arena;
             this.players = new List<Player>();
             this.readyCommands = new List<GeneralCommand>();
+            this.source = new CancellationTokenSource();
         }
 
         public bool AddPlayer(Player player)
         {
-            if(this.players.Count < _maxPlayerCount)
+            if(this.players.Count < _maxPlayerCount && !this.players.Contains(player))
             {
                 this.players.Add(player);
                 player.PlayerLobby = this;
@@ -46,7 +55,7 @@ namespace Server.GameLobby
             {
                 command.Author.Ready = true;
                 this.readyCommands.Add(command);
-                if(this.readyCommands.Count == _maxPlayerCount)
+                if(this.readyCommands.Count>= 2)
                 {
                     StartCountdown();
                 }
@@ -64,6 +73,10 @@ namespace Server.GameLobby
             {
                 this.readyCommands.RemoveAll(x => x.Author == player);
                 player.Ready = false;
+                if (this.isStarting)
+                {
+                    CancelCountdown();
+                }
             }
         }
 
@@ -74,7 +87,14 @@ namespace Server.GameLobby
 
         private string FormData()
         {
-            var data = this.players.Select(x => new KeyValuePair<int, bool>(x.User.Id, this.readyCommands.Any(y => y.Author == x)));
+            //var data = this.players.Select(x => new KeyValuePair<int, bool>(x.User.Id, this.readyCommands.Any(y => y.Author == x)));
+            var data = new LobbyData();
+            this.players.ForEach(x =>
+            {
+                data.playerData.Add(x.User.Id.ToString(), this.readyCommands.Any(y => y.Author == x));
+            });
+            data.Starting = this.isStarting;
+            data.GameStartsAt = this.startingAt;
             return JsonConvert.SerializeObject(data);
         }
 
@@ -86,16 +106,29 @@ namespace Server.GameLobby
             Console.WriteLine(formedData);
             //
 
-            this.players.ForEach(x => x.sender.Send(1, formedData));
+            this.players.ForEach(x => x.sender.Send(2, formedData));
+        }
+
+        private void CancelCountdown()
+        {
+            this.source.Cancel();
+           // SendInfo();//Todo remove from here
         }
 
         private void StartCountdown()
         {
+            this.token = source.Token;
+            
             Task.Run(() =>
             {
+                this.isStarting = true;
+                this.startingAt = DateTime.Now + TimeSpan.FromMilliseconds(5000);
                 Task.Delay(5000);
                 Console.WriteLine("Game started!");
-            });
+                this.arena.StartGame();
+                this.isStarting = false;
+                this.startingAt = null;
+            }, (CancellationToken)this.token);
         }
     }
 }

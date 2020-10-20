@@ -62,7 +62,7 @@ namespace Server
                 }
                 else
                 {
-                    throw new Exception("instance cannot be created twice");
+                    throw new MethodAccessException("Instance cannot be created twice");
                 }
             }
            

@@ -62,16 +62,28 @@ namespace Server.Logic
 
             }
 
+<<<<<<< HEAD
             if (x.Cmds.Any(c => c == ArenaCommandEnum.DropBomb) && x.Author.CanDropBomb())
             {
                 x.Author.DropBomb();
             }
+=======
+            if (moveStrategy != null)  moveStrategy.Move(x.Author,arena.walls);
+
+            //if (x.Cmds.Any(c => c == ArenaCommandEnum.DropBomb) && x.Author.CanDropBomb())
+            //{
+            //    x.Author.DropBomb();
+            //}
+>>>>>>> LobbyBranch
         }
 
         public void FinalizeExecute()
         {
-            this.ProcessData();
-            arena.UpdateGrid();
+            if (this.arena.isStarted)
+            {
+                this.ProcessData();
+                arena.UpdateGrid();
+            }
         }
     }
 

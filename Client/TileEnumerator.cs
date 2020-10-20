@@ -32,6 +32,10 @@ namespace OPP
             PUAutoPlacer,
             PUTemporarySwim,
             Water
+=======
+            Empty,
+            DestroyableWall
+>>>>>>> LobbyBranch
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Server
         public bool Droped;
         public Explosive(): base(new GameObject(new Coordinates(0, 0)))
         {
-            Radius = 1;
+            Radius = 3;
             Time = 5;
             Droped = true;
         }

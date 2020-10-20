@@ -51,7 +51,11 @@ namespace Server.Logic
 
         public void FinalizeExecute()
         {
-            this.lobby.SendInfo();
+            if (this.lobby.isStarting)
+            {
+                this.lobby.SendInfo();
+            }
+
         }
     }
 }

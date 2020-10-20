@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Server.GameLobby;
 using Server.MapObject;
+using Newtonsoft.Json;
 
 namespace Server
 {
@@ -25,6 +26,7 @@ namespace Server
         private Lobby lobby;
         private bool UpdateRequired;
         public int[,] walls;
+        public bool isStarted = false;
         public void RemoveGameObject(IGameObject gameObject)
         {
             gameObjects.Remove(gameObject);
@@ -37,35 +39,32 @@ namespace Server
         {
             this.Id = id;
             this.Players = new List<Player>();
-            this.lobby = new Lobby();
+            this.lobby = new Lobby(this);
             this.Calculator = new LogicFacade(this, lobby);
             this.grid = new Grid();
             walls = Walls.walls;
             UpdateRequired = false;
-            var gameObject = new GameObject(new Coordinates(1, 2));
-            var gameObject2 = new Lootable(gameObject);
-            var gameObject3 = new Destroyable(gameObject2);
-
-            var gameObject4 = new GameObject(new Coordinates(1, 2));
-            var gameObject5 = new Pickable(gameObject4);
-
-            gameObject3.AddLoot(gameObject5);
 
             UpdateAtInterval(50);
 
-            gameObject3.PrintTags();
-            Console.WriteLine("brrrrrrrrrrrrrrr");
+            GameObject gameObject = new GameObject(new Coordinates(1, 1));
+            Destroyable destryable = new Destroyable(gameObject);
+            Lootable lootable = new Lootable(destryable);
+            Pickable pickable = new Pickable(new GameObject(new Coordinates(1, 2)));
+            lootable.AddLoot(pickable);
+            lootable.GetLoot();
+            Console.WriteLine(lootable);
         }
         private async void UpdateAtInterval(int timeout)
         {
             await Task.Factory.StartNew(() =>
             {
-                while(true)
+                while (true)
                 {
-                    if(UpdateRequired)
-                    UpdateGrid();
+                    if (UpdateRequired)
+                        UpdateGrid();
 
-                    Thread.Sleep(timeout);   
+                    Thread.Sleep(timeout);
                 }
             });
         }
@@ -73,7 +72,7 @@ namespace Server
         {
             //player.Update(grid);
             this.Players.Add(player);
-            player.sender.Send(1, "");//Answer to handshake
+            player.sender.Send(1, player.User.Id.ToString());//Answer to handshake
             new PlayerService(player, this.Calculator);
         }
 
@@ -85,13 +84,17 @@ namespace Server
             }
 
         }
-        private async void RemoveBomb(int x, int y)
+        private async void RemoveBomb(Explosive bomb)
         {
             await Task.Factory.StartNew(() =>
             {
-                Thread.Sleep(3000); // kas 3 sekundes
+                int x = bomb.GetCords().X;
+                int y = bomb.GetCords().Y;
+                Thread.Sleep(bomb.Time * 1000); // kas 3 sekundes
                 grid.RemoveFromTile(x, y, 4); // 4 - bomba
                 gameObjects.RemoveAt(0); // seniausia bomba
+                ExecuteExplosion(x, y, bomb.Radius); //sprogimas
+                Console.WriteLine(string.Format("remove bomb x:{0}y:{1}", x, y));
                 UpdateRequired = true;
             });
         }
@@ -106,31 +109,136 @@ namespace Server
                 }
             }
         }
-        public void UpdateGrid()
+        private void AddPlayersAndBombsToGrid()
         {
-            grid.Clean();
-
-            //Add players to grid
-
             List<Player> CurrentPlayers = this.Players.ToList();
             foreach (Player player in CurrentPlayers)
             {
-                if (!(player.Bomb is null))
+                if (!player.Bomb.Droped)
                 {
-                    gameObjects.Add(new Explosive(player.Bomb.GetCords().X,
-                        player.Bomb.GetCords().Y));
-                    RemoveBomb(player.Bomb.GetCords().X, player.Bomb.GetCords().Y);
+                    player.Bomb.Droped = true;
+                    if (IsBombValid(player.Bomb))
+                    {
+                        Console.WriteLine(string.Format("addBombsToGrid x:{0}y:{1}", player.Bomb.GetCords().X, player.Bomb.GetCords().Y));
+                        gameObjects.Add(new Explosive(player.Bomb.GetCords().X, player.Bomb.GetCords().Y));
+                        RemoveBomb(player.Bomb);
+                    }
                 }
                 int playerX = player.xy.X;
                 int playerY = player.xy.Y;
                 List<int> cleanTile = new List<int>();
                 cleanTile.Add(player.User.Id);
                 grid.UpdateTile(playerX, playerY, cleanTile);
-                AddGameObjsToGrid();
             }
+        }
+        public void StartGame()
+        {
+            isStarted = true;
+            UpdateGrid();
+
+        }
+        public void UpdateGrid()
+        {
+            grid.Clean();
+            AddWallsToGrid();
+            AddPlayersAndBombsToGrid();
+            AddGameObjsToGrid();
 
             Notify();
+            UpdateRequired = false;
 
+        }
+        private void AddWallsToGrid()
+        {
+            for (int i = 0; i < 13; i++)
+            {
+                for (int j = 0; j < 13; j++)
+                {
+                    switch (walls[i, j])
+                    {
+                        case 5:
+                            grid.AddToTile(i, j, 5);
+                            break;
+                        case 14:
+                            grid.AddToTile(i, j, 14);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        private bool IsBombValid(Explosive bomb)
+        {
+            int x = bomb.GetCords().X;
+            int y = bomb.GetCords().Y;
+            if (grid.GetTile(x, y).Contains(4))
+            {
+                return false;
+            }
+            return true;
+        }
+        private void ExecuteExplosion(int x, int y, int radius)
+        {
+
+            for (int i = 1; i <= radius; i++)
+            {
+                if ((x - i) >= 0)
+                {
+                    if (walls[x - i, y] == 5)
+                        break;
+                    if (walls[x - i, y] == 14)
+                    {  
+                        walls[x - i, y] = 0;
+                        break;
+                    }
+                }
+            }
+            for (int i = 1; i <= radius; i++)
+            {
+
+                if ((x + i) <= 12)
+                {
+                    if (walls[x + i, y] == 5)
+                        break;
+                    if (walls[x + i, y] == 14)
+                    {
+                        walls[x + i, y] = 0;
+                        break;
+                    }
+                    
+                }
+            }
+            for (int i = 1; i <= radius; i++)
+            {
+
+                if ((y - i) >= 0)
+                {
+                    if (walls[x, y - i] == 5)
+                        break;
+                    if (walls[x, y - i] == 14)
+                    {
+                        walls[x, y - i] = 0;
+                        break;
+                    }
+              
+                }
+            }
+            for (int i = 1; i <= radius; i++)
+            {
+
+                if ((y + i) <= 12)
+                {
+                    if (walls[x, y + i] == 5)
+                        break;
+                    if (walls[x, y + i] == 14)
+                    {
+                        walls[x, y + i] = 0;
+                        break;
+                    }
+
+                }
+            }
         }
     }
 }

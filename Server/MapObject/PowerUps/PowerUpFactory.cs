@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server.MapObject.PowerUps
 {
-    class PowerUpFactory : AbstractPickableFactory
+    class PowerUpFactory : IAbstractPickableFactory
     {
         public Pickable Build(int which, Coordinates xy)
         {
