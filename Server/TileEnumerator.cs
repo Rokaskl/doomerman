@@ -22,6 +22,7 @@ namespace Server
             PUDecreaseBombCount,
             PUTemporaryShield,
             PUTemporaryJump,
+            DestroyableWall,
             PUExtraLife,
             PUIncreaseSpeed,
             PUDecreaseSpeed,
@@ -30,7 +31,6 @@ namespace Server
             PUIncreaseBombExplosionTime,
             PUAutoPlacer,
             PUTemporarySwim,
-            Water
         }
     }
 }

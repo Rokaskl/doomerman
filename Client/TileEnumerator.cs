@@ -23,6 +23,7 @@ namespace OPP
             PUDecreaseBombCount,
             PUTemporaryShield,
             PUTemporaryJump,
+            DestroyableWall,
             PUExtraLife,
             PUIncreaseSpeed,
             PUDecreaseSpeed,
@@ -30,12 +31,7 @@ namespace OPP
             PUDecreaseBombExplosionTime,
             PUIncreaseBombExplosionTime,
             PUAutoPlacer,
-            PUTemporarySwim,
-            Water
-=======
-            Empty,
-            DestroyableWall
->>>>>>> LobbyBranch
+            PUTemporarySwim,          
         }
     }
 }

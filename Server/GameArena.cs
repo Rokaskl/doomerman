@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Server.GameLobby;
 using Server.MapObject;
 using Newtonsoft.Json;
+using static Server.TileEnumerator;
 
 namespace Server
 {
@@ -91,7 +92,7 @@ namespace Server
                 int x = bomb.GetCords().X;
                 int y = bomb.GetCords().Y;
                 Thread.Sleep(bomb.Time * 1000); // kas 3 sekundes
-                grid.RemoveFromTile(x, y, 4); // 4 - bomba
+                grid.RemoveFromTile(x, y, (int)TileTypeEnum.Bomb); // 4 - bomba
                 gameObjects.RemoveAt(0); // seniausia bomba
                 ExecuteExplosion(x, y, bomb.Radius); //sprogimas
                 Console.WriteLine(string.Format("remove bomb x:{0}y:{1}", x, y));
@@ -104,7 +105,7 @@ namespace Server
             {
                 if (obj is Explosive)
                 {
-                    grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, 4);
+                    grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.Bomb);
 
                 }
             }
@@ -156,11 +157,11 @@ namespace Server
                 {
                     switch (walls[i, j])
                     {
-                        case 5:
-                            grid.AddToTile(i, j, 5);
+                        case (int)TileTypeEnum.Wall:
+                            grid.AddToTile(i, j, (int)TileTypeEnum.Wall);
                             break;
-                        case 14:
-                            grid.AddToTile(i, j, 14);
+                        case (int)TileTypeEnum.DestroyableWall:
+                            grid.AddToTile(i, j, (int)TileTypeEnum.DestroyableWall);
                             break;
                         default:
                             break;
@@ -172,7 +173,7 @@ namespace Server
         {
             int x = bomb.GetCords().X;
             int y = bomb.GetCords().Y;
-            if (grid.GetTile(x, y).Contains(4))
+            if (grid.GetTile(x, y).Contains((int)TileTypeEnum.Bomb))
             {
                 return false;
             }
@@ -185,9 +186,9 @@ namespace Server
             {
                 if ((x - i) >= 0)
                 {
-                    if (walls[x - i, y] == 5)
+                    if (walls[x - i, y] == (int)TileTypeEnum.Wall)
                         break;
-                    if (walls[x - i, y] == 14)
+                    if (walls[x - i, y] == (int)TileTypeEnum.DestroyableWall)
                     {  
                         walls[x - i, y] = 0;
                         break;
@@ -199,9 +200,9 @@ namespace Server
 
                 if ((x + i) <= 12)
                 {
-                    if (walls[x + i, y] == 5)
+                    if (walls[x + i, y] == (int)TileTypeEnum.Wall)
                         break;
-                    if (walls[x + i, y] == 14)
+                    if (walls[x + i, y] == (int)TileTypeEnum.DestroyableWall)
                     {
                         walls[x + i, y] = 0;
                         break;
@@ -214,9 +215,9 @@ namespace Server
 
                 if ((y - i) >= 0)
                 {
-                    if (walls[x, y - i] == 5)
+                    if (walls[x, y - i] == (int)TileTypeEnum.Wall)
                         break;
-                    if (walls[x, y - i] == 14)
+                    if (walls[x, y - i] == (int)TileTypeEnum.DestroyableWall)
                     {
                         walls[x, y - i] = 0;
                         break;
@@ -229,9 +230,9 @@ namespace Server
 
                 if ((y + i) <= 12)
                 {
-                    if (walls[x, y + i] == 5)
+                    if (walls[x, y + i] == (int)TileTypeEnum.Wall)
                         break;
-                    if (walls[x, y + i] == 14)
+                    if (walls[x, y + i] == (int)TileTypeEnum.DestroyableWall)
                     {
                         walls[x, y + i] = 0;
                         break;
