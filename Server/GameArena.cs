@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Server.GameLobby;
 using Server.MapObject;
+using Newtonsoft.Json;
 
 namespace Server
 {
@@ -43,7 +44,7 @@ namespace Server
             this.grid = new Grid();
             walls = Walls.walls;
             UpdateRequired = false;
-      
+
             UpdateAtInterval(50);
 
             GameObject gameObject = new GameObject(new Coordinates(1, 1));
@@ -58,12 +59,12 @@ namespace Server
         {
             await Task.Factory.StartNew(() =>
             {
-                while(true)
+                while (true)
                 {
-                    if(UpdateRequired)
-                    UpdateGrid();
+                    if (UpdateRequired)
+                        UpdateGrid();
 
-                    Thread.Sleep(timeout);   
+                    Thread.Sleep(timeout);
                 }
             });
         }
@@ -83,27 +84,29 @@ namespace Server
             }
 
         }
-        private async void RemoveBomb(int x, int y)
+        private async void RemoveBomb(Explosive bomb)
         {
             await Task.Factory.StartNew(() =>
             {
-                Thread.Sleep(3000); // kas 3 sekundes
+                int x = bomb.GetCords().X;
+                int y = bomb.GetCords().Y;
+                Thread.Sleep(bomb.Time * 1000); // kas 3 sekundes
                 grid.RemoveFromTile(x, y, 4); // 4 - bomba
                 gameObjects.RemoveAt(0); // seniausia bomba
+                ExecuteExplosion(x, y, bomb.Radius); //sprogimas
+                Console.WriteLine(string.Format("remove bomb x:{0}y:{1}", x, y));
                 UpdateRequired = true;
             });
         }
         private void AddGameObjsToGrid()
         {
-            List<IGameObject> CurrentGameObjects = this.gameObjects;
-
-            foreach (IGameObject obj in CurrentGameObjects)
+            foreach (IGameObject obj in gameObjects)
             {
-                //if (obj is Explosive)
-                //{
-                //    grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, 4);
+                if (obj is Explosive)
+                {
+                    grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, 4);
 
-                //}
+                }
             }
         }
         private void AddPlayersAndBombsToGrid()
@@ -111,12 +114,16 @@ namespace Server
             List<Player> CurrentPlayers = this.Players.ToList();
             foreach (Player player in CurrentPlayers)
             {
-                //if (!(player.Bomb is null))
-                //{
-                //    gameObjects.Add(new Explosive(player.Bomb.GetCords().X,
-                //        player.Bomb.GetCords().Y));
-                //    RemoveBomb(player.Bomb.GetCords().X, player.Bomb.GetCords().Y);
-                //}
+                if (!player.Bomb.Droped)
+                {
+                    player.Bomb.Droped = true;
+                    if (IsBombValid(player.Bomb))
+                    {
+                        Console.WriteLine(string.Format("addBombsToGrid x:{0}y:{1}", player.Bomb.GetCords().X, player.Bomb.GetCords().Y));
+                        gameObjects.Add(new Explosive(player.Bomb.GetCords().X, player.Bomb.GetCords().Y));
+                        RemoveBomb(player.Bomb);
+                    }
+                }
                 int playerX = player.xy.X;
                 int playerY = player.xy.Y;
                 List<int> cleanTile = new List<int>();
@@ -128,16 +135,110 @@ namespace Server
         {
             isStarted = true;
             UpdateGrid();
-      
+
         }
         public void UpdateGrid()
         {
             grid.Clean();
+            AddWallsToGrid();
             AddPlayersAndBombsToGrid();
             AddGameObjsToGrid();
 
             Notify();
+            UpdateRequired = false;
 
+        }
+        private void AddWallsToGrid()
+        {
+            for (int i = 0; i < 13; i++)
+            {
+                for (int j = 0; j < 13; j++)
+                {
+                    switch (walls[i, j])
+                    {
+                        case 5:
+                            grid.AddToTile(i, j, 5);
+                            break;
+                        case 14:
+                            grid.AddToTile(i, j, 14);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        private bool IsBombValid(Explosive bomb)
+        {
+            int x = bomb.GetCords().X;
+            int y = bomb.GetCords().Y;
+            if (grid.GetTile(x, y).Contains(4))
+            {
+                return false;
+            }
+            return true;
+        }
+        private void ExecuteExplosion(int x, int y, int radius)
+        {
+
+            for (int i = 1; i <= radius; i++)
+            {
+                if ((x - i) >= 0)
+                {
+                    if (walls[x - i, y] == 5)
+                        break;
+                    if (walls[x - i, y] == 14)
+                    {  
+                        walls[x - i, y] = 0;
+                        break;
+                    }
+                }
+            }
+            for (int i = 1; i <= radius; i++)
+            {
+
+                if ((x + i) <= 12)
+                {
+                    if (walls[x + i, y] == 5)
+                        break;
+                    if (walls[x + i, y] == 14)
+                    {
+                        walls[x + i, y] = 0;
+                        break;
+                    }
+                    
+                }
+            }
+            for (int i = 1; i <= radius; i++)
+            {
+
+                if ((y - i) >= 0)
+                {
+                    if (walls[x, y - i] == 5)
+                        break;
+                    if (walls[x, y - i] == 14)
+                    {
+                        walls[x, y - i] = 0;
+                        break;
+                    }
+              
+                }
+            }
+            for (int i = 1; i <= radius; i++)
+            {
+
+                if ((y + i) <= 12)
+                {
+                    if (walls[x, y + i] == 5)
+                        break;
+                    if (walls[x, y + i] == 14)
+                    {
+                        walls[x, y + i] = 0;
+                        break;
+                    }
+
+                }
+            }
         }
     }
 }

@@ -71,6 +71,10 @@ namespace OPP
                     tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\wall.png"));
                     break;
 
+                case TileTypeEnum.DestroyableWall:
+                    tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\destroyable_wall.png"));
+                    break;
+
                 case TileTypeEnum.Empty:
                 default:
                     tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\empty.png"));

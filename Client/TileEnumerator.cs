@@ -22,7 +22,8 @@ namespace OPP
             PUDecreaseBombCount,
             PUTemporaryShield,
             PUTemporaryJump,
-            Empty
+            Empty,
+            DestroyableWall
         }
     }
 }
