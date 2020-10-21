@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace Server
 {
-    public class GameArena
+    public class GameArena : IGameArenaObserver
     {
         public int Id;
         public List<Player> Players;
@@ -143,7 +143,6 @@ namespace Server
             AddWallsToGrid();
             AddPlayersAndBombsToGrid();
             AddGameObjsToGrid();
-
             Notify();
             UpdateRequired = false;
 
