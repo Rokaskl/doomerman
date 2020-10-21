@@ -3,9 +3,10 @@ using System;
 using System.Threading;
 class Program
 {
-    
+    public static Random random;
     static void Main(string[] args)
     {
+        random = new Random(Environment.TickCount);
         //---Set Server Options---------
         AppOptions options = new AppOptions();
         options.ArenaId =0;

@@ -7,5 +7,6 @@ namespace Server.MapObject
     interface IAbstractPickableFactory
     {
         Pickable Build(int which, Coordinates xy);
+        Pickable GetRandom(Coordinates xy);
     }
 }

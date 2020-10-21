@@ -14,6 +14,9 @@ using Server.GameLobby;
 using Server.MapObject;
 using Newtonsoft.Json;
 using static Server.TileEnumerator;
+using Server.MapObject.PowerUps;
+using Server.constants;
+using Server.MapObject.PowerDowns;
 
 namespace Server
 {
@@ -21,16 +24,18 @@ namespace Server
     {
         public int Id;
         public List<Player> Players;
-        private Grid grid;
+        public Grid grid; 
         private LogicFacade Calculator;
         public List<IGameObject> gameObjects = new List<IGameObject>();
         private Lobby lobby;
-        private bool UpdateRequired;
+        public bool UpdateRequired;
         public int[,] walls;
         public bool isStarted = false;
-        public void RemoveGameObject(IGameObject gameObject)
+        public void RemoveGameObject(IGameObject gameObject, int x, int y)
         {
-            gameObjects.Remove(gameObject);
+            gameObjects.RemoveAll(z => z is null); // kartais atsiranda null, atrodo niekur neprilyginu jokio gameobject i null
+            //cj labai expensive dalykas, kiekvienam updatui. padekit sugalvot geresni
+            gameObjects.RemoveAll(z => z.GetType() == gameObject.GetType() && z.GetCords().X == x && z.GetCords().Y == y);
         }
         public void AddGameObject(IGameObject gameObject)
         {
@@ -38,15 +43,16 @@ namespace Server
         }
         public GameArena(int id)
         {
+
+            
             this.Id = id;
             this.Players = new List<Player>();
             this.lobby = new Lobby(this);
             this.Calculator = new LogicFacade(this, lobby);
             this.grid = new Grid();
             walls = Walls.walls;
-            UpdateRequired = false;
 
-            UpdateAtInterval(50);
+            UpdateAtInterval(Constants.UpdateInterval);
 
             GameObject gameObject = new GameObject(new Coordinates(1, 1));
             Destroyable destryable = new Destroyable(gameObject);
@@ -54,20 +60,8 @@ namespace Server
             Pickable pickable = new Pickable(new GameObject(new Coordinates(1, 2)));
             lootable.AddLoot(pickable);
             lootable.GetLoot();
-            Console.WriteLine(lootable);
-        }
-        private async void UpdateAtInterval(int timeout)
-        {
-            await Task.Factory.StartNew(() =>
-            {
-                while (true)
-                {
-                    if (UpdateRequired)
-                        UpdateGrid();
 
-                    Thread.Sleep(timeout);
-                }
-            });
+            Console.WriteLine(lootable);
         }
         public void AddPlayer(Player player)
         {
@@ -83,30 +77,114 @@ namespace Server
             {
                 player.Update(this.grid);
             }
+        }
+        public void StartGame()
+        {
+            isStarted = true;
+            UpdateRequired = true;
 
         }
-        private async void RemoveBomb(Explosive bomb)
+        public void UpdateGrid()
+        {
+            CheckForPowers();
+            grid.Clean();
+            AddWallsToGrid();
+            AddPlayersAndBombsToGrid();
+            AddGameObjsToGrid();
+
+            Notify();
+            UpdateRequired = false;
+
+        }
+        private void CheckForPowers()
+        {
+            foreach (Player player in Players)
+            {
+                grid.GetGrid()[player.xy.X, player.xy.Y].ForEach(x =>
+                {
+                    switch (x)
+                    {
+                        case (int)TileTypeEnum.PUIncreaseBombRange:
+                            {
+                                player.Bomb.IncRadius();
+                                RemoveGameObject(new BombFireIncrease(), player.xy.X, player.xy.Y);
+                                break;
+                            }
+                        case (int)TileTypeEnum.PUDecreaseBombRange:
+                            {
+                                player.Bomb.DecRadius();
+                                RemoveGameObject(new BombFireDecrease(), player.xy.X, player.xy.Y);
+                                break;
+                            }
+                        case (int)TileTypeEnum.PUIncreaseBombLimit:
+                            {
+                                player.IncBombLimit();
+                                RemoveGameObject(new BombLimitIncrease(), player.xy.X, player.xy.Y);
+                                break;
+                            }
+                        case (int)TileTypeEnum.PUDecreaseBombLimit:
+                            {
+                                player.DecBombLimit();
+                                RemoveGameObject(new BombLimitDecrease(), player.xy.X, player.xy.Y);
+                                break;
+                            }
+                    }
+                });
+
+            }
+        }
+        private async void UpdateAtInterval(int timeout)
         {
             await Task.Factory.StartNew(() =>
             {
+                while (true)
+                {
+                    if (UpdateRequired)
+                        UpdateGrid();
+
+                    Thread.Sleep(timeout);
+                }
+            });
+        }
+        private async void RemoveBomb(Explosive bomb, Player player)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                var fc = new PowerUpFactory();
                 int x = bomb.GetCords().X;
                 int y = bomb.GetCords().Y;
-                Thread.Sleep(bomb.Time * 1000); // kas 3 sekundes
-                grid.RemoveFromTile(x, y, (int)TileTypeEnum.Bomb); // 4 - bomba
-                gameObjects.RemoveAt(0); // seniausia bomba
-                ExecuteExplosion(x, y, bomb.Radius); //sprogimas
-                Console.WriteLine(string.Format("remove bomb x:{0}y:{1}", x, y));
+                Thread.Sleep(bomb.Time);
+                grid.RemoveFromTile(x, y, (int)TileTypeEnum.Bomb);
+                RemoveGameObject(bomb, x, y);
+                ExecuteExplosion(x, y, bomb.Radius);           
                 UpdateRequired = true;
+                player.BombCount--;
+
             });
         }
         private void AddGameObjsToGrid()
         {
             foreach (IGameObject obj in gameObjects)
             {
-                if (obj is Explosive)
+                switch (obj)
                 {
-                    grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.Bomb);
-
+                    case Explosive bomb:
+                        grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.Bomb);
+                        break;
+                    case BombLimitIncrease bli:
+                        grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.PUIncreaseBombLimit);
+                        break;
+                    case BombLimitDecrease bld:
+                        grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.PUDecreaseBombLimit);
+                        break;
+                    case BombFireIncrease bfi:
+                        grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.PUIncreaseBombRange);
+                        break;
+                    case BombFireDecrease bfd:
+                        grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.PUDecreaseBombRange);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -118,11 +196,12 @@ namespace Server
                 if (!player.Bomb.Droped)
                 {
                     player.Bomb.Droped = true;
-                    if (IsBombValid(player.Bomb))
+                    if (IsBombValid(player) && player.BombLimit > player.BombCount)
                     {
                         Console.WriteLine(string.Format("addBombsToGrid x:{0}y:{1}", player.Bomb.GetCords().X, player.Bomb.GetCords().Y));
-                        gameObjects.Add(new Explosive(player.Bomb.GetCords().X, player.Bomb.GetCords().Y));
-                        RemoveBomb(player.Bomb);
+                        AddGameObject(new Explosive(player.Bomb.GetCords().X, player.Bomb.GetCords().Y));
+                        player.BombCount++;
+                        RemoveBomb(player.Bomb, player);
                     }
                 }
                 int playerX = player.xy.X;
@@ -131,23 +210,6 @@ namespace Server
                 cleanTile.Add(player.User.Id);
                 grid.UpdateTile(playerX, playerY, cleanTile);
             }
-        }
-        public void StartGame()
-        {
-            isStarted = true;
-            UpdateGrid();
-
-        }
-        public void UpdateGrid()
-        {
-            grid.Clean();
-            AddWallsToGrid();
-            AddPlayersAndBombsToGrid();
-            AddGameObjsToGrid();
-
-            Notify();
-            UpdateRequired = false;
-
         }
         private void AddWallsToGrid()
         {
@@ -169,10 +231,10 @@ namespace Server
                 }
             }
         }
-        private bool IsBombValid(Explosive bomb)
+        private bool IsBombValid(Player player)
         {
-            int x = bomb.GetCords().X;
-            int y = bomb.GetCords().Y;
+            int x = player.Bomb.GetCords().X;
+            int y = player.Bomb.GetCords().Y;
             if (grid.GetTile(x, y).Contains((int)TileTypeEnum.Bomb))
             {
                 return false;
@@ -181,7 +243,7 @@ namespace Server
         }
         private void ExecuteExplosion(int x, int y, int radius)
         {
-
+            var fc = new PickableFactoryProvider();
             for (int i = 1; i <= radius; i++)
             {
                 if ((x - i) >= 0)
@@ -189,8 +251,11 @@ namespace Server
                     if (walls[x - i, y] == (int)TileTypeEnum.Wall)
                         break;
                     if (walls[x - i, y] == (int)TileTypeEnum.DestroyableWall)
-                    {  
+                    {
                         walls[x - i, y] = 0;
+                        var temp = fc.GetRandom(new Coordinates(x - i, y));
+                        if(!(temp is null))
+                        AddGameObject(temp);
                         break;
                     }
                 }
@@ -205,9 +270,11 @@ namespace Server
                     if (walls[x + i, y] == (int)TileTypeEnum.DestroyableWall)
                     {
                         walls[x + i, y] = 0;
+                        var temp = fc.GetRandom(new Coordinates(x + i, y));
+                        if (!(temp is null))
+                            AddGameObject(temp);
                         break;
                     }
-                    
                 }
             }
             for (int i = 1; i <= radius; i++)
@@ -220,9 +287,11 @@ namespace Server
                     if (walls[x, y - i] == (int)TileTypeEnum.DestroyableWall)
                     {
                         walls[x, y - i] = 0;
+                        var temp = fc.GetRandom(new Coordinates(x, y - i));
+                        if (!(temp is null))
+                            AddGameObject(temp);
                         break;
                     }
-              
                 }
             }
             for (int i = 1; i <= radius; i++)
@@ -235,9 +304,11 @@ namespace Server
                     if (walls[x, y + i] == (int)TileTypeEnum.DestroyableWall)
                     {
                         walls[x, y + i] = 0;
+                        var temp = fc.GetRandom(new Coordinates(x, y + i));
+                        if (!(temp is null))
+                            AddGameObject(temp);
                         break;
                     }
-
                 }
             }
         }
