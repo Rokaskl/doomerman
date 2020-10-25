@@ -151,12 +151,11 @@ namespace Server
             await Task.Factory.StartNew(() =>
             {
                 var fc = new PowerUpFactory();
-                int x = bomb.GetCords().X;
-                int y = bomb.GetCords().Y;
+                Coordinates xy = player.xy.Clone() as Coordinates;
                 Thread.Sleep(bomb.Time);
-                grid.RemoveFromTile(x, y, (int)TileTypeEnum.Bomb);
-                RemoveGameObject(bomb, x, y);
-                ExecuteExplosion(x, y, bomb.Radius);           
+                grid.RemoveFromTile(xy.X, xy.Y, (int)TileTypeEnum.Bomb);
+                RemoveGameObject(bomb, xy.X, xy.Y);
+                ExecuteExplosion(xy.X, xy.Y, bomb.Radius);           
                 UpdateRequired = true;
                 player.BombCount--;
 
@@ -233,9 +232,8 @@ namespace Server
         }
         private bool IsBombValid(Player player)
         {
-            int x = player.Bomb.GetCords().X;
-            int y = player.Bomb.GetCords().Y;
-            if (grid.GetTile(x, y).Contains((int)TileTypeEnum.Bomb))
+            Coordinates xy = player.Bomb.GetCords().Clone() as Coordinates;;
+            if (grid.GetTile(xy.X, xy.Y).Contains((int)TileTypeEnum.Bomb))
             {
                 return false;
             }

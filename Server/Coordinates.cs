@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Server.Prototype;
 
 namespace Server
 {
-    public class Coordinates
+    public class Coordinates : CordPrototype
     {
         public int X;
         public int Y;
@@ -15,6 +16,10 @@ namespace Server
             this.Y = y;
         }
 
+        public override CordPrototype Clone()
+        {
+            return this.MemberwiseClone() as CordPrototype;
+        }
         public override string ToString()
         {
             return "|x: " + this.X.ToString() + " | y: " + this.Y.ToString() + " | ";
