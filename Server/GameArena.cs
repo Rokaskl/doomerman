@@ -20,7 +20,7 @@ using Server.MapObject.PowerDowns;
 
 namespace Server
 {
-    public class GameArena
+    public class GameArena : IGameArenaObserver
     {
         public int Id;
         public List<Player> Players;
