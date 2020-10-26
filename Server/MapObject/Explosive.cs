@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Server.constants;
 
 namespace Server
 {
@@ -11,12 +12,26 @@ namespace Server
         public bool Droped;
         public Explosive(): base(new GameObject(new Coordinates(0, 0)))
         {
-            Radius = 1;
-            Time = 5;
+            Radius = Constants.StartBombRadius;
+            Time = Constants.StartBombTimeMs;
             Droped = true;
-        }
+        } 
         public Explosive(int x, int y) : base(new GameObject(new Coordinates(x,y))) { }
         public Explosive(IGameObject obj) : base(obj) { }
+        public void IncRadius()
+        {
+            if(Radius<Constants.MaxBombRadius)
+            {
+                Radius++;
+            }
+        }
+        public void DecRadius()
+        {
+            if (Radius > 1)
+            {
+                Radius--;
+            }
+        }
         public override List<string> GetTags()
         {
             List<string> newTags = base.GetTags();

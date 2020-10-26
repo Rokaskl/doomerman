@@ -32,6 +32,7 @@ namespace OPP
                     stream.Read(bytes, 0, client.ReceiveBufferSize);
                     int num = BitConverter.ToInt32(bytes, 0);
                     string msg = Encoding.ASCII.GetString(bytes, 3, bytes.Length - 4);
+                    Console.WriteLine(num);
                     Resolve(num, msg);
                 }
                 // Before closing client
@@ -52,31 +53,41 @@ namespace OPP
                 case 0:
                     {
                         //Grid update
+                        Console.WriteLine(msg);
                         Data data = JsonConvert.DeserializeObject<Data>(msg);
-
-                        if (!ClientManager.Instance.IDIsSet())
-                            ClientManager.Instance.SetPlayerID(data.Id);
-
                         ClientManager.Instance.SetGridFromServer(data.Grid);
+                        Invoke(this.form, () => this.form.ShowGame());
 
-                        Console.WriteLine(data.Grid);
+                        // Console.WriteLine(data.Grid);
                         break;
                     }
                 case 1:
                     {
+                        //Handshake successful.
+                        var id = JsonConvert.DeserializeObject<int>(msg);
+                        
+                            if (!ClientManager.Instance.IDIsSet())
+                                ClientManager.Instance.SetPlayerID(id);
+                        
+                        Invoke(this.form, () => this.form.HandshakeSuccessful = true);
+                        break;
+                    }
+                case 2:
+                    {
                         //Lobby operations
-                        //LobbyData lobbyData = JsonConvert.DeserializeObject<LobbyData>(msg);
-                        Dictionary<string, object> lobbyData = JsonConvert.DeserializeObject<Dictionary<string, object>>(msg);
-                        this.form.Invoke(ToDelegate(() => this.form.UpdateLobby(null)));
+                        LobbyData lobbyData = JsonConvert.DeserializeObject<LobbyData>(msg);
+                        //Dictionary<string, object> lobbyData = JsonConvert.DeserializeObject<Dictionary<string, object>>(msg);
+                        Invoke(this.form, () => this.form.UpdateLobby(lobbyData));
                         break;
                     }
             }
         }
 
-        private Delegate ToDelegate(Action action)
+        private void Invoke(Control ctrl, Action action)
         {
-            return (Delegate)action;
+            ctrl.Invoke((Delegate)action);
         }
+        
         
         
     }

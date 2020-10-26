@@ -3,14 +3,16 @@ using System;
 using System.Threading;
 class Program
 {
-    
+    public static Random random;
     static void Main(string[] args)
     {
+        random = new Random(Environment.TickCount);
         //---Set Server Options---------
         AppOptions options = new AppOptions();
         options.ArenaId =0;
         options.GridSize = 13;
         options.Port = 13000;    
+        //options.Ip = "25.56.186.45";
         options.Ip = "127.0.0.1";
         //----------------------------
 

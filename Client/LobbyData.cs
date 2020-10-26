@@ -9,11 +9,8 @@ namespace OPP
     [Serializable()]
     public class LobbyData
     {
-        //public Dictionary<string, bool> 
-
-        public int Score { get; set; }
-        public bool Alive { get; set; }
-
-
+        public Dictionary<string, object> playerData { get; set; }
+        public bool Starting { get; set; }
+        public DateTime? GameStartsAt { get; set; }
     }
 }

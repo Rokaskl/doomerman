@@ -35,22 +35,22 @@ namespace Server.Logic
             {
                 case ArenaCommandEnum.MoveUp:
                     {
-                        x.Author.moveStrategy.MoveUp(x.Author, arena.walls);
+                        x.Author.moveStrategy.MoveUp(x.Author, arena.grid.GetGrid());
                         break;
                     }
                 case ArenaCommandEnum.MoveDown:
                     {
-                        x.Author.moveStrategy.MoveDown(x.Author, arena.walls);
+                        x.Author.moveStrategy.MoveDown(x.Author, arena.grid.GetGrid());
                         break;
                     }
                 case ArenaCommandEnum.MoveRight:
                     {
-                        x.Author.moveStrategy.MoveRight(x.Author, arena.walls);
+                        x.Author.moveStrategy.MoveRight(x.Author, arena.grid.GetGrid());
                         break;
                     }
                 case ArenaCommandEnum.MoveLeft:
                     {
-                        x.Author.moveStrategy.MoveLeft(x.Author, arena.walls);
+                        x.Author.moveStrategy.MoveLeft(x.Author, arena.grid.GetGrid());
                         break;
                     }
                 case ArenaCommandEnum.DropBomb:
@@ -62,16 +62,21 @@ namespace Server.Logic
 
             }
 
+
             if (x.Cmds.Any(c => c == ArenaCommandEnum.DropBomb) && x.Author.CanDropBomb())
             {
                 x.Author.DropBomb();
             }
+
         }
 
         public void FinalizeExecute()
         {
-            this.ProcessData();
-            arena.UpdateGrid();
+            if (this.arena.isStarted)
+            {
+                this.ProcessData();
+                arena.UpdateRequired = true;
+            }
         }
     }
 

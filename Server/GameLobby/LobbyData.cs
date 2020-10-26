@@ -4,11 +4,12 @@ using System.Text;
 
 namespace Server.GameLobby
 {
+    [Serializable]
     public class LobbyData
     {
         public Dictionary<string, object> playerData { get; }
         public bool Starting { get; set; }
-        public DateTime? GameStarts { get; set; }
+        public DateTime? GameStartsAt { get; set; }
 
         public LobbyData()
         {

@@ -8,7 +8,11 @@ namespace Server.MapObject.PowerUps
     {
         public BombLimitIncrease(GameObject gm) : base(gm)
         {
-            type = TileEnumerator.TileTypeEnum.PUIncreaseBombCount;
+            type = TileEnumerator.TileTypeEnum.PUIncreaseBombLimit;
+        }
+        public BombLimitIncrease() : base()
+        {
+
         }
     }
 }

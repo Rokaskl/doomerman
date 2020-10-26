@@ -4,6 +4,11 @@ using Server.GameLobby;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Server.constants;
+using static Server.TileEnumerator;
+using System.Security.Cryptography.X509Certificates;
+using System.Runtime.CompilerServices;
+using System.Linq;
 
 namespace Server
 {
@@ -12,6 +17,8 @@ namespace Server
         public User User;
         public Coordinates xy;
         public Explosive Bomb;
+        public int BombCount = 0;
+        public int BombLimit = Constants.StartBombLimit;
         public Sender sender;
         public int Score = 0;
         public bool Alive = true;
@@ -27,25 +34,25 @@ namespace Server
             this.sender = new Sender(user);
         }
 
-        public bool CanMove(ArenaCommandEnum cmd, int[,] walls)
+        public bool CanMove(ArenaCommandEnum cmd, List<int>[,] walls)
         {
             switch (cmd)
             {
                 case ArenaCommandEnum.MoveUp:
                     {
-                        return xy.Y > 0 && walls[xy.X,xy.Y-1] == 0;
+                        return xy.Y > 0 && CheckMove(walls[xy.X, xy.Y - 1]);
                     }
                 case ArenaCommandEnum.MoveDown:
                     {
-                        return xy.Y < 12 && walls[xy.X, xy.Y + 1] == 0;
+                        return xy.Y < 12 && CheckMove(walls[xy.X, xy.Y + 1]);
                     }
                 case ArenaCommandEnum.MoveRight:
                     {
-                        return xy.X < 12 && walls[xy.X+1, xy.Y] == 0;
+                        return xy.X < 12 && CheckMove(walls[xy.X + 1, xy.Y]);
                     }
                 case ArenaCommandEnum.MoveLeft:
                     {
-                        return xy.X > 0 && walls[xy.X-1, xy.Y] == 0;
+                        return xy.X > 0 && CheckMove(walls[xy.X - 1, xy.Y]);
                     }
                 default:
                     {
@@ -53,7 +60,16 @@ namespace Server
                     }
             }
         }
-
+        private bool CheckMove(List<int> walls)
+        {
+            var values = new List<int> { (int)TileTypeEnum.Wall, (int)TileTypeEnum.Bomb, (int)TileTypeEnum.DestroyableWall };
+            for (int i = 0; i < values.Count; i++)
+            {
+                if (walls.Contains(values[i]))
+                    return false;
+            }
+            return true;
+        }
         public bool CanDropBomb()
         {
             return true;//Should prevent continuous dropping.
@@ -63,7 +79,7 @@ namespace Server
         {
             this.Bomb.SetCords(xy);
             this.Bomb.Droped = false;
-            
+
         }
         public void AddPowerUp(Pickable item)
         {
@@ -115,6 +131,16 @@ namespace Server
             string json = JsonConvert.SerializeObject(clientData);
 
             sender.Send(0, json);
+        }
+        public void IncBombLimit()
+        {
+            if (BombLimit < Constants.MaxBombLimit)
+                BombLimit++;
+        }
+        public void DecBombLimit()
+        {
+            if (BombLimit > 1)
+                BombLimit--;
         }
 
     }

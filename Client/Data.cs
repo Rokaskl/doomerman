@@ -13,7 +13,7 @@ namespace OPP
         public List<int>[,] Grid { get; set; }
         public int Score { get; set; }
         public bool Alive { get; set; }
-
+        public int BombRadius { get; set; }
 
     }
 }

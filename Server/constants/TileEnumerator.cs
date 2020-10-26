@@ -18,10 +18,11 @@ namespace Server
             Crate,
             PUIncreaseBombRange,
             PUDecreaseBombRange,
-            PUIncreaseBombCount,
-            PUDecreaseBombCount,
+            PUIncreaseBombLimit,
+            PUDecreaseBombLimit,
             PUTemporaryShield,
             PUTemporaryJump,
+            DestroyableWall,
             PUExtraLife,
             PUIncreaseSpeed,
             PUDecreaseSpeed,
@@ -30,7 +31,6 @@ namespace Server
             PUIncreaseBombExplosionTime,
             PUAutoPlacer,
             PUTemporarySwim,
-            Water
         }
     }
 }
