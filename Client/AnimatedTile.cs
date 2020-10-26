@@ -22,7 +22,7 @@ namespace OPP
                 case TileTypeEnum.Bomb:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\bomb.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\bomb" + "_frame" + currentFrame + ".png")));
                     }
                     catch(Exception ex)
                     {
@@ -34,7 +34,7 @@ namespace OPP
                 case TileTypeEnum.Crate:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\crate.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\crate" + "_frame" + currentFrame + ".png")));
                     }
                     catch (Exception ex)
                     {
@@ -47,7 +47,7 @@ namespace OPP
                 case TileTypeEnum.Player1:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\player1.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\player1" + "_frame" + currentFrame + ".png")));
                     }
                     catch (Exception ex)
                     {
@@ -60,7 +60,7 @@ namespace OPP
                 case TileTypeEnum.Player2:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\player2.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\player2" + "_frame" + currentFrame + ".png")));
                     }
                     catch (Exception ex)
                     {
@@ -73,7 +73,7 @@ namespace OPP
                 case TileTypeEnum.Player3:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\player3.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\player3" + "_frame" + currentFrame + ".png")));
                     }
                     catch (Exception ex)
                     {
@@ -86,7 +86,7 @@ namespace OPP
                 case TileTypeEnum.Player4:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\player4.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\player4" + "_frame" + currentFrame + ".png")));
                     }
                     catch (Exception ex)
                     {
@@ -99,7 +99,7 @@ namespace OPP
                 case TileTypeEnum.PUIncreaseBombCount:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombcount_increase.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombcount_increase" + "_frame" + currentFrame + ".png")));
                     }
                     catch (Exception ex)
                     {
@@ -112,7 +112,7 @@ namespace OPP
                 case TileTypeEnum.PUDecreaseBombCount:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombcount_decrease.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombcount_decrease" + "_frame" + currentFrame + ".png")));
                     }
                     catch (Exception ex)
                     {
@@ -125,7 +125,7 @@ namespace OPP
                 case TileTypeEnum.PUIncreaseBombRange:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombrange_increase.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombrange_increase" + "_frame" + currentFrame + ".png")));
                     }
                     catch (Exception ex)
                     {
@@ -138,7 +138,7 @@ namespace OPP
                 case TileTypeEnum.PUDecreaseBombRange:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombrange_decrease.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombrange_decrease" + "_frame" + currentFrame + ".png")));
                     }
                     catch (Exception ex)
                     {
@@ -151,7 +151,7 @@ namespace OPP
                 case TileTypeEnum.PUTemporaryJump:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_jump.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_jump" + "_frame" + currentFrame + ".png")));
                     }
                     catch (Exception ex)
                     {
@@ -164,7 +164,7 @@ namespace OPP
                 case TileTypeEnum.PUTemporaryShield:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_shield.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_shield" + "_frame" + currentFrame + ".png")));
                     }
                     catch (Exception ex)
                     {
@@ -177,7 +177,7 @@ namespace OPP
                 case TileTypeEnum.Wall:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\wall.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\wall" + "_frame" + currentFrame + ".png")));
                     }
                     catch (Exception ex)
                     {
@@ -190,7 +190,33 @@ namespace OPP
                 case TileTypeEnum.DestroyableWall:
                     try
                     {
-                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\destroyable_wall.png" + "_frame" + currentFrame)));
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\destroyable_wall" + "_frame" + currentFrame + ".png")));
+                    }
+                    catch (Exception ex)
+                    {
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\empty.png")));
+                        Console.WriteLine(ex.Message);
+                        break;
+                    }
+                    break;
+
+                case TileTypeEnum.PUBombKick:
+                    try
+                    {
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombkick" + "_frame" + currentFrame + ".png")));
+                    }
+                    catch (Exception ex)
+                    {
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\empty.png")));
+                        Console.WriteLine(ex.Message);
+                        break;
+                    }
+                    break;
+
+                case TileTypeEnum.Water:
+                    try
+                    {
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\water" + "_frame" + currentFrame + ".png")));
                     }
                     catch (Exception ex)
                     {

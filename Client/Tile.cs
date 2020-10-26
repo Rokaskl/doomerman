@@ -92,6 +92,14 @@ namespace OPP
                     tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\wall_destructable.png")));
                     break;
 
+                case TileTypeEnum.PUBombKick:
+                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombkick.png")));
+                    break;
+
+                case TileTypeEnum.PUTemporarySwim:
+                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_waterwalk.png")));
+                    break;
+
                 case TileTypeEnum.Empty:
                 default:
                     tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\empty.png")));

@@ -10,5 +10,9 @@ namespace Server.MapObject.PowerUps
         {
             type = TileEnumerator.TileTypeEnum.PUBombKick;
         }
+        public BombKick() : base()
+        {
+
+        }
     }
 }

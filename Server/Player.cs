@@ -36,39 +36,106 @@ namespace Server
 
         public bool CanMove(ArenaCommandEnum cmd, List<int>[,] walls)
         {
+ 
+            
             switch (cmd)
             {
                 case ArenaCommandEnum.MoveUp:
                     {
-                        return xy.Y > 0 && CheckMove(walls[xy.X, xy.Y - 1]);
+                        return xy.Y > 0 && CheckMove(walls, xy.X, xy.Y - 1);
                     }
                 case ArenaCommandEnum.MoveDown:
                     {
-                        return xy.Y < 12 && CheckMove(walls[xy.X, xy.Y + 1]);
+                        return xy.Y < 12 && CheckMove(walls, xy.X, xy.Y + 1);
                     }
                 case ArenaCommandEnum.MoveRight:
                     {
-                        return xy.X < 12 && CheckMove(walls[xy.X + 1, xy.Y]);
+                        return xy.X < 12 && CheckMove(walls, xy.X + 1, xy.Y);
                     }
                 case ArenaCommandEnum.MoveLeft:
                     {
-                        return xy.X > 0 && CheckMove(walls[xy.X - 1, xy.Y]);
+                        return xy.X > 0 && CheckMove(walls, xy.X - 1, xy.Y);
                     }
                 default:
                     {
                         return false;
                     }
             }
+                    
+            
         }
-        private bool CheckMove(List<int> walls)
+        private bool CheckMove(List<int>[,] walls, int x, int y)
         {
-            var values = new List<int> { (int)TileTypeEnum.Wall, (int)TileTypeEnum.Bomb, (int)TileTypeEnum.DestroyableWall };
-            for (int i = 0; i < values.Count; i++)
+            if (moveStrategy is MoveNormalStrategy)
             {
-                if (walls.Contains(values[i]))
-                    return false;
+
+                var values = new List<int> { (int)TileTypeEnum.Wall, (int)TileTypeEnum.Bomb, (int)TileTypeEnum.DestroyableWall, (int)TileTypeEnum.Water };
+                for (int i = 0; i < values.Count; i++)
+                {
+                    if (walls[x,y].Contains(values[i]))
+                        return false;
+                }
+                return true;
             }
-            return true;
+            else if (moveStrategy is MoveKickStrategy)
+            {
+                var values = new List<int> { (int)TileTypeEnum.Wall, (int)TileTypeEnum.DestroyableWall, (int)TileTypeEnum.Water };
+                for (int i = 0; i < values.Count; i++)
+                {
+                    if (walls[x,y].Contains(values[i]))
+                        return false;
+                }
+
+                if (walls[x,y].Contains((int)TileTypeEnum.Bomb))
+                {
+                    Explosive.KickDirection direction = Explosive.KickDirection.Down;
+
+                    if(xy.X < x)
+                    {
+                        direction = Explosive.KickDirection.Right;
+                    }
+                    else if(xy.X > x)
+                    {
+                        direction = Explosive.KickDirection.Left;
+                    }
+                    else if(xy.Y < y)
+                    {
+                        direction = Explosive.KickDirection.Down;
+                    }
+                    else if(xy.Y > y)
+                    {
+                        direction = Explosive.KickDirection.Up;
+                    }
+
+                    App.Inst.Arena.KickBomb(new Coordinates(x, y), direction);
+                    return true;
+                }
+
+                return true;
+
+            }
+            else if (moveStrategy is MoveSwimStrategy)
+            {
+                var values = new List<int> { (int)TileTypeEnum.Wall, (int)TileTypeEnum.Bomb, (int)TileTypeEnum.DestroyableWall };
+                for (int i = 0; i < values.Count; i++)
+                {
+                    if (walls[x,y].Contains(values[i]))
+                        return false;
+                }
+                return true;
+            }
+            else if (moveStrategy is MoveJumpStrategy)
+            {
+                var values = new List<int> { (int)TileTypeEnum.Wall, (int)TileTypeEnum.DestroyableWall, (int)TileTypeEnum.Water };
+                for (int i = 0; i < values.Count; i++)
+                {
+                    if (walls[x,y].Contains(values[i]))
+                        return false;
+                }
+                return true;
+            }
+            
+            return false;
         }
         public bool CanDropBomb()
         {
@@ -81,6 +148,12 @@ namespace Server
             this.Bomb.Droped = false;
 
         }
+
+        public void ChangeStrategy(IMoveStrategy strategy)
+        {
+            moveStrategy = strategy; 
+        }
+
         public void AddPowerUp(Pickable item)
         {
             this.PowerUps.Add(item);

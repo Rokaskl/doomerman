@@ -10,5 +10,10 @@ namespace Server.MapObject.PowerUps
         {
             type = TileEnumerator.TileTypeEnum.PUTemporaryJump;
         }
+
+        public TemporaryJump() : base()
+        {
+
+        }
     }
 }

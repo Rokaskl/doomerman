@@ -31,6 +31,7 @@ namespace Server
             PUIncreaseBombExplosionTime,
             PUAutoPlacer,
             PUTemporarySwim,
+            Water
         }
     }
 }

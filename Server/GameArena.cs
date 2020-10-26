@@ -84,6 +84,40 @@ namespace Server
             UpdateRequired = true;
 
         }
+
+        public void KickBomb(Coordinates bombCord, Explosive.KickDirection dir)
+        {
+            List<int> cantKickInto = new List<int>() { (int)TileTypeEnum.Wall, (int)TileTypeEnum.DestroyableWall, (int)TileTypeEnum.Water, (int)TileTypeEnum.Bomb };
+
+            foreach(var go in gameObjects)
+            {
+                if (go.GetCords().X == bombCord.X && go.GetCords().Y == bombCord.Y)
+                {
+                    if (go is Explosive)
+                    {
+                        switch (dir)
+                        {
+                            case Explosive.KickDirection.Up:
+                                if (!cantKickInto.Contains(walls[go.GetCords().X, go.GetCords().Y - 1]))
+                                    go.SetCords(new Coordinates(go.GetCords().X, go.GetCords().Y - 1));
+                                break;
+                            case Explosive.KickDirection.Down:
+                                if (!cantKickInto.Contains(walls[go.GetCords().X, go.GetCords().Y + 1]))
+                                    go.SetCords(new Coordinates(go.GetCords().X, go.GetCords().Y + 1));
+                                break;
+                            case Explosive.KickDirection.Left:
+                                if (!cantKickInto.Contains(walls[go.GetCords().X - 1, go.GetCords().Y]))
+                                    go.SetCords(new Coordinates(go.GetCords().X - 1, go.GetCords().Y));
+                                break;
+                            case Explosive.KickDirection.Right:
+                                if (!cantKickInto.Contains(walls[go.GetCords().X + 1, go.GetCords().Y]))
+                                    go.SetCords(new Coordinates(go.GetCords().X + 1, go.GetCords().Y));
+                                break;
+                        }
+                    }
+                }
+            }
+        }
         public void UpdateGrid()
         {
             CheckForPowers();
@@ -128,6 +162,26 @@ namespace Server
                                 RemoveGameObject(new BombLimitDecrease(), player.xy.X, player.xy.Y);
                                 break;
                             }
+                        case (int)TileTypeEnum.PUBombKick:
+                            {
+                                player.ChangeStrategy(new MoveKickStrategy());
+                                RemoveGameObject(new BombKick(), player.xy.X, player.xy.Y);
+                                break;
+                            }
+
+                        case (int)TileTypeEnum.PUTemporarySwim:
+                            {
+                                player.ChangeStrategy(new MoveSwimStrategy());
+                                RemoveGameObject(new TemporarySwim(), player.xy.X, player.xy.Y);
+                                break;
+                            }
+                        case (int)TileTypeEnum.PUTemporaryJump:
+                            {
+                                player.ChangeStrategy(new MoveJumpStrategy());
+                                RemoveGameObject(new TemporaryJump(), player.xy.X, player.xy.Y);
+                                break;
+                            }
+
                     }
                 });
 
@@ -167,21 +221,31 @@ namespace Server
             {
                 switch (obj)
                 {
-                    case Explosive bomb:
+                    case Explosive _:
                         grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.Bomb);
                         break;
-                    case BombLimitIncrease bli:
+                    case BombLimitIncrease _:
                         grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.PUIncreaseBombLimit);
                         break;
-                    case BombLimitDecrease bld:
+                    case BombLimitDecrease _:
                         grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.PUDecreaseBombLimit);
                         break;
-                    case BombFireIncrease bfi:
+                    case BombFireIncrease _:
                         grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.PUIncreaseBombRange);
                         break;
-                    case BombFireDecrease bfd:
+                    case BombFireDecrease _:
                         grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.PUDecreaseBombRange);
                         break;
+                    case BombKick _:
+                        grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.PUBombKick);
+                        break;
+                    case TemporarySwim _:
+                        grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.PUTemporarySwim);
+                        break;
+                    case TemporaryJump _:
+                        grid.AddToTile(obj.GetCords().X, obj.GetCords().Y, (int)TileTypeEnum.PUTemporaryJump);
+                        break;
+
                     default:
                         break;
                 }
@@ -223,6 +287,9 @@ namespace Server
                             break;
                         case (int)TileTypeEnum.DestroyableWall:
                             grid.AddToTile(i, j, (int)TileTypeEnum.DestroyableWall);
+                            break;
+                        case (int)TileTypeEnum.Water:
+                            grid.AddToTile(i, j, (int)TileTypeEnum.Water);
                             break;
                         default:
                             break;

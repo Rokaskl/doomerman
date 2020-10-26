@@ -345,8 +345,9 @@ namespace OPP
         private void Form1_Load(object sender, EventArgs e)
         {
             soundPlayer = new SoundPlayer(ClientManager.Instance.ProjectPath + "\\Resources\\music.wav");
-            soundPlayer.PlayLooping();
-            isPlaying = true;
+            //soundPlayer.PlayLooping();
+            //soundPlayer.Stop();
+            isPlaying = false;
         }
 
         public async void SendSignal(int actionNum, CommandTypeEnum commandType)

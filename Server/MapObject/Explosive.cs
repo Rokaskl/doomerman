@@ -51,5 +51,13 @@ namespace Server
         {
             base.SetCords(xy);
         }
+
+        public enum KickDirection
+        {
+            Up,
+            Down,
+            Right,
+            Left
+        }
     }
 }
