@@ -11,6 +11,7 @@ namespace Server.Builder
         {
             builder.BuildData(tcp);
             builder.BuildMainObject();
+            App.Inst.Log("builder building...");
         }
     }
 }

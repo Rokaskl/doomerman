@@ -23,7 +23,13 @@ namespace Server.CommandPattern
         }
 
         public abstract void AddSubCommand(int subCommand);
-        public abstract void Execute();
-        public abstract void Undo();
+        public virtual void Execute() 
+        {
+            App.Inst.Log("Command executed.");
+        }
+        public virtual void Undo()
+        {
+            App.Inst.Log("Command undo executed.");
+        }
     }
 }
