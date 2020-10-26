@@ -43,7 +43,7 @@ namespace OPP
             }
         }
 
-        public void UpdateGrid()
+        /*public void UpdateGrid()
         {
             for (int x = 0; x < 13; x++)
             {
@@ -55,7 +55,7 @@ namespace OPP
                     }
                 }
             }
-        }
+        }*/
 
         public void UpdateTile(int x, int y, TileEnumerator.TileTypeEnum tileType, int layer)
         {

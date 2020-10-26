@@ -211,7 +211,6 @@ namespace OPP
             panel6.Visible = false; // Hide Ready button panel
             drawingArea.Focus();
 
-            drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png");
 
             Task.Run(() =>
             {

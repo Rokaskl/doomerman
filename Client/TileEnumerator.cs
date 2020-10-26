@@ -31,7 +31,8 @@ namespace OPP
             PUDecreaseBombExplosionTime,
             PUIncreaseBombExplosionTime,
             PUAutoPlacer,
-            PUTemporarySwim,          
+            PUTemporarySwim,        
+            Water
         }
     }
 }

@@ -97,7 +97,6 @@ namespace OPP
         }
         public void SetGridFromServer(List<int>[,] grid)
         {
-            //Instance.GetGrid().Reset();
             for (int x = 0; x < 13; x++)
             {
                 for (int y = 0; y < 13; y++)
@@ -105,7 +104,12 @@ namespace OPP
                     List<Tile> tiles = new List<Tile>();
                     foreach (var intTile in grid[x, y])
                     {
-                        Tile tile = new Tile();
+                        Tile tile;
+
+                        if (Tile.isTileAnimated((TileEnumerator.TileTypeEnum)intTile))
+                            tile = new AnimatedTile();
+                        else tile = new StaticTile();
+                            
                         tile.SetTileType((TileEnumerator.TileTypeEnum)intTile);
                         tile.SetTilePosition(x, y);
                         tiles.Add(tile);
@@ -114,7 +118,6 @@ namespace OPP
                     Instance.GetGrid().SetTile(x, y, tiles);
                 }
             }
-            Instance.GetGrid().UpdateGrid();
         }
 
     }

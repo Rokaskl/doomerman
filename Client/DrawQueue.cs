@@ -68,7 +68,7 @@ namespace OPP
                     // draws background to image first
                     if (drawingArea.InvokeRequired)
                     {
-                        drawingArea.Invoke(new MethodInvoker(delegate { imageGfx.DrawImage(drawingArea.Image, 0, 0); }));
+                        drawingArea.Invoke(new MethodInvoker(delegate { imageGfx.DrawImage(Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png"), 0, 0); }));
                     }
                     else
                     {
