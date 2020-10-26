@@ -20,6 +20,7 @@ namespace Server.CommandPattern
         public override void Execute()
         {
             this.Receiver.Action(this);
+            base.Execute();
         }
 
         public override void Undo()
@@ -48,6 +49,7 @@ namespace Server.CommandPattern
                     }
 
             }
+            base.Undo();
         }
     }
 

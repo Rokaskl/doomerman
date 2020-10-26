@@ -19,6 +19,7 @@ namespace Server.CommandPattern
         public override void Execute()
         {
             this.Receiver.Action(this);
+            base.Execute();
         }
 
         public List<ArenaCommandEnum> GetCmds()
@@ -33,6 +34,7 @@ namespace Server.CommandPattern
 
         public override void Undo()
         {
+            base.Undo();
             throw new NotImplementedException();
         }
     }

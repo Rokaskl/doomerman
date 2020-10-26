@@ -37,6 +37,7 @@ namespace Server.FacadePattern
 
         public void FinalizeExecute()
         {
+            App.Inst.Log("Logic facade executed");
             arenaLogic.FinalizeExecute();
             generalLogic.FinalizeExecute();
             logicBase.FinalizeExecute();

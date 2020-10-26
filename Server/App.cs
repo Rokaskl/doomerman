@@ -59,6 +59,7 @@ namespace Server
                 if (Inst == null)
                 {
                     Inst = new ApplicationInst(options);
+                    Inst.Log("singleton created.");
                 }
                 else
                 {
@@ -107,6 +108,11 @@ namespace Server
                 this.UserRepo = new UserRepository();
                 this.options = options;
                 this.Arena = new GameArena(options.ArenaId);
+            }
+
+            public void Log(string message)
+            {
+                Console.WriteLine(DateTime.Now.ToString() + " " + message);
             }
         }
 
