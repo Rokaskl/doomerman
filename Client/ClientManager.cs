@@ -107,8 +107,17 @@ namespace OPP
                         Tile tile;
 
                         if (Tile.isTileAnimated((TileEnumerator.TileTypeEnum)intTile))
+                        {
                             tile = new AnimatedTile();
-                        else tile = new StaticTile();
+                            TileGraphics tileGraphics = new TileGraphics();
+                            tile.SetTileGfx(tileGraphics);
+                        }
+                        else
+                        {
+                            tile = new StaticTile();
+                            TileGraphics tileGraphics = new TileGraphics();
+                            tile.SetTileGfx(tileGraphics);
+                        }
                             
                         tile.SetTileType((TileEnumerator.TileTypeEnum)intTile);
                         tile.SetTilePosition(x, y);

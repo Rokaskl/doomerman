@@ -12,7 +12,7 @@ namespace OPP
     public class Tile
     {
         protected TileTypeEnum tileType = TileTypeEnum.Empty;
-        protected TileGraphics tileGraphics = new TileGraphics();
+        protected TileGraphics tileGraphics;
         protected Point gfxPosition;
 
         public void SetTileType(TileTypeEnum type)
@@ -31,6 +31,11 @@ namespace OPP
         public Point GetTileGfxPosition()
         {        
             return gfxPosition;
+        }
+
+        public void SetTileGfx(TileGraphics graphics)
+        {
+            tileGraphics = graphics;
         }
 
         public virtual void UpdateGfx(TileTypeEnum tileType)

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server.MapObject
 {
-    public static class Walls
+    public class Walls
     {
         public static int[,] walls = new int[13, 13] {
                 { 0,0,0,0,0,0,0,0,0,0,0,0,0 },
@@ -20,6 +20,11 @@ namespace Server.MapObject
                 { 0,0,6,0,6, 14,6, 14,6, 14,6,0,0 },
                 { 0,0, 14, 14, 14, 14,0, 14,0,0, 14,0,0 },
                 { 0,0,0,0,0,0,0,0,0,0,0,0,0 }};
+
+        public int[,] GetWalls()
+        {
+            return walls;
+        }
     }
 }
 // kolkas mapas nera random generuojamas, tai tiesiog  notepade X pakeist i 14
