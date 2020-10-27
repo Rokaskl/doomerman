@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Server;
 using System;
+using System.Collections.Generic;
 
 namespace ServerTests.MapObject
 {
@@ -16,7 +17,6 @@ namespace ServerTests.MapObject
         public void TestInitialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
-
             this.mockCoordinates = this.mockRepository.Create<Coordinates>();
         }
 
@@ -27,7 +27,7 @@ namespace ServerTests.MapObject
         }
 
         [TestMethod]
-        public void GetTags_StateUnderTest_ExpectedBehavior()
+        public void ShouldGetEmptyTagsThenCreated()
         {
             // Arrange
             var gameObject = this.CreateGameObject();
@@ -36,26 +36,11 @@ namespace ServerTests.MapObject
             var result = gameObject.GetTags();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            CollectionAssert.AreEqual(result, new List<string>());
+           
         }
-
         [TestMethod]
-        public void PrintTags_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var gameObject = this.CreateGameObject();
-
-            // Act
-            gameObject.PrintTags();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void GetCords_StateUnderTest_ExpectedBehavior()
+        public void ShouldReturnCordsObj()
         {
             // Arrange
             var gameObject = this.CreateGameObject();
@@ -64,12 +49,11 @@ namespace ServerTests.MapObject
             var result = gameObject.GetCords();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(result, this.mockCoordinates.Object);
         }
 
         [TestMethod]
-        public void SetCords_StateUnderTest_ExpectedBehavior()
+        public void ShouldSetAndGetCoordinates()
         {
             // Arrange
             var gameObject = this.CreateGameObject();
@@ -80,12 +64,12 @@ namespace ServerTests.MapObject
                 xy);
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(gameObject.GetCords(), xy);
+           
         }
 
         [TestMethod]
-        public void AddLoot_StateUnderTest_ExpectedBehavior()
+        public void ShouldAddAndReturnLoot()
         {
             // Arrange
             var gameObject = this.CreateGameObject();
@@ -96,22 +80,9 @@ namespace ServerTests.MapObject
                 pickable);
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(gameObject.GetLoot(), pickable);
         }
 
-        [TestMethod]
-        public void GetLoot_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var gameObject = this.CreateGameObject();
 
-            // Act
-            var result = gameObject.GetLoot();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
     }
 }
