@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server
 {
-    class Lootable : GameObjectDecorator
+    public class Lootable : GameObjectDecorator
     {
 
         public Lootable(IGameObject gameObject) : base(gameObject)

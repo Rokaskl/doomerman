@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server.MapObject.PowerUps
 {
-    class TemporaryJump : Pickable
+    public class TemporaryJump : Pickable
     {
         public TemporaryJump(GameObject gm) : base(gm)
         {

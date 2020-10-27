@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server.MapObject.PowerUps
 {
-    class ExtraLife : Pickable
+    public class ExtraLife : Pickable
     {
         public ExtraLife(GameObject gm) : base(gm)
         {

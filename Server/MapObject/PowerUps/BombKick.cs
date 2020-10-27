@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server.MapObject.PowerUps
 {
-    class BombKick : Pickable
+    public class BombKick : Pickable
     {
         public BombKick(GameObject gm) : base(gm)
         {

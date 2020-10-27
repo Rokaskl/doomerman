@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server.MapObject.PowerUps
 {
-    class BombLimitIncrease : Pickable
+    public class BombLimitIncrease : Pickable
     {
         public BombLimitIncrease(GameObject gm) : base(gm)
         {

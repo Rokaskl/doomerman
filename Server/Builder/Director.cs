@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Server.Builder
 {
-    class Director
+    public class Director
     {
         public void Construct(Builder builder, TcpClient tcp)
         {

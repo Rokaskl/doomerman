@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Server.Logic
 {
-    class GeneralLogic : IReceiver, ILogicFacade
+    public class GeneralLogic : IReceiver, ILogicFacade
     {
         private Lobby lobby;
         public GeneralLogic(Lobby lobby)

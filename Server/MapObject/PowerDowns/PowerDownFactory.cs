@@ -6,7 +6,7 @@ using Server.MapObject.PowerDowns;
 
 namespace Server.MapObject.PowerUps
 {
-    class PowerDownFactory  : IAbstractPickableFactory
+   public class PowerDownFactory  : IAbstractPickableFactory
     {
         public Pickable Build(int which, Coordinates xy)
         {

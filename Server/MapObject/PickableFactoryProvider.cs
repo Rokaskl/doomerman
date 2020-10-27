@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Server.MapObject
 {
-    class PickableFactoryProvider
+    public class PickableFactoryProvider
     {
         public static IAbstractPickableFactory GetFactory(int which)
         {

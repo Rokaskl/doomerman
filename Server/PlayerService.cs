@@ -17,7 +17,7 @@ namespace Server
             Task.Run(() => ListenPlayer(player, logic));
         }
         
-        public async void ListenPlayer(Player player, LogicFacade logic)
+        public async Task ListenPlayer(Player player, LogicFacade logic)
         {
             try
             {

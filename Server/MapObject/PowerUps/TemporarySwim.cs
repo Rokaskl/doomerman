@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server.MapObject.PowerUps
 {
-    class TemporarySwim : Pickable
+    public class TemporarySwim : Pickable
     {
         public TemporarySwim(GameObject gm) : base(gm)
         {

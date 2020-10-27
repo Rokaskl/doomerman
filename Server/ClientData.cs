@@ -6,7 +6,7 @@ using System.Text;
 namespace Server
 {
     [Serializable()]
-    class ClientData
+    public class ClientData
     {
         public int Id { get; set; }
         public List<int>[,] Grid { get; set; }

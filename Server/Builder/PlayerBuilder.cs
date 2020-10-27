@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Server.Builder
 {
-    class PlayerBuilder : Builder
+    public class PlayerBuilder : Builder
     {
         private User user;
         private Player player;

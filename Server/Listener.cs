@@ -9,55 +9,58 @@ using System.Threading;
 using System.Threading.Tasks;
 using Server.Builder;
 
-class Listener
+namespace Server
 {
-    TcpListener server = null;
-    public GameArena Arena;
-    public Listener(string ip, int port, GameArena Arena)
+    public class Listener
     {
-        this.Arena = Arena;
-        IPAddress localAddr = IPAddress.Parse(ip);
-        server = new TcpListener(localAddr, port);
-        server.Start();
-        Task.Run(StartListener);
-        Console.Read();
-    }
-
-    public async void StartListener()
-    {
-        while (true)
+        TcpListener server = null;
+        public GameArena Arena;
+        public Listener(string ip, int port, GameArena Arena)
         {
-            TcpClient client = server.AcceptTcpClient();
+            this.Arena = Arena;
+            IPAddress localAddr = IPAddress.Parse(ip);
+            server = new TcpListener(localAddr, port);
+            server.Start();
+            Task.Run(StartListener);
+            Console.Read();
+        }
 
+        public async Task StartListener()
+        {
             while (true)
             {
-                await Task.Delay(2);
-                if (client.GetStream().CanRead && client.Available >= 8)
-                {
-                    //byte[] buffer = new byte[client.Available];
-                    var dir = new Director();
-                    var build = new PlayerBuilder();
-                    dir.Construct(build,client);
-                    //client.GetStream().Read(buffer, 0, client.Available);
-                    //int userId = BitConverter.ToInt32(buffer, 4);
-                    //Server.User user = App.Inst.UserRepo.Users.FirstOrDefault(x => x.Id == userId);//Reikia suziureti id
-                    //if (user != null)
-                    //{
-                    //    user.Client = client;
-                    //}
-                    //else
-                    //{
-                    //    user = App.Inst.UserRepo.AddUser(new User(userId));
-                    //    user.Client = client;
-                    //}
-                    //Console.WriteLine("Client " + user.Id.ToString() + "connected.");
-                    //Arena.AddPlayer(new Player(user));
-                    Arena.AddPlayer(build.GetPlayer());
+                TcpClient client = server.AcceptTcpClient();
 
-                    break;
+                while (true)
+                {
+                    await Task.Delay(2);
+                    if (client.GetStream().CanRead && client.Available >= 8)
+                    {
+                        //byte[] buffer = new byte[client.Available];
+                        var dir = new Director();
+                        var build = new PlayerBuilder();
+                        dir.Construct(build, client);
+                        //client.GetStream().Read(buffer, 0, client.Available);
+                        //int userId = BitConverter.ToInt32(buffer, 4);
+                        //Server.User user = App.Inst.UserRepo.Users.FirstOrDefault(x => x.Id == userId);//Reikia suziureti id
+                        //if (user != null)
+                        //{
+                        //    user.Client = client;
+                        //}
+                        //else
+                        //{
+                        //    user = App.Inst.UserRepo.AddUser(new User(userId));
+                        //    user.Client = client;
+                        //}
+                        //Console.WriteLine("Client " + user.Id.ToString() + "connected.");
+                        //Arena.AddPlayer(new Player(user));
+                        Arena.AddPlayer(build.GetPlayer());
+
+                        break;
+                    }
                 }
             }
         }
-    }
 
+    }
 }

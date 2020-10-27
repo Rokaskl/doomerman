@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server.MapObject.PowerUps
 {
-    class SpeedDecrease : Pickable
+    public class SpeedDecrease : Pickable
     {
         public SpeedDecrease(GameObject gm) : base(gm)
         {
