@@ -34,8 +34,9 @@ namespace ServerTests
             var result = coordinates.Clone();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(coordinates.X, (result as Coordinates).X);
+            Assert.AreEqual(coordinates.Y, (result as Coordinates).Y);
+            Assert.AreNotEqual(coordinates, (result as Coordinates));
         }
 
         [TestMethod]
@@ -48,8 +49,7 @@ namespace ServerTests
             var result = coordinates.ToString();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(result.GetType(), typeof(string));
         }
     }
 }

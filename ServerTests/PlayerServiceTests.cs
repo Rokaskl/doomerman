@@ -45,7 +45,6 @@ namespace ServerTests
                 logic);
 
             // Assert
-            Assert.Fail();
             this.mockRepository.VerifyAll();
         }
     }

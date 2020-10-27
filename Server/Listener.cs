@@ -15,17 +15,16 @@ namespace Server
     {
         TcpListener server = null;
         public GameArena Arena;
-        public Listener(string ip, int port, GameArena Arena)
+        public Listener(string ip, int port, GameArena Arena, CancellationToken cancellationToken = default)
         {
             this.Arena = Arena;
             IPAddress localAddr = IPAddress.Parse(ip);
             server = new TcpListener(localAddr, port);
             server.Start();
-            Task.Run(StartListener);
-            Console.Read();
+            Task.Run(StartListener, cancellationToken);
         }
 
-        public async Task StartListener()
+        public virtual async Task StartListener()
         {
             while (true)
             {
