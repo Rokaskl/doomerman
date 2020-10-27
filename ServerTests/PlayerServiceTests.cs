@@ -43,7 +43,6 @@ namespace ServerTests
             await service.ListenPlayer(
                 player,
                 logic);
-
             // Assert
             this.mockRepository.VerifyAll();
         }
