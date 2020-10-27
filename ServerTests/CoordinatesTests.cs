@@ -48,8 +48,7 @@ namespace ServerTests
             var result = coordinates.ToString();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual("|x: 0 | y: 0 | ", result);
         }
     }
 }
