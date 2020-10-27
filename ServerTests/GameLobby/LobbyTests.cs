@@ -10,116 +10,61 @@ namespace ServerTests.GameLobby
     [TestClass]
     public class LobbyTests
     {
-        private MockRepository mockRepository;
+        private Lobby lobby;
 
-        private Mock<GameArena> mockGameArena;
-
-        [TestInitialize]
-        public void TestInitialize()
+        [TestMethod]
+        public void ShouldFailWhenAddingPlayerToFullLobby()
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
+            lobby = new Lobby(new GameArena(0));
 
-            this.mockGameArena = this.mockRepository.Create<GameArena>();
+            Player player1 = new Player(new User());
+            Player player2 = new Player(new User());
+            Player player3 = new Player(new User());
+            Player player4 = new Player(new User());
+            Player player5 = new Player(new User());
+
+            lobby.AddPlayer(player1);
+            lobby.AddPlayer(player2);
+            lobby.AddPlayer(player3);
+            lobby.AddPlayer(player4);
+
+            Assert.IsFalse(lobby.AddPlayer(player5));
+
         }
-
-        private Lobby CreateLobby()
+        [TestMethod]
+        public void ShouldFailWhenAddingSamePlayer()
         {
-            return new Lobby(
-                this.mockGameArena.Object);
+            lobby = new Lobby(new GameArena(0));
+
+            Player player = new Player(new User());
+
+            lobby.AddPlayer(player);
+
+            Assert.IsFalse(lobby.AddPlayer(player));
+
         }
 
         [TestMethod]
-        public void AddPlayer_StateUnderTest_ExpectedBehavior()
+        public void ShouldSucceedWhenAddingPlayerToNotFullLobby()
         {
-            // Arrange
-            var lobby = this.CreateLobby();
-            Player player = null;
+            lobby = new Lobby(new GameArena(0));
 
-            // Act
-            var result = lobby.AddPlayer(
-                player);
+            Player player = new Player(new User());
 
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.IsTrue(lobby.AddPlayer(player));
         }
 
         [TestMethod]
-        public void RemovePlayer_StateUnderTest_ExpectedBehavior()
+        public void ShouldFailWhenSameReadyCommand()
         {
-            // Arrange
-            var lobby = this.CreateLobby();
-            Player player = null;
+            lobby = new Lobby(new GameArena(0));
 
-            // Act
-            lobby.RemovePlayer(
-                player);
+            GeneralCommand command = new GeneralCommand();
+            command.Author = new Player(new User());
 
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
+            lobby.PlayerReady(command);
 
-        [TestMethod]
-        public void PlayerReady_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var lobby = this.CreateLobby();
-            GeneralCommand command = null;
-
-            // Act
-            var result = lobby.PlayerReady(
-                command);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void PlayerNotReady_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var lobby = this.CreateLobby();
-            Player player = null;
-
-            // Act
-            lobby.PlayerNotReady(
-                player);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void GetReadyCommand_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var lobby = this.CreateLobby();
-            Player player = null;
-
-            // Act
-            var result = lobby.GetReadyCommand(
-                player);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void SendInfo_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var lobby = this.CreateLobby();
-
-            // Act
-            lobby.SendInfo();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.IsFalse(lobby.PlayerReady(command));
         }
     }
 }
