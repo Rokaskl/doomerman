@@ -13,6 +13,9 @@ namespace Server
         public TcpClient Client { get; set; }
         public User(int id = 0, string username = null)
         {
+            if (id < 0 || id > 4)
+                throw new Exception("User ID is out of bounds");
+
             if(id == 0)
             {
                 this.Id = counter++;
