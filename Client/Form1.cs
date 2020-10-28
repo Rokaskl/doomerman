@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -33,6 +34,8 @@ namespace OPP
 
         TcpClient client;
 
+        Stopwatch lastInputWatch = new Stopwatch();   
+
         private Lobby lobby;
 
         private bool handshakeSuccessful;
@@ -47,51 +50,62 @@ namespace OPP
         public Form1()
         {
 
-            InitializeComponent();           
+            InitializeComponent();
+
+            GraphicsDatabase.LoadImages();
 
             screenGfx = drawingArea.CreateGraphics();           
             drawQueue = new DrawQueue(screenGfx, drawingArea);
 
-            gfxThreadRef = new ThreadStart(drawQueue.Draw);
-            gfxThread = new Thread(gfxThreadRef);
-            gfxThread.IsBackground = true;
+            //gfxThreadRef = new ThreadStart(drawQueue.Draw);
+            //gfxThread = new Thread(gfxThreadRef);
+            //gfxThread.IsBackground = true;
            
             KeyPreview = true;
+
+            lastInputWatch.Start();
 
             KeyDown += Form1_KeyDown;
             KeyUp += Form1_KeyUp;
             KeyPress += Form1_KeyPress;
 
+
         }
        
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (pressedA)
-            {
-                this.SendSignal(2, CommandTypeEnum.Arena);
-            }
-               
-            if (pressedD)
-            {
-                this.SendSignal(3, CommandTypeEnum.Arena);
-            }
-                
-            if (pressedW)
-            {
-                this.SendSignal(0, CommandTypeEnum.Arena);
-            }
-                
-            if (pressedS)
-            {
-                this.SendSignal(1, CommandTypeEnum.Arena);
-            }
 
-            if (pressedSpace)
+            if (lastInputWatch.Elapsed.TotalMilliseconds >= 250) 
             {
-                this.SendSignal(4, CommandTypeEnum.Arena);
-                pressedSpace = false;
+                if (pressedA)
+                {
+                    this.SendSignal(2, CommandTypeEnum.Arena);
+                }
+
+                if (pressedD)
+                {
+                    this.SendSignal(3, CommandTypeEnum.Arena);
+                }
+
+                if (pressedW)
+                {
+                    this.SendSignal(0, CommandTypeEnum.Arena);
+                }
+
+                if (pressedS)
+                {
+                    this.SendSignal(1, CommandTypeEnum.Arena);
+                }
+
+                if (pressedSpace)
+                {
+                    this.SendSignal(4, CommandTypeEnum.Arena);
+                    pressedSpace = false;
+                }
+
+
+                lastInputWatch.Restart();
             }
-                      
         }
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
@@ -231,8 +245,10 @@ namespace OPP
                     Thread.Sleep(10);
                 }
             });
-            if (!gfxThread.IsAlive)
-               gfxThread.Start();
+            /*if (!gfxThread.IsAlive)
+            {
+                gfxThread.Start();
+            }*/
         }
         private void CreateLobby()
         {

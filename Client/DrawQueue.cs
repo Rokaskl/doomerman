@@ -10,12 +10,12 @@ using System.Runtime.Remoting.Messaging;
 
 namespace OPP
 {
-    class DrawQueue
+    public class DrawQueue
     {
-        Graphics imageGfx;
-        Graphics screenGfx;
-        Bitmap bitmap;
-        PictureBox drawingArea;
+        static Graphics imageGfx;
+        static Graphics screenGfx;
+        static Bitmap bitmap;
+        static PictureBox drawingArea;
 
         //Dictionary<Point, List<Tile>> Grid = new Dictionary<Point, List<Tile>>();
         //Grid grid;
@@ -57,38 +57,34 @@ namespace OPP
             return ClientManager.Instance.GetGrid().GetTile(pos.X, pos.Y);
         }   
 
-        public void Draw()
+        public static void Draw()
         {
-            while (draw)
+
+            // Update grid
+
+            // draws background to image first
+            if (drawingArea.InvokeRequired)
             {
-                lock (_spriteLock)
+                drawingArea.Invoke(new MethodInvoker(delegate { imageGfx.DrawImage(Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png"), 0, 0); }));
+            }
+            else
+            {
+                imageGfx.DrawImage(drawingArea.Image, 0, 0);
+            }
+
+            for(int x = 0; x < 13; x++)
+            {
+                for(int y = 0; y < 13; y++)
                 {
-                    // Update grid
-
-                    // draws background to image first
-                    if (drawingArea.InvokeRequired)
+                    foreach(var tile in ClientManager.Instance.GetGrid().GetTile(x, y))
                     {
-                        drawingArea.Invoke(new MethodInvoker(delegate { imageGfx.DrawImage(Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png"), 0, 0); }));
+                        imageGfx.DrawImage(tile.GetTileGfx(), tile.GetTileGfxPosition());
                     }
-                    else
-                    {
-                        imageGfx.DrawImage(drawingArea.Image, 0, 0);
-                    }
-
-                    for(int x = 0; x < 13; x++)
-                    {
-                        for(int y = 0; y < 13; y++)
-                        {
-                            foreach(var tile in ClientManager.Instance.GetGrid().GetTile(x, y))
-                            {
-                                imageGfx.DrawImage(tile.GetTileGfx(), tile.GetTileGfxPosition());
-                            }
-                        }
-                    }
-     
-                    screenGfx.DrawImage(bitmap, 0, 0, 960, 960);
                 }
             }
+     
+            screenGfx.DrawImage(bitmap, 0, 0, 960, 960);
+
         }
 
     }

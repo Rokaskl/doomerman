@@ -176,7 +176,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.richTextBox1);
             this.panel1.Location = new System.Drawing.Point(116, 220);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(267, 276);
             this.panel1.TabIndex = 4;
@@ -198,7 +198,7 @@
             // 
             this.richTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox2.Location = new System.Drawing.Point(19, 123);
-            this.richTextBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.richTextBox2.Margin = new System.Windows.Forms.Padding(2);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.Size = new System.Drawing.Size(232, 31);
             this.richTextBox2.TabIndex = 4;
@@ -254,7 +254,7 @@
             // 
             this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox1.Location = new System.Drawing.Point(19, 54);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(232, 31);
             this.richTextBox1.TabIndex = 1;
@@ -263,7 +263,7 @@
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(0, 0);
-            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(86, 40);
             this.button3.TabIndex = 6;
@@ -277,7 +277,7 @@
             this.player1Panel.Controls.Add(this.player1Icon);
             this.player1Panel.Controls.Add(this.player1ReadyBox);
             this.player1Panel.Location = new System.Drawing.Point(56, 47);
-            this.player1Panel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.player1Panel.Margin = new System.Windows.Forms.Padding(2);
             this.player1Panel.Name = "player1Panel";
             this.player1Panel.Size = new System.Drawing.Size(375, 81);
             this.player1Panel.TabIndex = 5;
@@ -325,7 +325,7 @@
             this.player2Panel.Controls.Add(this.player2Icon);
             this.player2Panel.Controls.Add(this.player2ReadyBox);
             this.player2Panel.Location = new System.Drawing.Point(56, 134);
-            this.player2Panel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.player2Panel.Margin = new System.Windows.Forms.Padding(2);
             this.player2Panel.Name = "player2Panel";
             this.player2Panel.Size = new System.Drawing.Size(375, 81);
             this.player2Panel.TabIndex = 6;
@@ -372,7 +372,7 @@
             this.player3Panel.Controls.Add(this.player3Icon);
             this.player3Panel.Controls.Add(this.player3ReadyBox);
             this.player3Panel.Location = new System.Drawing.Point(56, 220);
-            this.player3Panel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.player3Panel.Margin = new System.Windows.Forms.Padding(2);
             this.player3Panel.Name = "player3Panel";
             this.player3Panel.Size = new System.Drawing.Size(375, 81);
             this.player3Panel.TabIndex = 6;
@@ -418,7 +418,7 @@
             this.player4Panel.Controls.Add(this.player4Icon);
             this.player4Panel.Controls.Add(this.player4ReadyBox);
             this.player4Panel.Location = new System.Drawing.Point(56, 311);
-            this.player4Panel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.player4Panel.Margin = new System.Windows.Forms.Padding(2);
             this.player4Panel.Name = "player4Panel";
             this.player4Panel.Size = new System.Drawing.Size(375, 81);
             this.player4Panel.TabIndex = 6;
@@ -463,7 +463,7 @@
             this.panel6.BackColor = System.Drawing.Color.Transparent;
             this.panel6.Controls.Add(this.button3);
             this.panel6.Location = new System.Drawing.Point(205, 410);
-            this.panel6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel6.Margin = new System.Windows.Forms.Padding(2);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(86, 40);
             this.panel6.TabIndex = 7;

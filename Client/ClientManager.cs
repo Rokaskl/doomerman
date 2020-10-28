@@ -19,8 +19,11 @@ namespace OPP
         private Grid grid;
         private bool isStarted = false;
 
+        private Task drawTask = new Task(() => DrawQueue.Draw());
+
         ClientManager()
         {
+
         }
 
         public static ClientManager Instance
@@ -127,6 +130,10 @@ namespace OPP
                     Instance.GetGrid().SetTile(x, y, tiles);
                 }
             }
+
+            DrawQueue.Draw();
+            //if(drawTask.Status != TaskStatus.Running)
+            //    drawTask.Start();
         }
 
     }

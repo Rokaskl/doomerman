@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="AnimatedTile.cs" />
     <Compile Include="Bomb.cs" />
+    <Compile Include="GraphicsDatabase.cs" />
     <Compile Include="Lobby.cs" />
     <Compile Include="LobbyData.cs" />
     <Compile Include="Data.cs" />

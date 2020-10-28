@@ -43,6 +43,8 @@ namespace OPP
                             string msg = fullMsg.Remove(0, 1);
                             Resolve(num, msg);
                         }
+
+                        Thread.Sleep(10);
                     }
                 }
               

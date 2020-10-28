@@ -204,6 +204,7 @@ namespace Server
             string json = JsonConvert.SerializeObject(clientData);
 
             sender.Send(0, json);
+            Console.WriteLine(DateTime.Now);
         }
         public void IncBombLimit()
         {

@@ -4,6 +4,7 @@ using Server;
 using Server.CommandPattern;
 using Server.GameLobby;
 using System;
+using Moq;
 
 namespace ServerTests.GameLobby
 {
@@ -11,6 +12,11 @@ namespace ServerTests.GameLobby
     public class LobbyTests
     {
         private Lobby lobby;
+        
+        [TestInitialize]
+        public void Initialize()
+        {
+        }
 
         [TestMethod]
         public void ShouldFailWhenAddingPlayerToFullLobby()
@@ -65,6 +71,17 @@ namespace ServerTests.GameLobby
             lobby.PlayerReady(command);
 
             Assert.IsFalse(lobby.PlayerReady(command));
+        }
+
+        [TestMethod]
+        public void ShouldFailWhenContainsPlayerAfterRemoving()
+        {
+            lobby = new Lobby(new GameArena(0));
+
+            Player player = new Player(new User());
+
+            lobby.AddPlayer(player);
+            lobby.RemovePlayer(player);
         }
     }
 }

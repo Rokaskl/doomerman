@@ -43,71 +43,71 @@ namespace OPP
             switch (tileType)
             {
                 case TileTypeEnum.Bomb:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\bomb.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.Bomb]);
                     break;
                 case TileTypeEnum.Crate:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\crate.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.Crate]);
                     break;
 
                 case TileTypeEnum.Player1:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\player1.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.Player1]);
                     break;
 
                 case TileTypeEnum.Player2:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\player2.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.Player2]);
                     break;
 
                 case TileTypeEnum.Player3:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\player3.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.Player3]);
                     break;
 
                 case TileTypeEnum.Player4:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\player4.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.Player4]);
                     break;
 
                 case TileTypeEnum.PUIncreaseBombCount:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombcount_increase.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.PUIncreaseBombCount]);
                     break;
 
                 case TileTypeEnum.PUDecreaseBombCount:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombcount_decrease.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.PUDecreaseBombCount]);
                     break;
 
                 case TileTypeEnum.PUIncreaseBombRange:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombrange_increase.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.PUIncreaseBombRange]);
                     break;
 
                 case TileTypeEnum.PUDecreaseBombRange:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombrange_decrease.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.PUDecreaseBombRange]);
                     break;
 
                 case TileTypeEnum.PUTemporaryJump:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_jump.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.PUTemporaryJump]);
                     break;
 
                 case TileTypeEnum.PUTemporaryShield:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_shield.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.PUTemporaryShield]);
                     break;
 
                 case TileTypeEnum.Wall:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\wall.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.Wall]);
                     break;
 
                 case TileTypeEnum.DestroyableWall:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\wall_destructable.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.DestroyableWall]);
                     break;
 
                 case TileTypeEnum.PUBombKick:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_bombkick.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.PUBombKick]);
                     break;
 
                 case TileTypeEnum.PUTemporarySwim:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\powerup_waterwalk.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.PUTemporarySwim]);
                     break;
 
                 case TileTypeEnum.Empty:
                 default:
-                    tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\empty.png")));
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.Empty]);
                     break;
             }
         }
