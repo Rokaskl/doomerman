@@ -107,8 +107,8 @@ namespace Server
                         direction = Explosive.KickDirection.Up;
                     }
 
-                    App.Inst.Arena.KickBomb(new Coordinates(x, y), direction);
-                    return true;
+                    return App.Inst.Arena.KickBomb(new Coordinates(x, y), direction);
+                    
                 }
 
                 return true;

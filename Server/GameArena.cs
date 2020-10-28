@@ -87,7 +87,7 @@ namespace Server
 
         }
 
-        public void KickBomb(Coordinates bombCord, Explosive.KickDirection dir)
+        public bool KickBomb(Coordinates bombCord, Explosive.KickDirection dir)
         {
             List<int> cantKickInto = new List<int>() { (int)TileTypeEnum.Wall, (int)TileTypeEnum.DestroyableWall, (int)TileTypeEnum.Water, (int)TileTypeEnum.Bomb };
 
@@ -100,25 +100,39 @@ namespace Server
                         switch (dir)
                         {
                             case Explosive.KickDirection.Up:
-                                if (  go.GetCords().Y + 1 > 1 && !cantKickInto.Contains(walls[go.GetCords().X, go.GetCords().Y - 1])  )
+                                if (go.GetCords().Y > 0 && !cantKickInto.Contains(walls[go.GetCords().X, go.GetCords().Y - 1]))
+                                {
                                     go.SetCords(new Coordinates(go.GetCords().X, go.GetCords().Y - 1));
+                                    return true;
+                                }
                                 break;
                             case Explosive.KickDirection.Down:
-                                if (go.GetCords().Y - 1 < 12 && !cantKickInto.Contains(walls[go.GetCords().X, go.GetCords().Y + 1]))
+                                if (go.GetCords().Y < 12 && !cantKickInto.Contains(walls[go.GetCords().X, go.GetCords().Y + 1]))
+                                {
                                     go.SetCords(new Coordinates(go.GetCords().X, go.GetCords().Y + 1));
+                                    return true;
+                                }
                                 break;
                             case Explosive.KickDirection.Left:
-                                if (go.GetCords().X + 1 > 1 && !cantKickInto.Contains(walls[go.GetCords().X - 1, go.GetCords().Y]))
+                                if (go.GetCords().X > 0 && !cantKickInto.Contains(walls[go.GetCords().X - 1, go.GetCords().Y]))
+                                {
                                     go.SetCords(new Coordinates(go.GetCords().X - 1, go.GetCords().Y));
+                                    return true;
+                                }
                                 break;
                             case Explosive.KickDirection.Right:
-                                if (go.GetCords().X - 1 < 12 && !cantKickInto.Contains(walls[go.GetCords().X + 1, go.GetCords().Y]))
+                                if (go.GetCords().X < 12 && !cantKickInto.Contains(walls[go.GetCords().X + 1, go.GetCords().Y]))
+                                {
                                     go.SetCords(new Coordinates(go.GetCords().X + 1, go.GetCords().Y));
+                                    return true;
+                                }
                                 break;
                         }
                     }
                 }
             }
+
+            return false;
         }
         public void UpdateGrid()
         {

@@ -19,6 +19,6 @@ class Program
 
         App.CreateInstance(options);
         App.Inst.CreateListener();
-        
+        Console.Read();
     }
 }

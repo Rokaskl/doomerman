@@ -100,9 +100,9 @@ namespace OPP
         }
         public void SetGridFromServer(List<int>[,] grid)
         {
-            for (int x = 0; x < 13; x++)
+            Parallel.For(0, 13, (x) =>
             {
-                for (int y = 0; y < 13; y++)
+                Parallel.For(0, 13, (y) =>
                 {
                     List<Tile> tiles = new List<Tile>();
                     foreach (var intTile in grid[x, y])
@@ -121,15 +121,15 @@ namespace OPP
                             TileGraphics tileGraphics = new TileGraphics();
                             tile.SetTileGfx(tileGraphics);
                         }
-                            
+
                         tile.SetTileType((TileEnumerator.TileTypeEnum)intTile);
                         tile.SetTilePosition(x, y);
                         tiles.Add(tile);
                     }
 
                     Instance.GetGrid().SetTile(x, y, tiles);
-                }
-            }
+                });
+            });
 
             DrawQueue.Draw();
             //if(drawTask.Status != TaskStatus.Running)
