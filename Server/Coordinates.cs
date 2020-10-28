@@ -15,7 +15,8 @@ namespace Server
             this.X = x;
             this.Y = y;
         }
-
+        public Coordinates() { }
+        
         public override CordPrototype Clone()
         {
             return this.MemberwiseClone() as CordPrototype;

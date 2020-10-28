@@ -43,9 +43,7 @@ namespace ServerTests
             await service.ListenPlayer(
                 player,
                 logic);
-
             // Assert
-            Assert.Fail();
             this.mockRepository.VerifyAll();
         }
     }

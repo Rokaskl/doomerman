@@ -15,7 +15,6 @@ namespace ServerTests.MapObject
         public void TestInitialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
-
             this.mockGameObject = this.mockRepository.Create<IGameObject>();
         }
 
@@ -54,17 +53,19 @@ namespace ServerTests.MapObject
         }
 
         [TestMethod]
-        public void GetCords_StateUnderTest_ExpectedBehavior()
+        public void ShouldSetAndGetCoordinates()
         {
             // Arrange
             var destroyable = this.CreateDestroyable();
+            Coordinates xy = new Coordinates();
 
             // Act
-            var result = destroyable.GetCords();
+            destroyable.SetCords(
+                xy);
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(destroyable.GetCords(), xy);
+
         }
     }
 }

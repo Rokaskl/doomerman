@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Server
 {
-    public class DataUnit
+    public class DataUnit//Nenaudojamas
     {
         public int Id;//Object identifier
         public Coordinates XY;//Object possition
