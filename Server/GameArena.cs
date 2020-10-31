@@ -102,28 +102,37 @@ namespace Server
                             case Explosive.KickDirection.Up:
                                 if (go.GetCords().Y > 0 && !cantKickInto.Contains(walls[go.GetCords().X, go.GetCords().Y - 1]))
                                 {
+                                    grid.RemoveFromTile(go.GetCords().X, go.GetCords().Y,(int)TileTypeEnum.Bomb);
                                     go.SetCords(new Coordinates(go.GetCords().X, go.GetCords().Y - 1));
+                                    grid.AddToTile(go.GetCords().X, go.GetCords().Y, (int)TileTypeEnum.Bomb);
+
                                     return true;
                                 }
                                 break;
                             case Explosive.KickDirection.Down:
                                 if (go.GetCords().Y < 12 && !cantKickInto.Contains(walls[go.GetCords().X, go.GetCords().Y + 1]))
                                 {
+                                    grid.RemoveFromTile(go.GetCords().X, go.GetCords().Y, (int)TileTypeEnum.Bomb);
                                     go.SetCords(new Coordinates(go.GetCords().X, go.GetCords().Y + 1));
+                                    grid.AddToTile(go.GetCords().X, go.GetCords().Y, (int)TileTypeEnum.Bomb);
                                     return true;
                                 }
                                 break;
                             case Explosive.KickDirection.Left:
                                 if (go.GetCords().X > 0 && !cantKickInto.Contains(walls[go.GetCords().X - 1, go.GetCords().Y]))
                                 {
+                                    grid.RemoveFromTile(go.GetCords().X, go.GetCords().Y, (int)TileTypeEnum.Bomb);
                                     go.SetCords(new Coordinates(go.GetCords().X - 1, go.GetCords().Y));
+                                    grid.AddToTile(go.GetCords().X, go.GetCords().Y, (int)TileTypeEnum.Bomb);
                                     return true;
                                 }
                                 break;
                             case Explosive.KickDirection.Right:
                                 if (go.GetCords().X < 12 && !cantKickInto.Contains(walls[go.GetCords().X + 1, go.GetCords().Y]))
                                 {
+                                    grid.RemoveFromTile(go.GetCords().X, go.GetCords().Y, (int)TileTypeEnum.Bomb);
                                     go.SetCords(new Coordinates(go.GetCords().X + 1, go.GetCords().Y));
+                                    grid.AddToTile(go.GetCords().X, go.GetCords().Y, (int)TileTypeEnum.Bomb);
                                     return true;
                                 }
                                 break;
@@ -221,11 +230,12 @@ namespace Server
             await Task.Factory.StartNew(() =>
             {
                 var fc = new PowerUpFactory();
-                Coordinates xy = player.xy.Clone() as Coordinates;
+                
                 Thread.Sleep(bomb.Time);
+                Coordinates xy = bomb.GetCords();
                 grid.RemoveFromTile(xy.X, xy.Y, (int)TileTypeEnum.Bomb);
                 RemoveGameObject(bomb, xy.X, xy.Y);
-                ExecuteExplosion(xy.X, xy.Y, bomb.Radius);           
+                ExecuteExplosion(bomb);           
                 UpdateRequired = true;
                 player.BombCount--;
 
@@ -270,6 +280,7 @@ namespace Server
         private void AddPlayersAndBombsToGrid()
         {
             List<Player> CurrentPlayers = this.Players.ToList();
+            Explosive prototype = new Explosive();
             foreach (Player player in CurrentPlayers)
             {
                 if (!player.Bomb.Droped)
@@ -278,9 +289,11 @@ namespace Server
                     if (IsBombValid(player) && player.BombLimit > player.BombCount)
                     {
                         Console.WriteLine(string.Format("addBombsToGrid x:{0}y:{1}", player.Bomb.GetCords().X, player.Bomb.GetCords().Y));
-                        AddGameObject(new Explosive(player.Bomb.GetCords().X, player.Bomb.GetCords().Y));
+                        var copy = prototype.Clone();
+                        copy.SetCords((Coordinates)player.Bomb.GetCords().Clone());
+                        AddGameObject(copy);
                         player.BombCount++;
-                        RemoveBomb(player.Bomb, player);
+                        RemoveBomb(copy, player);
                     }
                 }
                 int playerX = player.xy.X;
@@ -322,8 +335,11 @@ namespace Server
             }
             return true;
         }
-        private void ExecuteExplosion(int x, int y, int radius)
+        private void ExecuteExplosion(Explosive bomb)
         {
+            int x = bomb.GetCords().X;
+            int y = bomb.GetCords().Y;
+            int radius = bomb.Radius;
             var fc = new PickableFactoryProvider();
             for (int i = 1; i <= radius; i++)
             {
