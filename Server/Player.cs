@@ -144,7 +144,7 @@ namespace Server
 
         public void DropBomb()
         {
-            this.Bomb.SetCords(xy);
+            this.Bomb.SetCords((Coordinates)xy.Clone());
             this.Bomb.Droped = false;
 
         }

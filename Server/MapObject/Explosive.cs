@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Server.constants;
+using Server.Prototype;
 
 namespace Server
 {
-    public class Explosive : GameObjectDecorator
+    public class Explosive : GameObjectDecorator, ExplosivePrototype
     {
         public int Radius;
         public int Time;
@@ -50,6 +52,10 @@ namespace Server
         public override void SetCords(Coordinates xy)
         {
             base.SetCords(xy);
+        }
+        public Explosive Clone()
+        {
+            return (Explosive)this.MemberwiseClone();
         }
 
         public enum KickDirection
