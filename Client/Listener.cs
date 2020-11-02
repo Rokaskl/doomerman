@@ -44,7 +44,7 @@ namespace OPP
                             Resolve(num, msg);
                         }
 
-                        Thread.Sleep(10);
+                        Thread.Sleep(50);
                     }
                 }
               
@@ -65,14 +65,15 @@ namespace OPP
                     {
                         //Grid update
                         Console.WriteLine(msg);
-                        Data data = JsonConvert.DeserializeObject<Data>(msg);
-                        ClientManager.Instance.SetGridFromServer(data.Grid);
-                        if(!showGameInvoked)
+
+                        if (!showGameInvoked)
                         {
                             Invoke(this.form, () => this.form.ShowGame());
                             showGameInvoked = true;
                         }
-                      
+
+                        Data data = JsonConvert.DeserializeObject<Data>(msg);
+                        ClientManager.Instance.SetGridFromServer(data.Grid);                   
 
                         // Console.WriteLine(data.Grid);
                         break;

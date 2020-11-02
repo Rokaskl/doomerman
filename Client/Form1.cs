@@ -75,7 +75,7 @@ namespace OPP
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
 
-            if (lastInputWatch.Elapsed.TotalMilliseconds >= 200) 
+            if (lastInputWatch.Elapsed.TotalMilliseconds >= 150) 
             {
                 if (pressedA)
                 {
@@ -223,6 +223,7 @@ namespace OPP
             }
           
             panel6.Visible = false; // Hide Ready button panel
+            //drawingArea.Image = ;
             drawingArea.Focus();
 
 
@@ -245,10 +246,6 @@ namespace OPP
                     Thread.Sleep(10);
                 }
             });
-            /*if (!gfxThread.IsAlive)
-            {
-                gfxThread.Start();
-            }*/
         }
         private void CreateLobby()
         {

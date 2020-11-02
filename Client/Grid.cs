@@ -11,8 +11,6 @@ namespace OPP
         // TODO: load map sizes and other settings from server; hardcoding for prototype
         private List<Tile>[,] tiles = new List<Tile>[13,13]; // Tile matrix
 
-        public bool listenForGrid = true;
-
         public Grid()
         {
             Initialize();
@@ -30,32 +28,6 @@ namespace OPP
                 }
             }
         }
-
-        /// <summary>
-        /// Listener for changes in grid (primary client listener for server messages)
-        /// </summary>
-        public void ListenGrid()
-        {
-            while (listenForGrid)
-            {
-
-
-            }
-        }
-
-        /*public void UpdateGrid()
-        {
-            for (int x = 0; x < 13; x++)
-            {
-                for (int y = 0; y < 13; y++)
-                {
-                    foreach(var tile in tiles[x, y])
-                    {
-                        tile.UpdateGfx();
-                    }
-                }
-            }
-        }*/
 
         public void UpdateTile(int x, int y, TileEnumerator.TileTypeEnum tileType, int layer)
         {

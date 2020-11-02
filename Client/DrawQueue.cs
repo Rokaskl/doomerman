@@ -17,14 +17,6 @@ namespace OPP
         static Bitmap bitmap;
         static PictureBox drawingArea;
 
-        //Dictionary<Point, List<Tile>> Grid = new Dictionary<Point, List<Tile>>();
-        //Grid grid;
-        public readonly object _spriteLock = new object();
-
-        public bool draw = true;
-
-        public int count = 0;
-
         public DrawQueue(Graphics _screenGfx, PictureBox _drawingArea)
         {
             screenGfx = _screenGfx;
