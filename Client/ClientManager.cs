@@ -18,7 +18,7 @@ namespace OPP
         private int score;                  // NOT IMPLEMENTED
         private Grid grid;
         private bool isStarted = false;
-
+        public bool isAlive = true;
         private Task drawTask = new Task(() => DrawQueue.Draw());
 
         ClientManager()
@@ -40,7 +40,6 @@ namespace OPP
                 }
             }
         }
-
         /// <summary>
         /// Returns the Player's ID (if it's set)
         /// </summary>
@@ -98,7 +97,7 @@ namespace OPP
         {
             return isStarted;
         }
-        public void SetGridFromServer(List<int>[,] grid)
+        public void SetGridFromServer(List<int>[,] grid, int[] deadPlayers)
         {
             Parallel.For(0, 13, (x) =>
             {
@@ -122,7 +121,14 @@ namespace OPP
                             tile.SetTileGfx(tileGraphics);
                         }
 
-                        tile.SetTileType((TileEnumerator.TileTypeEnum)intTile);
+                        if (deadPlayers.Contains(intTile))
+                        {
+                            tile.SetTileType(TileEnumerator.TileTypeEnum.Dead);
+                        }
+                        else
+                        {
+                            tile.SetTileType((TileEnumerator.TileTypeEnum)intTile);
+                        }
                         tile.SetTilePosition(x, y);
                         tiles.Add(tile);
                     }
@@ -130,7 +136,6 @@ namespace OPP
                     Instance.GetGrid().SetTile(x, y, tiles);
                 });
             });
-
             DrawQueue.Draw();
             //if(drawTask.Status != TaskStatus.Running)
             //    drawTask.Start();

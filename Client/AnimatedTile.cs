@@ -225,6 +225,18 @@ namespace OPP
                         break;
                     }
                     break;
+                case TileTypeEnum.Dead:
+                    try
+                    {
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\dead.png")));
+                    }
+                    catch (Exception ex)
+                    {
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\empty.png")));
+                        Console.WriteLine(ex.Message);
+                        break;
+                    }
+                    break;
 
                 case TileTypeEnum.Empty:
                 default:

@@ -13,6 +13,8 @@ namespace Server
         public int Score { get; set; }
         public bool Alive { get; set; }
         public int BombRadius { get; set; }
+        
+        public int[] DeadPlayers { get; set; }
     }
     
 }

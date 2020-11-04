@@ -28,6 +28,18 @@ namespace Server
         {
             return this._size;
         }
+        public List<int> ReturnPlayersAt(int i, int j)
+        {
+            var players = new List<int>();
+
+            _grid[i, j].ForEach(x => { 
+                if(x>=1 && x <=4)
+                {
+                    players.Add(x);
+                }
+            });
+            return players;
+        }
         public bool RemoveFromTile(int i, int j, int value)
         {
             try

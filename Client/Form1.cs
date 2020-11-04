@@ -74,37 +74,39 @@ namespace OPP
        
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-
-            if (lastInputWatch.Elapsed.TotalMilliseconds >= 150) 
+            if (ClientManager.Instance.isAlive)
             {
-                if (pressedA)
+                if (lastInputWatch.Elapsed.TotalMilliseconds >= 150)
                 {
-                    this.SendSignal(2, CommandTypeEnum.Arena);
+                    if (pressedA)
+                    {
+                        this.SendSignal(2, CommandTypeEnum.Arena);
+                    }
+
+                    if (pressedD)
+                    {
+                        this.SendSignal(3, CommandTypeEnum.Arena);
+                    }
+
+                    if (pressedW)
+                    {
+                        this.SendSignal(0, CommandTypeEnum.Arena);
+                    }
+
+                    if (pressedS)
+                    {
+                        this.SendSignal(1, CommandTypeEnum.Arena);
+                    }
+
+                    if (pressedSpace)
+                    {
+                        this.SendSignal(4, CommandTypeEnum.Arena);
+                        pressedSpace = false;
+                    }
+
+
+                    lastInputWatch.Restart();
                 }
-
-                if (pressedD)
-                {
-                    this.SendSignal(3, CommandTypeEnum.Arena);
-                }
-
-                if (pressedW)
-                {
-                    this.SendSignal(0, CommandTypeEnum.Arena);
-                }
-
-                if (pressedS)
-                {
-                    this.SendSignal(1, CommandTypeEnum.Arena);
-                }
-
-                if (pressedSpace)
-                {
-                    this.SendSignal(4, CommandTypeEnum.Arena);
-                    pressedSpace = false;
-                }
-
-
-                lastInputWatch.Restart();
             }
         }
 

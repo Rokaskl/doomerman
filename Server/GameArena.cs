@@ -75,10 +75,19 @@ namespace Server
 
         public void Notify()
         {
+
             foreach (Player player in Players)
             {
-                player.Update(this.grid);
+                player.Update(this.grid, DeadPlayers());
             }
+        }
+        private List<int> DeadPlayers()
+        {
+            var deads = new List<int>();
+            Players.ForEach(x => {
+                if (!x.Alive) deads.Add(x.User.Id);
+            });
+            return deads;
         }
         public void StartGame()
         {
@@ -355,6 +364,7 @@ namespace Server
                         AddGameObject(temp);
                         break;
                     }
+                    grid.ReturnPlayersAt(x - i, y).ForEach(x => Players[x-1].Alive = false);
                 }
             }
             for (int i = 1; i <= radius; i++)
@@ -372,6 +382,7 @@ namespace Server
                             AddGameObject(temp);
                         break;
                     }
+                    grid.ReturnPlayersAt(x + i, y).ForEach(x => Players[x - 1].Alive = false);
                 }
             }
             for (int i = 1; i <= radius; i++)
@@ -389,6 +400,7 @@ namespace Server
                             AddGameObject(temp);
                         break;
                     }
+                    grid.ReturnPlayersAt(x, y - i).ForEach(x => Players[x - 1].Alive = false);
                 }
             }
             for (int i = 1; i <= radius; i++)
@@ -406,6 +418,7 @@ namespace Server
                             AddGameObject(temp);
                         break;
                     }
+                    grid.ReturnPlayersAt(x, y + i).ForEach(x => Players[x - 1].Alive = false);
                 }
             }
         }
