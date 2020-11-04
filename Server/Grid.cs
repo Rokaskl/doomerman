@@ -28,6 +28,18 @@ namespace Server
         {
             return this._size;
         }
+        public List<int> ReturnPowersAt(int i, int j)
+        {
+            var players = new List<int>();
+
+            _grid[i, j].ForEach(x => {
+                if (x >= (int)TileEnumerator.TileTypeEnum.PUIncreaseBombRange && x <= (int)TileEnumerator.TileTypeEnum.PUTemporarySwim)
+                {
+                    players.Add(x);
+                }
+            });
+            return players;
+        }
         public List<int> ReturnPlayersAt(int i, int j)
         {
             var players = new List<int>();

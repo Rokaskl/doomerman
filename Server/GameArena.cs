@@ -17,6 +17,7 @@ using static Server.TileEnumerator;
 using Server.MapObject.PowerUps;
 using Server.constants;
 using Server.MapObject.PowerDowns;
+using System.IO;
 
 namespace Server
 {
@@ -37,6 +38,12 @@ namespace Server
             gameObjects.RemoveAll(z => z is null); // kartais atsiranda null, atrodo niekur neprilyginu jokio gameobject i null
             //cj labai expensive dalykas, kiekvienam updatui. padekit sugalvot geresni
             gameObjects.RemoveAll(z => z.GetType() == gameObject.GetType() && z.GetCords().X == x && z.GetCords().Y == y);
+        }
+        public void RemoveGameObjectAt(int x, int y)
+        {
+            gameObjects.RemoveAll(z => z is null); // kartais atsiranda null, atrodo niekur neprilyginu jokio gameobject i null
+            //cj labai expensive dalykas, kiekvienam updatui. padekit sugalvot geresni
+            gameObjects.RemoveAll(z => z.GetTags().Contains("Pickable") && z.GetCords().X == x && z.GetCords().Y == y);
         }
         public void AddGameObject(IGameObject gameObject)
         {
@@ -346,8 +353,8 @@ namespace Server
         }
         private void ExecuteExplosion(Explosive bomb)
         {
-            int x = bomb.GetCords().X;
-            int y = bomb.GetCords().Y;
+            int x = ((Coordinates)bomb.GetCords().Clone()).X;
+            int y = ((Coordinates)bomb.GetCords().Clone()).Y;
             int radius = bomb.Radius;
             var fc = new PickableFactoryProvider();
             for (int i = 1; i <= radius; i++)
@@ -364,7 +371,8 @@ namespace Server
                         AddGameObject(temp);
                         break;
                     }
-                    grid.ReturnPlayersAt(x - i, y).ForEach(x => Players[x-1].Alive = false);
+                    grid.ReturnPlayersAt(x - i, y).ForEach(z => Players[z- 1].Alive = false);
+                    grid.ReturnPowersAt(x - i, y).ForEach(z => { RemoveGameObjectAt(x - i, y); i = radius + 1; });
                 }
             }
             for (int i = 1; i <= radius; i++)
@@ -383,6 +391,7 @@ namespace Server
                         break;
                     }
                     grid.ReturnPlayersAt(x + i, y).ForEach(x => Players[x - 1].Alive = false);
+                    grid.ReturnPowersAt(x + i, y).ForEach(z => { RemoveGameObjectAt(x + i, y); i = radius + 1; });
                 }
             }
             for (int i = 1; i <= radius; i++)
@@ -401,6 +410,7 @@ namespace Server
                         break;
                     }
                     grid.ReturnPlayersAt(x, y - i).ForEach(x => Players[x - 1].Alive = false);
+                    grid.ReturnPowersAt(x , y - i).ForEach(z => { RemoveGameObjectAt(x, y - i); i = radius + 1; });
                 }
             }
             for (int i = 1; i <= radius; i++)
@@ -419,6 +429,7 @@ namespace Server
                         break;
                     }
                     grid.ReturnPlayersAt(x, y + i).ForEach(x => Players[x - 1].Alive = false);
+                    grid.ReturnPowersAt(x, y + i).ForEach(z => { RemoveGameObjectAt(x, y + i); i = radius + 1; });
                 }
             }
         }
