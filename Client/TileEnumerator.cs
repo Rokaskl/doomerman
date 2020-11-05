@@ -33,6 +33,9 @@ namespace OPP
             PUAutoPlacer,
             PUTemporarySwim,        
             Water,
+            FlameH,
+            FlameV,
+            FlameC,
             Dead
         }
     }

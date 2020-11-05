@@ -25,9 +25,10 @@ namespace Server
     {
         public int Id;
         public List<Player> Players;
-        public Grid grid; 
+        public Grid grid;
         private LogicFacade Calculator;
         public List<IGameObject> gameObjects = new List<IGameObject>();
+        public List<IGameObject> flames = new List<IGameObject>();
         private Lobby lobby;
         public bool UpdateRequired;
         public int[,] walls;
@@ -52,7 +53,7 @@ namespace Server
         public GameArena(int id)
         {
 
-            
+
             this.Id = id;
             this.Players = new List<Player>();
             this.lobby = new Lobby(this);
@@ -60,7 +61,6 @@ namespace Server
 
             this.grid = new WallsAdapter(wallsObj);
             walls = wallsObj.GetWalls();
-
             UpdateAtInterval(Constants.UpdateInterval);
 
             GameObject gameObject = new GameObject(new Coordinates(1, 1));
@@ -91,7 +91,8 @@ namespace Server
         private List<int> DeadPlayers()
         {
             var deads = new List<int>();
-            Players.ForEach(x => {
+            Players.ForEach(x =>
+            {
                 if (!x.Alive) deads.Add(x.User.Id);
             });
             return deads;
@@ -107,7 +108,7 @@ namespace Server
         {
             List<int> cantKickInto = new List<int>() { (int)TileTypeEnum.Wall, (int)TileTypeEnum.DestroyableWall, (int)TileTypeEnum.Water, (int)TileTypeEnum.Bomb };
 
-            foreach(var go in gameObjects)
+            foreach (var go in gameObjects)
             {
                 if (go.GetCords().X == bombCord.X && go.GetCords().Y == bombCord.Y)
                 {
@@ -118,7 +119,7 @@ namespace Server
                             case Explosive.KickDirection.Up:
                                 if (go.GetCords().Y > 0 && !cantKickInto.Contains(walls[go.GetCords().X, go.GetCords().Y - 1]))
                                 {
-                                    grid.RemoveFromTile(go.GetCords().X, go.GetCords().Y,(int)TileTypeEnum.Bomb);
+                                    grid.RemoveFromTile(go.GetCords().X, go.GetCords().Y, (int)TileTypeEnum.Bomb);
                                     go.SetCords(new Coordinates(go.GetCords().X, go.GetCords().Y - 1));
                                     grid.AddToTile(go.GetCords().X, go.GetCords().Y, (int)TileTypeEnum.Bomb);
 
@@ -166,7 +167,7 @@ namespace Server
             AddWallsToGrid();
             AddPlayersAndBombsToGrid();
             AddGameObjsToGrid();
-
+            AddFlamesToGrid();
             Notify();
             UpdateRequired = false;
 
@@ -246,12 +247,12 @@ namespace Server
             await Task.Factory.StartNew(() =>
             {
                 var fc = new PowerUpFactory();
-                
+
                 Thread.Sleep(bomb.Time);
                 Coordinates xy = bomb.GetCords();
                 grid.RemoveFromTile(xy.X, xy.Y, (int)TileTypeEnum.Bomb);
                 RemoveGameObject(bomb, xy.X, xy.Y);
-                ExecuteExplosion(bomb);           
+                ExecuteExplosion(bomb);
                 UpdateRequired = true;
                 player.BombCount--;
 
@@ -307,6 +308,7 @@ namespace Server
                         Console.WriteLine(string.Format("addBombsToGrid x:{0}y:{1}", player.Bomb.GetCords().X, player.Bomb.GetCords().Y));
                         var copy = prototype.Clone();
                         copy.SetCords((Coordinates)player.Bomb.GetCords().Clone());
+                        copy.Radius = player.Bomb.Radius;
                         AddGameObject(copy);
                         player.BombCount++;
                         RemoveBomb(copy, player);
@@ -344,7 +346,7 @@ namespace Server
         }
         private bool IsBombValid(Player player)
         {
-            Coordinates xy = player.Bomb.GetCords().Clone() as Coordinates;;
+            Coordinates xy = player.Bomb.GetCords().Clone() as Coordinates; ;
             if (grid.GetTile(xy.X, xy.Y).Contains((int)TileTypeEnum.Bomb))
             {
                 return false;
@@ -353,11 +355,17 @@ namespace Server
         }
         private void ExecuteExplosion(Explosive bomb)
         {
+            Flame flames = new Flame(bomb.GetCords());
+
+            flames.flames[bomb.GetCords().X, bomb.GetCords().Y] = (int)TileTypeEnum.FlameC;
+            grid.ReturnPlayersAt(bomb.GetCords().X, bomb.GetCords().Y).ForEach(z => Players[z - 1].Alive = false);
+
             int x = ((Coordinates)bomb.GetCords().Clone()).X;
             int y = ((Coordinates)bomb.GetCords().Clone()).Y;
             int radius = bomb.Radius;
             var fc = new PickableFactoryProvider();
-            for (int i = 1; i <= radius; i++)
+
+            for (int i = 1; i < radius; i++)
             {
                 if ((x - i) >= 0)
                 {
@@ -365,17 +373,22 @@ namespace Server
                         break;
                     if (walls[x - i, y] == (int)TileTypeEnum.DestroyableWall)
                     {
+                        grid.AddToTile(x - i, y, (int)TileTypeEnum.FlameH);
                         walls[x - i, y] = 0;
                         var temp = fc.GetRandom(new Coordinates(x - i, y));
-                        if(!(temp is null))
-                        AddGameObject(temp);
+                        if (!(temp is null))
+                            AddGameObject(temp);
                         break;
                     }
-                    grid.ReturnPlayersAt(x - i, y).ForEach(z => Players[z- 1].Alive = false);
-                    grid.ReturnPowersAt(x - i, y).ForEach(z => { RemoveGameObjectAt(x - i, y); i = radius + 1; });
+                    grid.ReturnPlayersAt(x - i, y).ForEach(z => Players[z - 1].Alive = false);
+                    bool brk = false;
+                    grid.ReturnPowersAt(x - i, y).ForEach(z => { RemoveGameObjectAt(x - i, y); brk = true; });
+                    flames.flames[x - i, y] = (int)TileTypeEnum.FlameH;
+                    if (brk)
+                        break;
                 }
             }
-            for (int i = 1; i <= radius; i++)
+            for (int i = 1; i < radius; i++)
             {
 
                 if ((x + i) <= 12)
@@ -391,10 +404,14 @@ namespace Server
                         break;
                     }
                     grid.ReturnPlayersAt(x + i, y).ForEach(x => Players[x - 1].Alive = false);
-                    grid.ReturnPowersAt(x + i, y).ForEach(z => { RemoveGameObjectAt(x + i, y); i = radius + 1; });
+                    bool brk = false;
+                    grid.ReturnPowersAt(x + i, y).ForEach(z => { RemoveGameObjectAt(x + i, y); brk = true; });
+                    flames.flames[x + i, y] = (int)TileTypeEnum.FlameH;
+                    if (brk)
+                        break;
                 }
             }
-            for (int i = 1; i <= radius; i++)
+            for (int i = 1; i < radius; i++)
             {
 
                 if ((y - i) >= 0)
@@ -410,10 +427,14 @@ namespace Server
                         break;
                     }
                     grid.ReturnPlayersAt(x, y - i).ForEach(x => Players[x - 1].Alive = false);
-                    grid.ReturnPowersAt(x , y - i).ForEach(z => { RemoveGameObjectAt(x, y - i); i = radius + 1; });
+                    bool brk = false;
+                    grid.ReturnPowersAt(x, y - i).ForEach(z => { RemoveGameObjectAt(x, y - i);; brk = true; });
+                    flames.flames[x, y - i] = (int)TileTypeEnum.FlameV;
+                    if (brk)
+                        break;
                 }
             }
-            for (int i = 1; i <= radius; i++)
+            for (int i = 1; i < radius; i++)
             {
 
                 if ((y + i) <= 12)
@@ -429,7 +450,46 @@ namespace Server
                         break;
                     }
                     grid.ReturnPlayersAt(x, y + i).ForEach(x => Players[x - 1].Alive = false);
-                    grid.ReturnPowersAt(x, y + i).ForEach(z => { RemoveGameObjectAt(x, y + i); i = radius + 1; });
+                    bool brk = false;
+                    grid.ReturnPowersAt(x, y + i).ForEach(z => { RemoveGameObjectAt(x, y + i); brk = true; });
+                    flames.flames[x, y + i] = (int)TileTypeEnum.FlameV;
+                    if (brk)
+                        break;
+                }
+            }
+            FlamesAtInterval(flames, Constants.FlameExposureTime);
+
+        }
+        private async void FlamesAtInterval(Flame flame, int wait)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                var xy = flame.GetCords();
+                flames.Add(flame);
+
+                Thread.Sleep(wait);
+
+                flames.RemoveAll(z => z.GetCords().X == xy.X && z.GetCords().Y == xy.Y);
+                RemoveGameObject(flame, xy.X, xy.Y);
+                UpdateRequired = true;
+            });
+        }
+        private void AddFlamesToGrid()
+        {
+            foreach (Flame item in flames)
+            {
+                for (int i = 0; i < 13; i++)
+                {
+                    for (int j = 0; j < 13; j++)
+                    {
+                        if (item.flames[i, j] > 0
+                            && !(grid.GetGrid()[i, j].Contains((int)TileTypeEnum.FlameH)
+                            || grid.GetGrid()[i, j].Contains((int)TileTypeEnum.FlameV)
+                            || grid.GetGrid()[i, j].Contains((int)TileTypeEnum.FlameC)))
+                        {
+                            grid.AddToTile(i, j, item.flames[i, j]);
+                        }
+                    }
                 }
             }
         }

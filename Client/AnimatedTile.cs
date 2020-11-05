@@ -237,6 +237,42 @@ namespace OPP
                         break;
                     }
                     break;
+                case TileTypeEnum.FlameH:
+                    try
+                    {
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\flameH.png")));
+                    }
+                    catch (Exception ex)
+                    {
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\empty.png")));
+                        Console.WriteLine(ex.Message);
+                        break;
+                    }
+                    break;
+                case TileTypeEnum.FlameV:
+                    try
+                    {
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\flameV.png")));
+                    }
+                    catch (Exception ex)
+                    {
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\empty.png")));
+                        Console.WriteLine(ex.Message);
+                        break;
+                    }
+                    break;
+                case TileTypeEnum.FlameC:
+                    try
+                    {
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\flameC.png")));
+                    }
+                    catch (Exception ex)
+                    {
+                        tileGraphics.SetTileGfx(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\empty.png")));
+                        Console.WriteLine(ex.Message);
+                        break;
+                    }
+                    break;
 
                 case TileTypeEnum.Empty:
                 default:

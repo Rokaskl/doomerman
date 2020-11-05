@@ -11,14 +11,25 @@ namespace Server
         private List<int>[,] _grid;
         private int _size;
 
-        public Grid(int size=13)
+        public Grid(int size = 13)
         {
-            this._grid = new List<int>[size,size];
-            
+            this._grid = new List<int>[size, size];
+
             this._size = size;
             this.Clean();
             Console.WriteLine("Grid {0} X {0} created ", _size);
 
+        }
+        public void AddTiles(int[,] values)
+        {
+            for (int i = 0; i < 13; i++)
+            {
+                for (int j = 0; j < 13; j++)
+                {
+                    if (values[i, j] > 0)
+                        AddToTile(i, j, values[i, j]);
+                }
+            }
         }
         public List<int>[,] GetGrid()
         {
@@ -32,7 +43,8 @@ namespace Server
         {
             var players = new List<int>();
 
-            _grid[i, j].ForEach(x => {
+            _grid[i, j].ForEach(x =>
+            {
                 if (x >= (int)TileEnumerator.TileTypeEnum.PUIncreaseBombRange && x <= (int)TileEnumerator.TileTypeEnum.PUTemporarySwim)
                 {
                     players.Add(x);
@@ -44,8 +56,9 @@ namespace Server
         {
             var players = new List<int>();
 
-            _grid[i, j].ForEach(x => { 
-                if(x>=1 && x <=4)
+            _grid[i, j].ForEach(x =>
+            {
+                if (x >= 1 && x <= 4)
                 {
                     players.Add(x);
                 }
@@ -78,7 +91,7 @@ namespace Server
                 return false;
             }
         }
-        public bool UpdateTile(int i, int j,List<int> value)
+        public bool UpdateTile(int i, int j, List<int> value)
         {
             try
             {
@@ -93,7 +106,7 @@ namespace Server
         }
         public List<int> GetTile(int i, int j)
         {
-            return this._grid[i,j];
+            return this._grid[i, j];
         }
         public void Clean()
         {

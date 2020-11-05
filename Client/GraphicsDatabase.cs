@@ -39,6 +39,9 @@ namespace OPP
             images.Add(TileTypeEnum.Wall, Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\wall.png")));
             images.Add(TileTypeEnum.DestroyableWall, Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\wall_destructable.png")));
             images.Add(TileTypeEnum.Dead, Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\dead.png")));
+            images.Add(TileTypeEnum.FlameH, Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\flameH.png")));
+            images.Add(TileTypeEnum.FlameV, Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\flameV.png")));
+            images.Add(TileTypeEnum.FlameC, Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\flameC.png")));
 
         }
 
