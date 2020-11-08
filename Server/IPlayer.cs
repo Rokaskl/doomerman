@@ -6,6 +6,6 @@ namespace Server
 {
     public interface IPlayer
     {
-        void Update(Grid grid);
+        void Update(Grid grid, List<int> deadPlayers);
     }
 }

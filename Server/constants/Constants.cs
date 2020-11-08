@@ -19,7 +19,7 @@ namespace Server.constants
         public const int StartBombTimeMs= 4000; 
         public const int StartBombLimit = 3;
 
-
+        public const int FlameExposureTime = 500;
         public static int next(int a, int b)
         {
             return random.Next(a,b);

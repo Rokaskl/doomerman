@@ -32,7 +32,11 @@ namespace OPP
             PUIncreaseBombExplosionTime,
             PUAutoPlacer,
             PUTemporarySwim,        
-            Water
+            Water,
+            FlameH,
+            FlameV,
+            FlameC,
+            Dead
         }
     }
 }

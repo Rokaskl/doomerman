@@ -12,17 +12,17 @@ namespace Server.MapObject.PowerUps
             {
                 case 0:
                     return new BombKick(new GameObject(xy));
-                //case 1:
-                //    return new BombLimitIncrease(new GameObject(xy));
+                case 1:
+                    return new BombLimitIncrease(new GameObject(xy));
                 //case 2:
                 //    return new ExtraLife(new GameObject(xy));
-                //case 2:
-                //    return new BombFireIncrease(new GameObject(xy));
+                case 2:
+                    return new BombFireIncrease(new GameObject(xy));
                 //case 4:
                 //    return new SpeedIncrease(new GameObject(xy));
-                case 1:
+                case 3:
                     return new TemporaryJump(new GameObject(xy));
-                case 2:
+                case 4:
                     return new TemporarySwim(new GameObject(xy));
 
                 default: return null;
@@ -31,7 +31,7 @@ namespace Server.MapObject.PowerUps
      
         public Pickable GetRandom(Coordinates cords)
         {
-            int random = Program.random.Next(0, 3);
+            int random = Program.random.Next(0, 5);
             Console.WriteLine(random);
             return this.Build(random, cords);
         }

@@ -192,7 +192,7 @@ namespace Server
         {
             this.xy.X--;
         }
-        public void Update(Grid grid)
+        public void Update(Grid grid, List<int> deadPlayers)
         {
             ClientData clientData = new ClientData();
             clientData.Grid = grid.GetGrid();
@@ -200,6 +200,7 @@ namespace Server
             clientData.Score = this.Score;
             clientData.Alive = this.Alive;
             clientData.BombRadius = (this.Bomb as Explosive).Radius;
+            clientData.DeadPlayers = deadPlayers.ToArray();
 
             string json = JsonConvert.SerializeObject(clientData);
 

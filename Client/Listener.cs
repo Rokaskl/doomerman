@@ -73,7 +73,8 @@ namespace OPP
                         }
 
                         Data data = JsonConvert.DeserializeObject<Data>(msg);
-                        ClientManager.Instance.SetGridFromServer(data.Grid);                   
+                        ClientManager.Instance.SetGridFromServer(data.Grid,data.DeadPlayers);
+                        ClientManager.Instance.isAlive = data.Alive;
 
                         // Console.WriteLine(data.Grid);
                         break;

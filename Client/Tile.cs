@@ -104,6 +104,18 @@ namespace OPP
                 case TileTypeEnum.PUTemporarySwim:
                     tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.PUTemporarySwim]);
                     break;
+                case TileTypeEnum.Dead:
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.Dead]);
+                    break;
+                case TileTypeEnum.FlameH:
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.FlameH]);
+                    break;
+                case TileTypeEnum.FlameV:
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.FlameV]);
+                    break;
+                case TileTypeEnum.FlameC:
+                    tileGraphics.SetTileGfx(GraphicsDatabase.images[TileTypeEnum.FlameC]);
+                    break;
 
                 case TileTypeEnum.Empty:
                 default:
