@@ -8,24 +8,22 @@ namespace ServerTests.MapObject
     public class DestroyableTests
     {
         private MockRepository mockRepository;
-
-        private Mock<IGameObject> mockGameObject;
+        private Coordinates cords;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
-            this.mockGameObject = this.mockRepository.Create<IGameObject>();
+            this.mockRepository = new MockRepository(MockBehavior.Default);
+            this.cords = new Coordinates(0, 0);
         }
 
         private Destroyable CreateDestroyable()
         {
-            return new Destroyable(
-                this.mockGameObject.Object);
+            return new Destroyable(new GameObject(cords));
         }
 
         [TestMethod]
-        public void GetTags_StateUnderTest_ExpectedBehavior()
+        public void ShouldReturnDestroyableTag()
         {
             // Arrange
             var destroyable = this.CreateDestroyable();
@@ -34,38 +32,7 @@ namespace ServerTests.MapObject
             var result = destroyable.GetTags();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void PrintTags_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var destroyable = this.CreateDestroyable();
-
-            // Act
-            destroyable.PrintTags();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void ShouldSetAndGetCoordinates()
-        {
-            // Arrange
-            var destroyable = this.CreateDestroyable();
-            Coordinates xy = new Coordinates();
-
-            // Act
-            destroyable.SetCords(
-                xy);
-
-            // Assert
-            Assert.AreEqual(destroyable.GetCords(), xy);
-
+            CollectionAssert.Contains(result, "Destroyable");
         }
     }
 }

@@ -9,14 +9,14 @@ namespace ServerTests.MapObject
     public class ExplosiveTests
     {
         private MockRepository mockRepository;
-
+        private Coordinates cords;
 
 
         [TestInitialize]
         public void TestInitialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
-
+            this.cords = new Coordinates();
 
         }
 
@@ -26,35 +26,38 @@ namespace ServerTests.MapObject
         }
 
         [TestMethod]
-        public void IncRadius_StateUnderTest_ExpectedBehavior()
+        public void ShouldIncreaseRadiusBy1ThanIncRadiusCalled()
         {
             // Arrange
             var explosive = this.CreateExplosive();
+            var expexted = explosive.Radius + 1;
 
             // Act
             explosive.IncRadius();
+            var actual = explosive.Radius;
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(expexted, actual);
+           
         }
 
         [TestMethod]
-        public void DecRadius_StateUnderTest_ExpectedBehavior()
+        public void ShouldDecreaseRadiusBy1ThanDecRadiusCalled()
         {
             // Arrange
             var explosive = this.CreateExplosive();
+            var expexted = explosive.Radius -1;
 
             // Act
             explosive.DecRadius();
+            var actual = explosive.Radius;
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
+            Assert.AreEqual(expexted, actual);
 
+        }
         [TestMethod]
-        public void GetTags_StateUnderTest_ExpectedBehavior()
+        public void ShouldReturnExplosiveTag()
         {
             // Arrange
             var explosive = this.CreateExplosive();
@@ -63,52 +66,24 @@ namespace ServerTests.MapObject
             var result = explosive.GetTags();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            CollectionAssert.Contains(result, "Explosive");
         }
 
+       
+
         [TestMethod]
-        public void PrintTags_StateUnderTest_ExpectedBehavior()
+        public void ShouldSetandGetCordsCoordinates()
         {
             // Arrange
             var explosive = this.CreateExplosive();
-
+            
             // Act
-            explosive.PrintTags();
+            explosive.SetCords(cords);
+            Coordinates result = explosive.GetCords();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(cords, result);
         }
-
-        [TestMethod]
-        public void GetCords_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var explosive = this.CreateExplosive();
-
-            // Act
-            var result = explosive.GetCords();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void SetCords_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var explosive = this.CreateExplosive();
-            Coordinates xy = null;
-
-            // Act
-            explosive.SetCords(
-                xy);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
+        
     }
 }
