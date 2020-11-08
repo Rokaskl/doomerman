@@ -12,7 +12,7 @@ namespace Server.MapObject.PowerUps
         }
         public BombFireDecrease():base()
         {
-
+            type = TileEnumerator.TileTypeEnum.PUDecreaseBombRange;
         }
     }
 }
