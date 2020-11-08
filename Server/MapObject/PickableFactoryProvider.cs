@@ -21,10 +21,10 @@ namespace Server.MapObject
                 default: return null;
             } 
         }
-        public Pickable GetRandom(Coordinates xy)
+        public static Pickable GetRandom(Coordinates xy)
         {
             
-            switch (Program.random.Next(0, 2))
+            switch (new Random().Next(0, 2))
             {
                 case 0:
                     {

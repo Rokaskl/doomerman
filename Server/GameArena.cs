@@ -363,7 +363,6 @@ namespace Server
             int x = ((Coordinates)bomb.GetCords().Clone()).X;
             int y = ((Coordinates)bomb.GetCords().Clone()).Y;
             int radius = bomb.Radius;
-            var fc = new PickableFactoryProvider();
 
             for (int i = 1; i < radius; i++)
             {
@@ -375,7 +374,7 @@ namespace Server
                     {
                         grid.AddToTile(x - i, y, (int)TileTypeEnum.FlameH);
                         walls[x - i, y] = 0;
-                        var temp = fc.GetRandom(new Coordinates(x - i, y));
+                        var temp = PickableFactoryProvider.GetRandom(new Coordinates(x - i, y));
                         if (!(temp is null))
                             AddGameObject(temp);
                         break;
@@ -398,7 +397,7 @@ namespace Server
                     if (walls[x + i, y] == (int)TileTypeEnum.DestroyableWall)
                     {
                         walls[x + i, y] = 0;
-                        var temp = fc.GetRandom(new Coordinates(x + i, y));
+                        var temp = PickableFactoryProvider.GetRandom(new Coordinates(x + i, y));
                         if (!(temp is null))
                             AddGameObject(temp);
                         break;
@@ -421,7 +420,7 @@ namespace Server
                     if (walls[x, y - i] == (int)TileTypeEnum.DestroyableWall)
                     {
                         walls[x, y - i] = 0;
-                        var temp = fc.GetRandom(new Coordinates(x, y - i));
+                        var temp = PickableFactoryProvider.GetRandom(new Coordinates(x, y - i));
                         if (!(temp is null))
                             AddGameObject(temp);
                         break;
@@ -444,7 +443,7 @@ namespace Server
                     if (walls[x, y + i] == (int)TileTypeEnum.DestroyableWall)
                     {
                         walls[x, y + i] = 0;
-                        var temp = fc.GetRandom(new Coordinates(x, y + i));
+                        var temp = PickableFactoryProvider.GetRandom(new Coordinates(x, y + i));
                         if (!(temp is null))
                             AddGameObject(temp);
                         break;

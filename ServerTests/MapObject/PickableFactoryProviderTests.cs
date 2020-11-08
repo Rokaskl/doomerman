@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Server;
 using Server.MapObject;
+using Server.MapObject.PowerUps;
 using System;
 
 namespace ServerTests.MapObject
@@ -9,17 +10,7 @@ namespace ServerTests.MapObject
     [TestClass]
     public class PickableFactoryProviderTests
     {
-        private MockRepository mockRepository;
 
-
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
-
-
-        }
 
         private PickableFactoryProvider CreateProvider()
         {
@@ -27,10 +18,9 @@ namespace ServerTests.MapObject
         }
 
         [TestMethod]
-        public void GetFactory_StateUnderTest_ExpectedBehavior()
+        public void ShouldReturnPowerUpFactoryThanWhichIs0()
         {
             // Arrange
-            var provider = this.CreateProvider();
             int which = 0;
 
             // Act
@@ -38,24 +28,33 @@ namespace ServerTests.MapObject
                 which);
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(PowerUpFactory));
         }
 
         [TestMethod]
-        public void GetRandom_StateUnderTest_ExpectedBehavior()
+        public void ShouldReturnPowerDownFactoryThanWhichIs1()
         {
             // Arrange
-            var provider = this.CreateProvider();
-            Coordinates xy = null;
+            int which = 1;
 
             // Act
-            var result = provider.GetRandom(
-                xy);
+            var result = PickableFactoryProvider.GetFactory(
+                which);
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.IsInstanceOfType(result, typeof(PowerDownFactory));
+        }
+        [TestMethod]
+        public void ShouldReturnRandomPickableObject()
+        {
+            // Arrange
+            Coordinates cords = new Coordinates(1,2);
+
+            // Act
+            var result = PickableFactoryProvider.GetRandom(cords);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(Pickable));
         }
     }
 }
