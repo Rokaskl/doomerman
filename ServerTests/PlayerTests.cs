@@ -170,8 +170,7 @@ namespace ServerTests
             Grid grid = null;
 
             // Act
-            player.Update(
-                grid);
+            //player.Update(grid);
 
             // Assert
             Assert.Fail();
