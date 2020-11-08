@@ -5,6 +5,7 @@ using Server.CommandPattern;
 using Server.GameLobby;
 using System;
 using Moq;
+using NUnit.Framework.Constraints;
 
 namespace ServerTests.GameLobby
 {
@@ -12,10 +13,12 @@ namespace ServerTests.GameLobby
     public class LobbyTests
     {
         private Lobby lobby;
+        private Mock<Sender> senderMock;
         
         [TestInitialize]
         public void Initialize()
         {
+            senderMock = new Mock<Sender>();
         }
 
         [TestMethod]
@@ -82,6 +85,19 @@ namespace ServerTests.GameLobby
 
             lobby.AddPlayer(player);
             lobby.RemovePlayer(player);
+        }
+
+        [TestMethod]
+        public void ShouldCallSendWhenThereArePlayersInLobby()
+        {
+            lobby = new Lobby(new GameArena(0));
+
+            senderMock.Setup(x => x.Send(It.IsAny<int>(), It.IsAny<string>()));
+
+            lobby.AddPlayer(new Player(new User()));
+            lobby.SendInfo();
+
+            senderMock.Verify(x => x.Send(2, ""), Times.AtLeastOnce());
         }
     }
 }
