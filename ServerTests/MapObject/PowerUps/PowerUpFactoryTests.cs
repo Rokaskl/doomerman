@@ -9,55 +9,20 @@ namespace ServerTests.MapObject.PowerUps
     [TestClass]
     public class PowerUpFactoryTests
     {
-        private MockRepository mockRepository;
-
-
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
-
-
-        }
-
-        private PowerUpFactory CreateFactory()
-        {
-            return new PowerUpFactory();
-        }
+        private PowerUpFactory factory;
 
         [TestMethod]
-        public void Build_StateUnderTest_ExpectedBehavior()
+        [DataRow(0, typeof(BombKick))]
+        [DataRow(1, typeof(BombLimitIncrease))]
+        [DataRow(2, typeof(BombFireIncrease))]
+        [DataRow(3, typeof(TemporaryJump))]
+        [DataRow(4, typeof(TemporarySwim))]
+        public void ShouldCorrespondingTypeWhenBuilt(int which, Type type)
         {
-            // Arrange
-            var factory = this.CreateFactory();
-            int which = 0;
-            Coordinates xy = null;
+            factory = new PowerUpFactory();
+            var obj = factory.Build(which, new Coordinates());
 
-            // Act
-            var result = factory.Build(
-                which,
-                xy);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void GetRandom_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var factory = this.CreateFactory();
-            Coordinates cords = null;
-
-            // Act
-            var result = factory.GetRandom(
-                cords);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.IsInstanceOfType(obj, type);
         }
     }
 }
