@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Server;
 using Server.CommandPattern;
+using Server.MapObject;
 using System;
 using System.Collections.Generic;
 
@@ -10,199 +11,227 @@ namespace ServerTests
     [TestClass]
     public class PlayerTests
     {
-        private MockRepository mockRepository;
-
-        private Mock<User> mockUser;
+        private WallsAdapter wallsAdapter;
+        private List<int>[,] gridWalls;
+        private Player player;
 
         [TestInitialize]
-        public void TestInitialize()
+        public void Initialize()
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
+            Walls walls = new Walls();
+            wallsAdapter = new WallsAdapter(walls);
+            gridWalls = wallsAdapter.GetGrid();
 
-            this.mockUser = this.mockRepository.Create<User>();
-        }
-
-        private Player CreatePlayer()
-        {
-            return new Player(
-                this.mockUser.Object);
+            App.CreateInstance(new AppOptions());
+            App.Inst.Arena = new GameArena(0);
         }
 
         [TestMethod]
-        public void CanMove_StateUnderTest_ExpectedBehavior()
+        [DataRow(ArenaCommandEnum.MoveUp, 0, 0)]
+        [DataRow(ArenaCommandEnum.MoveDown, 0, 12)]
+        [DataRow(ArenaCommandEnum.MoveLeft, 0, 0)]
+        [DataRow(ArenaCommandEnum.MoveRight, 12, 0)]
+        public void ShouldReturnFalseWhenMovingOutsideGrid(ArenaCommandEnum cmd, int x, int y)
         {
-            // Arrange
-            var player = this.CreatePlayer();
-            ArenaCommandEnum cmd = default(global::Server.CommandPattern.ArenaCommandEnum);
-            List<int>[,] walls = null;
+            player = new Player(new User());
+            player.xy.X = x;
+            player.xy.Y = y;
 
-            // Act
-            var result = player.CanMove(
-                cmd,
-                walls);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.IsFalse(player.CanMove(cmd, gridWalls));
         }
 
         [TestMethod]
-        public void CanDropBomb_StateUnderTest_ExpectedBehavior()
+        [DataRow(ArenaCommandEnum.MoveUp, 0, 12)]
+        [DataRow(ArenaCommandEnum.MoveDown, 0, 0)]
+        [DataRow(ArenaCommandEnum.MoveLeft, 12, 0)]
+        [DataRow(ArenaCommandEnum.MoveRight, 0, 0)]
+        public void ShouldReturnTrueWhenMovingInsideGrid(ArenaCommandEnum cmd, int x, int y)
         {
-            // Arrange
-            var player = this.CreatePlayer();
+            player = new Player(new User());
+            player.xy.X = x;
+            player.xy.Y = y;
 
-            // Act
-            var result = player.CanDropBomb();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.IsTrue(player.CanMove(cmd, gridWalls));
         }
 
         [TestMethod]
-        public void DropBomb_StateUnderTest_ExpectedBehavior()
+        [DataRow(TileEnumerator.TileTypeEnum.Wall)]
+        [DataRow(TileEnumerator.TileTypeEnum.Bomb)]
+        [DataRow(TileEnumerator.TileTypeEnum.DestroyableWall)]
+        [DataRow(TileEnumerator.TileTypeEnum.Water)]
+        public void ShouldReturnFalseWhenNormalStrategyAndMovingIntoObstacles(TileEnumerator.TileTypeEnum tileType)
         {
-            // Arrange
-            var player = this.CreatePlayer();
+            player = new Player(new User());
+            player.ChangeStrategy(new MoveNormalStrategy());
 
-            // Act
-            player.DropBomb();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            List<int>[,] grid = wallsAdapter.GetGrid();
+            grid[1, 0].Add((int)tileType);
+            Assert.IsFalse(player.CanMove(ArenaCommandEnum.MoveRight, grid));
         }
 
         [TestMethod]
-        public void ChangeStrategy_StateUnderTest_ExpectedBehavior()
+        [DataRow(TileEnumerator.TileTypeEnum.Wall)]
+        [DataRow(TileEnumerator.TileTypeEnum.DestroyableWall)]
+        [DataRow(TileEnumerator.TileTypeEnum.Water)]
+        public void ShouldReturnFalseWhenKickStrategyAndMovingIntoObstacles(TileEnumerator.TileTypeEnum tileType)
         {
-            // Arrange
-            var player = this.CreatePlayer();
-            IMoveStrategy strategy = null;
+            player = new Player(new User());
+            player.ChangeStrategy(new MoveKickStrategy());
 
-            // Act
-            player.ChangeStrategy(
-                strategy);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            List<int>[,] grid = wallsAdapter.GetGrid();
+            grid[1, 0].Add((int)tileType);
+            Assert.IsFalse(player.CanMove(ArenaCommandEnum.MoveRight, grid));
         }
 
         [TestMethod]
-        public void AddPowerUp_StateUnderTest_ExpectedBehavior()
+        [DataRow(TileEnumerator.TileTypeEnum.Wall)]
+        [DataRow(TileEnumerator.TileTypeEnum.Bomb)]
+        [DataRow(TileEnumerator.TileTypeEnum.DestroyableWall)]
+        public void ShouldReturnFalseWhenSwimStrategyAndMovingIntoObstacles(TileEnumerator.TileTypeEnum tileType)
         {
-            // Arrange
-            var player = this.CreatePlayer();
-            Pickable item = null;
+            player = new Player(new User());
+            player.ChangeStrategy(new MoveSwimStrategy());
 
-            // Act
-            player.AddPowerUp(
-                item);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            List<int>[,] grid = wallsAdapter.GetGrid();
+            grid[1, 0].Add((int)tileType);
+            Assert.IsFalse(player.CanMove(ArenaCommandEnum.MoveRight, grid));
         }
 
         [TestMethod]
-        public void MoveUp_StateUnderTest_ExpectedBehavior()
+        [DataRow(TileEnumerator.TileTypeEnum.Wall)]
+        [DataRow(TileEnumerator.TileTypeEnum.DestroyableWall)]
+        [DataRow(TileEnumerator.TileTypeEnum.Water)]
+        public void ShouldReturnFalseWhenJumpStrategyAndMovingIntoObstacles(TileEnumerator.TileTypeEnum tileType)
         {
-            // Arrange
-            var player = this.CreatePlayer();
+            player = new Player(new User());
+            player.ChangeStrategy(new MoveJumpStrategy());
 
-            // Act
-            player.MoveUp();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            List<int>[,] grid = wallsAdapter.GetGrid();
+            grid[1, 0].Add((int)tileType);
+            Assert.IsFalse(player.CanMove(ArenaCommandEnum.MoveRight, grid));
         }
 
         [TestMethod]
-        public void MoveDown_StateUnderTest_ExpectedBehavior()
+        [DataRow(TileEnumerator.TileTypeEnum.Player1)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player2)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player3)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player4)]
+        [DataRow(TileEnumerator.TileTypeEnum.Empty)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUAutoPlacer)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUBombKick)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseBombExplosionTime)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseBombLimit)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseBombRange)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseSpeed)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUExtraLife)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseBombExplosionTime)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseBombLimit)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseBombRange)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseSpeed)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporaryJump)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporaryShield)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporarySwim)]
+        public void ShouldReturnTrueWhenNormalStrategyAndMovingIntoAllowedTiles(TileEnumerator.TileTypeEnum tileType)
         {
-            // Arrange
-            var player = this.CreatePlayer();
+            player = new Player(new User());
+            player.ChangeStrategy(new MoveNormalStrategy());
 
-            // Act
-            player.MoveDown();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            List<int>[,] grid = wallsAdapter.GetGrid();
+            grid[1, 0].Add((int)tileType);
+            Assert.IsTrue(player.CanMove(ArenaCommandEnum.MoveRight, grid));
         }
 
         [TestMethod]
-        public void MoveRight_StateUnderTest_ExpectedBehavior()
+        [DataRow(TileEnumerator.TileTypeEnum.Bomb)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player1)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player2)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player3)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player4)]
+        [DataRow(TileEnumerator.TileTypeEnum.Empty)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUAutoPlacer)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUBombKick)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseBombExplosionTime)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseBombLimit)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseBombRange)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseSpeed)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUExtraLife)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseBombExplosionTime)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseBombLimit)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseBombRange)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseSpeed)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporaryJump)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporaryShield)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporarySwim)]
+        public void ShouldReturnTrueWhenKickStrategyAndMovingIntoAllowedTiles(TileEnumerator.TileTypeEnum tileType)
         {
-            // Arrange
-            var player = this.CreatePlayer();
+            player = new Player(new User());
+            player.ChangeStrategy(new MoveKickStrategy());
 
-            // Act
-            player.MoveRight();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            List<int>[,] grid = wallsAdapter.GetGrid();
+            grid[1, 0].Add((int)tileType);
+            Assert.IsTrue(player.CanMove(ArenaCommandEnum.MoveRight, grid));
         }
 
         [TestMethod]
-        public void MoveLeft_StateUnderTest_ExpectedBehavior()
+        [DataRow(TileEnumerator.TileTypeEnum.Water)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player1)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player2)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player3)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player4)]
+        [DataRow(TileEnumerator.TileTypeEnum.Empty)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUAutoPlacer)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUBombKick)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseBombExplosionTime)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseBombLimit)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseBombRange)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseSpeed)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUExtraLife)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseBombExplosionTime)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseBombLimit)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseBombRange)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseSpeed)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporaryJump)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporaryShield)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporarySwim)]
+        public void ShouldReturnTrueWhenSwimStrategyAndMovingIntoAllowedTiles(TileEnumerator.TileTypeEnum tileType)
         {
-            // Arrange
-            var player = this.CreatePlayer();
+            player = new Player(new User());
+            player.ChangeStrategy(new MoveSwimStrategy());
 
-            // Act
-            player.MoveLeft();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            List<int>[,] grid = wallsAdapter.GetGrid();
+            grid[1, 0].Add((int)tileType);
+            Assert.IsTrue(player.CanMove(ArenaCommandEnum.MoveRight, grid));
         }
 
         [TestMethod]
-        public void Update_StateUnderTest_ExpectedBehavior()
+        [DataRow(TileEnumerator.TileTypeEnum.Bomb)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player1)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player2)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player3)]
+        [DataRow(TileEnumerator.TileTypeEnum.Player4)]
+        [DataRow(TileEnumerator.TileTypeEnum.Empty)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUAutoPlacer)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUBombKick)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseBombExplosionTime)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseBombLimit)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseBombRange)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUDecreaseSpeed)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUExtraLife)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseBombExplosionTime)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseBombLimit)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseBombRange)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUIncreaseSpeed)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporaryJump)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporaryShield)]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporarySwim)]
+        public void ShouldReturnTrueWhenJumpStrategyAndMovingIntoAllowedTiles(TileEnumerator.TileTypeEnum tileType)
         {
-            // Arrange
-            var player = this.CreatePlayer();
-            Grid grid = null;
+            player = new Player(new User());
+            player.ChangeStrategy(new MoveJumpStrategy());
 
-            // Act
-            //player.Update(grid);
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void IncBombLimit_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var player = this.CreatePlayer();
-
-            // Act
-            player.IncBombLimit();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void DecBombLimit_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var player = this.CreatePlayer();
-
-            // Act
-            player.DecBombLimit();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            List<int>[,] grid = wallsAdapter.GetGrid();
+            grid[1, 0].Add((int)tileType);
+            Assert.IsTrue(player.CanMove(ArenaCommandEnum.MoveRight, grid));
         }
     }
 }
