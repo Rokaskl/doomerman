@@ -31,7 +31,7 @@ namespace Server.MapObject.PowerUps
      
         public Pickable GetRandom(Coordinates cords)
         {
-            int random = Program.random.Next(0, 5);
+            int random = new Random().Next(0, 5);
             Console.WriteLine(random);
             return this.Build(random, cords);
         }
