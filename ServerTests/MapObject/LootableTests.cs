@@ -8,25 +8,53 @@ namespace ServerTests.MapObject
     public class LootableTests
     {
         private MockRepository mockRepository;
-
-        private Mock<IGameObject> mockGameObject;
+        private Coordinates cords;
 
         [TestInitialize]
         public void TestInitialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
-
-            this.mockGameObject = this.mockRepository.Create<IGameObject>();
+            this.cords =  new Coordinates();
         }
 
         private Lootable CreateLootable()
         {
-            return new Lootable(
-                this.mockGameObject.Object);
+            return new Lootable(new GameObject(cords));
+        }
+        [TestMethod]
+
+        public void ShouldSetAndGetCoordinates()
+        {
+            // Arrange
+            var lootable = this.CreateLootable();
+            Coordinates xy = null;
+
+            // Act
+            lootable.SetCords(
+                xy);
+
+            // Assert
+            Assert.AreEqual(lootable.GetCords(), xy);
+
         }
 
         [TestMethod]
-        public void GetTags_StateUnderTest_ExpectedBehavior()
+        public void ShouldAddAndReturnLoot()
+        {
+            // Arrange
+            var lootable = this.CreateLootable();
+            Pickable pickable = null;
+
+            // Act
+            lootable.AddLoot(
+                pickable);
+
+            // Assert
+            Assert.AreEqual(lootable.GetLoot(), pickable);
+        }
+
+        [TestMethod]
+        public void ShouldReturnLootableTag()
         {
             // Arrange
             var lootable = this.CreateLootable();
@@ -35,36 +63,8 @@ namespace ServerTests.MapObject
             var result = lootable.GetTags();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            CollectionAssert.Contains(result, "Lootable");
         }
 
-        [TestMethod]
-        public void PrintTags_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var lootable = this.CreateLootable();
-
-            // Act
-            lootable.PrintTags();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void GetCords_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var lootable = this.CreateLootable();
-
-            // Act
-            var result = lootable.GetCords();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
     }
 }

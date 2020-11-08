@@ -8,25 +8,39 @@ namespace ServerTests.MapObject
     public class PickableTests
     {
         private MockRepository mockRepository;
-
-        private Mock<IGameObject> mockGameObject;
+        private Coordinates cords;
 
         [TestInitialize]
         public void TestInitialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
-
-            this.mockGameObject = this.mockRepository.Create<IGameObject>();
+            this.cords = new Coordinates();
         }
 
         private Pickable CreatePickable()
         {
-            return new Pickable(
-                this.mockGameObject.Object);
+            return new Pickable();
         }
 
         [TestMethod]
-        public void GetTags_StateUnderTest_ExpectedBehavior()
+
+        public void ShouldSetAndGetCoordinates()
+        {
+            // Arrange
+            var pickable = this.CreatePickable();
+            Coordinates xy = null;
+
+            // Act
+            pickable.SetCords(
+                xy);
+
+            // Assert
+            Assert.AreEqual(pickable.GetCords(), xy);
+        }
+
+
+        [TestMethod]
+        public void ShouldReturnLootableTag()
         {
             // Arrange
             var pickable = this.CreatePickable();
@@ -35,36 +49,8 @@ namespace ServerTests.MapObject
             var result = pickable.GetTags();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            CollectionAssert.Contains(result, "Pickable");
         }
 
-        [TestMethod]
-        public void PrintTags_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var pickable = this.CreatePickable();
-
-            // Act
-            pickable.PrintTags();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void GetCords_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var pickable = this.CreatePickable();
-
-            // Act
-            var result = pickable.GetCords();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
     }
 }
