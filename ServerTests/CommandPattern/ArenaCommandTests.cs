@@ -1,22 +1,28 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Server;
 using Server.CommandPattern;
+using Server.FacadePattern;
+using Server.Logic;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ServerTests.CommandPattern
 {
     [TestClass]
-    public class ArenaCommandTests
+    public class ArenaCommandTests : TestBase
     {
         private MockRepository mockRepository;
 
+        private Mock<IReceiver> Receiver;
 
 
         [TestInitialize]
         public void TestInitialize()
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
+            this.mockRepository = new MockRepository(MockBehavior.Loose);
 
+            this.Receiver = this.mockRepository.Create<IReceiver>();
 
         }
 
@@ -30,13 +36,16 @@ namespace ServerTests.CommandPattern
         {
             // Arrange
             var arenaCommand = this.CreateArenaCommand();
+            var arena = new GameArena(1);
+            arenaCommand.Receiver = this.Receiver.Object;
+            arenaCommand.Author = new Player(new User(1, "user"));
+
+            this.Receiver.Setup(x => x.Action(It.IsAny<ArenaCommand>()));
 
             // Act
             arenaCommand.Execute();
 
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            this.Receiver.Verify(x => x.Action(arenaCommand), Times.Once);
         }
 
         [TestMethod]

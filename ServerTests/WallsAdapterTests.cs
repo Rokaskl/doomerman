@@ -36,8 +36,7 @@ namespace ServerTests
             var result = wallsAdapter.GetGrid();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(mockWalls.Object.GetWalls().Length, result.Length);
         }
     }
 }
