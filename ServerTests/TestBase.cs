@@ -11,7 +11,11 @@ namespace ServerTests
     public abstract class TestBase
     {
         protected User User { get; } = new User(1, "user");
-        static protected Application Inst { get; } = App.CreateInstance(new AppOptions { ArenaId = 1 });
+        static protected Application Inst => App.Inst;
 
+        public TestBase()
+        {
+            App.CreateInstance(new AppOptions { ArenaId = 1 });
+        }
     }
 }

@@ -169,7 +169,7 @@ namespace ServerTests
             List<int>[,] grid = wallsAdapter.GetGrid();
             grid[1, 0].Add((int)tileType);
             Explosive go = new Explosive(1, 0);
-            Inst.Arena.AddGameObject(go);
+            App.Inst.Arena.AddGameObject(go);
 
             bool move = player.CanMove(ArenaCommandEnum.MoveRight, grid);
 
