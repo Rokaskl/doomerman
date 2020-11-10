@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualBasic.FileIO;
+using Microsoft.VisualBasic.FileIO;
 using Server.FacadePattern;
 using Server.Logic;
 using System;
@@ -52,8 +52,6 @@ namespace Server
         }
         public GameArena(int id)
         {
-
-
             this.Id = id;
             this.Players = new List<Player>();
             this.lobby = new Lobby(this);
@@ -62,15 +60,6 @@ namespace Server
             this.grid = new WallsAdapter(wallsObj);
             walls = wallsObj.GetWalls();
             UpdateAtInterval(Constants.UpdateInterval);
-
-            GameObject gameObject = new GameObject(new Coordinates(1, 1));
-            Destroyable destryable = new Destroyable(gameObject);
-            Lootable lootable = new Lootable(destryable);
-            Pickable pickable = new Pickable(new GameObject(new Coordinates(1, 2)));
-            lootable.AddLoot(pickable);
-            lootable.GetLoot();
-
-            Console.WriteLine(lootable);
         }
         public void AddPlayer(Player player)
         {
@@ -88,7 +77,7 @@ namespace Server
                 player.Update(this.grid, DeadPlayers());
             }
         }
-        private List<int> DeadPlayers()
+        public List<int> DeadPlayers()
         {
             var deads = new List<int>();
             Players.ForEach(x =>
@@ -101,7 +90,6 @@ namespace Server
         {
             isStarted = true;
             UpdateRequired = true;
-
         }
 
         public bool KickBomb(Coordinates bombCord, Explosive.KickDirection dir)
