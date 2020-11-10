@@ -16,6 +16,7 @@ namespace ServerTests
         private WallsAdapter wallsAdapter;
         private List<int>[,] gridWalls;
         private Player player;
+        private Mock<Sender> senderMock;
 
         [TestInitialize]
         public void Initialize()
@@ -23,6 +24,7 @@ namespace ServerTests
             Walls walls = new Walls();
             wallsAdapter = new WallsAdapter(walls);
             gridWalls = wallsAdapter.GetGrid();
+            senderMock = new Mock<Sender>(User);
         }
 
         [TestMethod]
@@ -327,6 +329,18 @@ namespace ServerTests
             }
 
             Assert.AreEqual(player.BombLimit, 1);
+        }
+
+        [TestMethod]
+        public void ShouldCallSendWhenUpdateIsCalled()
+        {
+            player = new Player(User);
+            senderMock.Setup(x => x.Send(It.IsAny<int>(), It.IsAny<string>()));
+            player.sender = senderMock.Object;
+
+            player.Update(new Grid(), new List<int>());
+
+            senderMock.Verify(x => x.Send(It.IsAny<int>(), It.IsAny<string>()), Times.AtLeastOnce());
         }
     }
 }
