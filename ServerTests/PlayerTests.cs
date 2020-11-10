@@ -21,9 +21,6 @@ namespace ServerTests
             Walls walls = new Walls();
             wallsAdapter = new WallsAdapter(walls);
             gridWalls = wallsAdapter.GetGrid();
-
-            App.CreateInstance(new AppOptions());
-            App.Inst.Arena = new GameArena(0);
         }
 
         [TestMethod]
