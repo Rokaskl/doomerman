@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Server;
+using Server.MapObject;
 using Server.MapObject.PowerUps;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,10 @@ namespace Server.Tests
     public class GameArenaTests
     {
 
-
-
         [TestMethod()]
-        public void ShouldGRemoveGameObject()
+        public void ShouldRemoveGameObject()
         {
-
-
+            //Arrange
             GameArena arena = new GameArena(0);
             List<IGameObject> gameObjectsExpected = new List<IGameObject>();
             Explosive bomb = new Explosive(1, 1);
@@ -35,7 +33,7 @@ namespace Server.Tests
             CollectionAssert.AreEqual(arena.gameObjects, gameObjectsExpected);
         }
         [TestMethod()]
-        public void ShouldGRemoveGameObjectAt()
+        public void ShouldRemoveGameObjectAt_When_Pickable()
         {
             GameArena arena = new GameArena(0);
             List<IGameObject> gameObjectsExpected = new List<IGameObject>();
@@ -50,6 +48,23 @@ namespace Server.Tests
             arena.RemoveGameObjectAt(powerup.GetCords().X, powerup.GetCords().Y);
 
             CollectionAssert.AreEqual(arena.gameObjects, gameObjectsExpected);
+        }
+        [TestMethod()]
+        public void ShouldRemoveGameObjectAt_When_Not_Pickable()
+        {
+            GameArena arena = new GameArena(0);
+            List<IGameObject> gameObjectsExpected = new List<IGameObject>();
+            GameObject obj = new GameObject(new Coordinates(0, 1));
+            Pickable powerup = new BombFireDecrease(new GameObject(new Coordinates(2, 2)));
+
+            gameObjectsExpected.Add(powerup);
+
+            arena.gameObjects.Add(obj);
+            arena.gameObjects.Add(powerup);
+
+            arena.RemoveGameObjectAt(obj.GetCords().X, obj.GetCords().Y);
+
+            CollectionAssert.AreNotEqual(arena.gameObjects, gameObjectsExpected);
         }
         [TestMethod()]
         public void ShouldAddGameObject()
@@ -70,6 +85,19 @@ namespace Server.Tests
             Assert.IsNotNull(arena.Players);
             Assert.IsNotNull(arena.grid);
             Assert.IsNotNull(arena.walls);
+        }
+        [TestMethod()]
+        public void ShouldSetWallsGrid()
+        {
+            GameArena arena = new GameArena(0);
+            arena.AddWallsToGrid();
+            for (int i = 0; i < 13; i++)
+            {
+                for (int j = 0; j < 13; j++)
+                {
+                    Assert.IsTrue(arena.grid.GetGrid()[i, j].Contains(Walls.walls[i, j]));
+                }
+            }
         }
         [TestMethod()]
         public void ShouldReturnOnlyDeadPlayers()
