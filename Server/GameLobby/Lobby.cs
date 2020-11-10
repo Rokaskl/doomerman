@@ -30,7 +30,7 @@ namespace Server.GameLobby
             this.source = new CancellationTokenSource();
         }
 
-        public bool AddPlayer(Player player)
+        public virtual bool AddPlayer(Player player)
         {
             if(this.players.Count < _maxPlayerCount && !this.players.Contains(player))
             {
@@ -44,12 +44,12 @@ namespace Server.GameLobby
             }
         }
 
-        public void RemovePlayer(Player player)
+        public virtual void RemovePlayer(Player player)
         {
             this.players.Remove(player);
         }
 
-        public bool PlayerReady(GeneralCommand command)
+        public virtual bool PlayerReady(GeneralCommand command)
         {
             if(!this.readyCommands.Contains(command) && this.readyCommands.Count < _maxPlayerCount)
             {
@@ -80,7 +80,7 @@ namespace Server.GameLobby
             }
         }
 
-        public GeneralCommand GetReadyCommand(Player player)
+        public virtual GeneralCommand GetReadyCommand(Player player)
         {
             return this.readyCommands.FirstOrDefault(x => x.Author == player);
         }
@@ -98,7 +98,7 @@ namespace Server.GameLobby
             return JsonConvert.SerializeObject(data);
         }
 
-        public void SendInfo()
+        public virtual void SendInfo()
         {
             var formedData = FormData();
 

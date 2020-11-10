@@ -1,14 +1,17 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Server;
 using Server.CommandPattern;
 using Server.FacadePattern;
+using Server.GameLobby;
 using Server.Logic;
 using System;
+using System.Collections.Generic;
 
 namespace ServerTests.Logic
 {
     [TestClass]
-    public class LogicBaseTests
+    public class LogicBaseTests : TestBase
     {
         private MockRepository mockRepository;
 
@@ -18,8 +21,8 @@ namespace ServerTests.Logic
         public void TestInitialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
-
-            this.mockLogicFacade = this.mockRepository.Create<LogicFacade>();
+            var gameArena = new GameArena(1);
+            this.mockLogicFacade = this.mockRepository.Create<LogicFacade>(gameArena, new Lobby(gameArena));
         }
 
         private LogicBase CreateLogicBase()
@@ -33,29 +36,15 @@ namespace ServerTests.Logic
         {
             // Arrange
             var logicBase = this.CreateLogicBase();
-            Command cmd = null;
+            logicBase.Commands = new List<Command>();
+            var cmd = new ArenaCommand();
 
             // Act
             logicBase.AddCommand(
                 cmd);
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void FinalizeExecute_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var logicBase = this.CreateLogicBase();
-
-            // Act
-            logicBase.FinalizeExecute();
-
-            // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(1, logicBase.Commands.Count);
         }
     }
 }
