@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace ServerTests
 {
     [TestClass]
-    public class PlayerTests
+    public class PlayerTests : TestBase
     {
         private WallsAdapter wallsAdapter;
         private List<int>[,] gridWalls;
@@ -166,7 +166,13 @@ namespace ServerTests
 
             List<int>[,] grid = wallsAdapter.GetGrid();
             grid[1, 0].Add((int)tileType);
-            Assert.IsTrue(player.CanMove(ArenaCommandEnum.MoveRight, grid));
+            Explosive go = new Explosive(1, 0);
+            Inst.Arena.AddGameObject(go);
+
+            bool move = player.CanMove(ArenaCommandEnum.MoveRight, grid);
+
+            App.Inst.Arena.RemoveGameObject(go, 1, 0);
+            Assert.IsTrue(move);
         }
 
         [TestMethod]
