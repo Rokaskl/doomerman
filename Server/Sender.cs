@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -16,7 +16,7 @@ namespace Server
             this.client = user.Client;
         }
 
-        public void Send (int num, string message)
+        public virtual void Send (int num, string message)
         {
             try
             {

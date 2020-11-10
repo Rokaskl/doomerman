@@ -10,7 +10,7 @@ using NUnit.Framework.Constraints;
 namespace ServerTests.GameLobby
 {
     [TestClass]
-    public class LobbyTests
+    public class LobbyTests : TestBase
     {
         private Lobby lobby;
         private Mock<Sender> senderMock;
@@ -18,7 +18,7 @@ namespace ServerTests.GameLobby
         [TestInitialize]
         public void Initialize()
         {
-            senderMock = new Mock<Sender>();
+            senderMock = new Mock<Sender>(User);
         }
 
         [TestMethod]
@@ -94,10 +94,13 @@ namespace ServerTests.GameLobby
 
             senderMock.Setup(x => x.Send(It.IsAny<int>(), It.IsAny<string>()));
 
-            lobby.AddPlayer(new Player(new User()));
+            Player player = new Player(User);
+            player.sender = senderMock.Object;
+
+            lobby.AddPlayer(player);
             lobby.SendInfo();
 
-            senderMock.Verify(x => x.Send(2, ""), Times.AtLeastOnce());
+            senderMock.Verify(x => x.Send(It.IsAny<int>(), It.IsAny<string>()), Times.AtLeastOnce());
         }
     }
 }
