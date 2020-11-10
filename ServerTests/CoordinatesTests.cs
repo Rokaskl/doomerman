@@ -8,11 +8,6 @@ namespace ServerTests
     public class CoordinatesTests
     {
 
-        private Mock<Coordinates> cords;
-
-        [TestInitialize]
-        public void TestInitialize() => this.cords = new Mock<Coordinates>();
-
         [TestMethod()]
         public void TestConstructor()
         {
@@ -22,10 +17,10 @@ namespace ServerTests
         }
 
         [TestMethod()]
-        public void Clone_StateUnderTest_ExpectedBehavior()
+        public void ShouldSetCorrectProperties()
         {
 
-            Coordinates cords = this.cords.Object;
+            Coordinates cords = new Coordinates(5, 6);
 
             // Arrange
             Coordinates copy = (Coordinates) cords.Clone();
@@ -38,10 +33,10 @@ namespace ServerTests
         }
 
         [TestMethod()]
-        public void ToString_StateUnderTest_ExpectedBehavior()
+        public void ShouldSendCorrectLength()
         {
             // Arrange
-            Coordinates cords = this.cords.Object;
+            Coordinates cords = new Coordinates(5, 6);
 
             // Act
             var result = cords.ToString();
