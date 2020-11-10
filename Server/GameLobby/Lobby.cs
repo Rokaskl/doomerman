@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Server.CommandPattern;
 using System;
 using System.Collections.Generic;
@@ -67,7 +67,7 @@ namespace Server.GameLobby
             }
         }
         //command undo...
-        public void PlayerNotReady(Player player)
+        public virtual void PlayerNotReady(Player player)
         {
             if(this.readyCommands.Any(x => x.Author == player))
             {

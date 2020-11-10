@@ -1,15 +1,21 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Server;
 using Server.CommandPattern;
+using Server.GameLobby;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ServerTests.CommandPattern
 {
     [TestClass]
-    public class GeneralCommandTests
+    public class GeneralCommandTests : TestBase
     {
         private MockRepository mockRepository;
 
+        private Mock<IReceiver> Receiver;
+
+        private Mock<Lobby> Lobby;
 
 
         [TestInitialize]
@@ -17,7 +23,9 @@ namespace ServerTests.CommandPattern
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
 
+            this.Receiver = this.mockRepository.Create<IReceiver>();
 
+            this.Lobby = this.mockRepository.Create<Lobby>(new GameArena(1));
         }
 
         private GeneralCommand CreateGeneralCommand()
@@ -37,8 +45,7 @@ namespace ServerTests.CommandPattern
                 subCommand);
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(generalCommand.Cmds.Count, 1);
         }
 
         [TestMethod]
@@ -46,13 +53,16 @@ namespace ServerTests.CommandPattern
         {
             // Arrange
             var generalCommand = this.CreateGeneralCommand();
+            var arena = new GameArena(1);
+            generalCommand.Receiver = this.Receiver.Object;
+            generalCommand.Author = new Player(User);
+            this.Receiver.Setup(x => x.Action(It.IsAny<GeneralCommand>()));
 
             // Act
             generalCommand.Execute();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            this.Receiver.Verify(x => x.Action(generalCommand), Times.Once);
         }
 
         [TestMethod]
@@ -61,12 +71,21 @@ namespace ServerTests.CommandPattern
             // Arrange
             var generalCommand = this.CreateGeneralCommand();
 
+            var player = new Player(User);
+
+            //Add ready command
+            generalCommand.AddSubCommand(2);
+            generalCommand.Author = player;
+            player.PlayerLobby = Lobby.Object;
+
+            Lobby.Setup(x => x.PlayerNotReady(player));
+
             // Act
-            generalCommand.Undo();
+            // Undo ready command
+            generalCommand.Undo();//Author.PlayerLobby.PlayerNotReady(Author);2
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Lobby.Verify(x => x.PlayerNotReady(player), Times.Once);
         }
     }
 }
