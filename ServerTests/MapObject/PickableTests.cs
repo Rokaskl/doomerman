@@ -7,32 +7,22 @@ namespace ServerTests.MapObject
     [TestClass]
     public class PickableTests
     {
-        private MockRepository mockRepository;
-        private Coordinates cords;
+        private Mock<Coordinates> cords;
 
         [TestInitialize]
-        public void TestInitialize()
-        {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
-            this.cords = new Coordinates();
-        }
-
-        private Pickable CreatePickable()
-        {
-            return new Pickable();
-        }
+        public void TestInitialize() => this.cords = new Mock<Coordinates>();
+        private Pickable CreatePickable() => new Pickable();
+        private Coordinates CreateNewCoordinates() => new Mock<Coordinates>().Object;
 
         [TestMethod]
 
         public void ShouldSetAndGetCoordinates()
         {
             // Arrange
-            var pickable = this.CreatePickable();
-            Coordinates xy = null;
-
+            Pickable pickable = this.CreatePickable();
+            Coordinates xy = CreateNewCoordinates();
             // Act
-            pickable.SetCords(
-                xy);
+            pickable.SetCords(xy);
 
             // Assert
             Assert.AreEqual(pickable.GetCords(), xy);
@@ -43,10 +33,10 @@ namespace ServerTests.MapObject
         public void ShouldReturnLootableTag()
         {
             // Arrange
-            var pickable = this.CreatePickable();
+            Pickable pickable = this.CreatePickable();
 
             // Act
-            var result = pickable.GetTags();
+            System.Collections.Generic.List<string> result = pickable.GetTags();
 
             // Assert
             CollectionAssert.Contains(result, "Pickable");

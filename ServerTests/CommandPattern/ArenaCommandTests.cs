@@ -16,6 +16,8 @@ namespace ServerTests.CommandPattern
 
         private Mock<IReceiver> Receiver;
 
+        private Mock<Command> Command;
+
 
         [TestInitialize]
         public void TestInitialize()
@@ -23,6 +25,8 @@ namespace ServerTests.CommandPattern
             this.mockRepository = new MockRepository(MockBehavior.Loose);
 
             this.Receiver = this.mockRepository.Create<IReceiver>();
+
+            this.Command = this.mockRepository.Create<Command>();
 
         }
 
@@ -53,13 +57,13 @@ namespace ServerTests.CommandPattern
         {
             // Arrange
             var arenaCommand = this.CreateArenaCommand();
-
+            arenaCommand.AddSubCommand(1);
+            arenaCommand.AddSubCommand(0);
             // Act
             var result = arenaCommand.GetCmds();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(result.Count, 2);
         }
 
         [TestMethod]
@@ -74,22 +78,22 @@ namespace ServerTests.CommandPattern
                 subCommand);
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            Assert.AreEqual(arenaCommand.Cmds.Count, 1);
         }
 
         [TestMethod]
         public void Undo_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var arenaCommand = this.CreateArenaCommand();
+            var arenaCommandMock = this.mockRepository.Create<ArenaCommand>();
+            arenaCommandMock.Setup(x => x.Undo());
 
             // Act
-            arenaCommand.Undo();
+            //Currently has no other logic
+            arenaCommandMock.Object.Undo();
 
             // Assert
-            Assert.Fail();
-            this.mockRepository.VerifyAll();
+            arenaCommandMock.Verify(x => x.Undo(), Times.Once);
         }
     }
 }

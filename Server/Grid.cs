@@ -41,29 +41,44 @@ namespace Server
         }
         public List<int> ReturnPowersAt(int i, int j)
         {
-            var players = new List<int>();
-
-            _grid[i, j].ForEach(x =>
+            var powers = new List<int>();
+            try
             {
-                if (x >= (int)TileEnumerator.TileTypeEnum.PUIncreaseBombRange && x <= (int)TileEnumerator.TileTypeEnum.PUTemporarySwim)
+
+                _grid[i, j].ForEach(x =>
                 {
-                    players.Add(x);
-                }
-            });
-            return players;
+                    if (x >= (int) TileEnumerator.TileTypeEnum.PUIncreaseBombRange && x <= (int) TileEnumerator.TileTypeEnum.PUTemporarySwim)
+                    {
+                        powers.Add(x);
+                    }
+                });
+                return powers;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: {0}", e.ToString());
+                return null;
+            }
         }
         public List<int> ReturnPlayersAt(int i, int j)
         {
             var players = new List<int>();
-
-            _grid[i, j].ForEach(x =>
+            try
+            {
+                _grid[i, j].ForEach(x =>
             {
                 if (x >= 1 && x <= 4)
                 {
                     players.Add(x);
                 }
             });
-            return players;
+                return players;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: {0}", e.ToString());
+                return null;
+            }
         }
         public bool RemoveFromTile(int i, int j, int value)
         {
@@ -106,7 +121,16 @@ namespace Server
         }
         public List<int> GetTile(int i, int j)
         {
-            return this._grid[i, j];
+            try
+            {
+                return this._grid[i, j];
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: {0}", e.ToString());
+                return null;
+            }
         }
         public void Clean()
         {

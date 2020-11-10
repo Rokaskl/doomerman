@@ -115,6 +115,7 @@ namespace Server
                                 }
                                 break;
                             case Explosive.KickDirection.Down:
+
                                 if (go.GetCords().Y < 12 && !cantKickInto.Contains(walls[go.GetCords().X, go.GetCords().Y + 1]))
                                 {
                                     grid.RemoveFromTile(go.GetCords().X, go.GetCords().Y, (int)TileTypeEnum.Bomb);
@@ -309,7 +310,7 @@ namespace Server
                 grid.UpdateTile(playerX, playerY, cleanTile);
             }
         }
-        private void AddWallsToGrid()
+        public void AddWallsToGrid()
         {
             for (int i = 0; i < 13; i++)
             {

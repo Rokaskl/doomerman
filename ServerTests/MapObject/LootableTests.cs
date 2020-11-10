@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Server;
@@ -7,31 +8,27 @@ namespace ServerTests.MapObject
     [TestClass]
     public class LootableTests
     {
-        private MockRepository mockRepository;
-        private Coordinates cords;
-
+        private Mock<Coordinates> cords;
+        private Mock<Pickable> pickable;
         [TestInitialize]
         public void TestInitialize()
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
-            this.cords =  new Coordinates();
+            this.cords = new Mock<Coordinates>();
+            this.pickable = new Mock<Pickable>();
         }
 
-        private Lootable CreateLootable()
-        {
-            return new Lootable(new GameObject(cords));
-        }
+        private Coordinates CreateNewCoordinates() => new Mock<Coordinates>().Object;
+        private Lootable CreateLootable() => new Lootable(new GameObject(this.cords.Object));
         [TestMethod]
 
         public void ShouldSetAndGetCoordinates()
         {
             // Arrange
-            var lootable = this.CreateLootable();
-            Coordinates xy = null;
+            Lootable lootable = this.CreateLootable();
+            Coordinates xy = this.CreateNewCoordinates();
 
             // Act
-            lootable.SetCords(
-                xy);
+            lootable.SetCords(xy);
 
             // Assert
             Assert.AreEqual(lootable.GetCords(), xy);
@@ -39,28 +36,27 @@ namespace ServerTests.MapObject
         }
 
         [TestMethod]
-        public void ShouldAddAndReturnLoot()
+        public void ShouldSetLoot()
         {
             // Arrange
-            var lootable = this.CreateLootable();
-            Pickable pickable = null;
+            Lootable lootable = this.CreateLootable();
+
 
             // Act
-            lootable.AddLoot(
-                pickable);
+            lootable.AddLoot(this.pickable.Object);
 
             // Assert
-            Assert.AreEqual(lootable.GetLoot(), pickable);
+            Assert.AreEqual(lootable.GetLoot(), this.pickable.Object);
         }
 
         [TestMethod]
         public void ShouldReturnLootableTag()
         {
             // Arrange
-            var lootable = this.CreateLootable();
+            Lootable lootable = this.CreateLootable();
 
             // Act
-            var result = lootable.GetTags();
+            List<string> result = lootable.GetTags();
 
             // Assert
             CollectionAssert.Contains(result, "Lootable");

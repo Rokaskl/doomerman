@@ -1,4 +1,4 @@
-﻿using Server.Logic;
+using Server.Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +35,7 @@ namespace Server.CommandPattern
         public override void Undo()
         {
             base.Undo();
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 

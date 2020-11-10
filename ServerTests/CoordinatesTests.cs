@@ -7,49 +7,47 @@ namespace ServerTests
     [TestClass]
     public class CoordinatesTests
     {
-        private MockRepository mockRepository;
 
-
+        private Mock<Coordinates> cords;
 
         [TestInitialize]
-        public void TestInitialize()
+        public void TestInitialize() => this.cords = new Mock<Coordinates>();
+
+        [TestMethod()]
+        public void TestConstructor()
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
-
-
+            Coordinates cords = new Coordinates(5, 6);
+            Assert.AreEqual(cords.X, 5);
+            Assert.AreEqual(cords.Y, 6);
         }
 
-        private Coordinates CreateCoordinates()
-        {
-            return new Coordinates();
-        }
-
-        [TestMethod]
+        [TestMethod()]
         public void Clone_StateUnderTest_ExpectedBehavior()
         {
+
+            Coordinates cords = this.cords.Object;
+
             // Arrange
-            var coordinates = this.CreateCoordinates();
+            Coordinates copy = (Coordinates) cords.Clone();
 
-            // Act
-            var result = coordinates.Clone();
+            // Assert rezults
 
-            // Assert
-            Assert.AreEqual(coordinates.X, (result as Coordinates).X);
-            Assert.AreEqual(coordinates.Y, (result as Coordinates).Y);
-            Assert.AreNotEqual(coordinates, (result as Coordinates));
+            Assert.AreEqual(cords.X, copy.X);
+            Assert.AreEqual(cords.Y, copy.Y);
+            Assert.AreNotEqual(cords, copy);
         }
 
-        [TestMethod]
+        [TestMethod()]
         public void ToString_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var coordinates = this.CreateCoordinates();
+            Coordinates cords = this.cords.Object;
 
             // Act
-            var result = coordinates.ToString();
+            var result = cords.ToString();
 
             // Assert
-            Assert.AreEqual(result.GetType(), typeof(string));
+            Assert.IsTrue(result.Length > 12);
         }
     }
 }
