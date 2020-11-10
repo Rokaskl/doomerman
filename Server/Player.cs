@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Server.CommandPattern;
 using Server.GameLobby;
 using System;
@@ -32,6 +32,7 @@ namespace Server
             this.xy = new Coordinates();
             this.Bomb = new Explosive();
             this.sender = new Sender(user);
+            this.PowerUps = new List<Pickable>();
         }
 
         public bool CanMove(ArenaCommandEnum cmd, List<int>[,] walls)

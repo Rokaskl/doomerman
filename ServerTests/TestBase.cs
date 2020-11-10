@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Server;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace ServerTests
     public abstract class TestBase
     {
         protected User User { get; } = new User(1, "user");
-        protected Application Inst { get; } = App.CreateInstance(new AppOptions { ArenaId = 1 });
+        static protected Application Inst { get; } = App.CreateInstance(new AppOptions { ArenaId = 1 });
 
     }
 }

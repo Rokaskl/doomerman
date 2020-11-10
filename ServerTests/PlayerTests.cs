@@ -3,13 +3,15 @@ using Moq;
 using Server;
 using Server.CommandPattern;
 using Server.MapObject;
+using Server.MapObject.PowerUps;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 namespace ServerTests
 {
     [TestClass]
-    public class PlayerTests
+    public class PlayerTests : TestBase
     {
         private WallsAdapter wallsAdapter;
         private List<int>[,] gridWalls;
@@ -21,9 +23,6 @@ namespace ServerTests
             Walls walls = new Walls();
             wallsAdapter = new WallsAdapter(walls);
             gridWalls = wallsAdapter.GetGrid();
-
-            App.CreateInstance(new AppOptions());
-            App.Inst.Arena = new GameArena(0);
         }
 
         [TestMethod]
@@ -169,7 +168,13 @@ namespace ServerTests
 
             List<int>[,] grid = wallsAdapter.GetGrid();
             grid[1, 0].Add((int)tileType);
-            Assert.IsTrue(player.CanMove(ArenaCommandEnum.MoveRight, grid));
+            Explosive go = new Explosive(1, 0);
+            Inst.Arena.AddGameObject(go);
+
+            bool move = player.CanMove(ArenaCommandEnum.MoveRight, grid);
+
+            App.Inst.Arena.RemoveGameObject(go, 1, 0);
+            Assert.IsTrue(move);
         }
 
         [TestMethod]
@@ -232,6 +237,96 @@ namespace ServerTests
             List<int>[,] grid = wallsAdapter.GetGrid();
             grid[1, 0].Add((int)tileType);
             Assert.IsTrue(player.CanMove(ArenaCommandEnum.MoveRight, grid));
+        }
+
+        [TestMethod]
+        public void ShouldAlwaysReturnTrueWhenCallingCanDropBomb()
+        {
+            player = new Player(new User());
+            Assert.IsTrue(player.CanDropBomb());
+        }
+
+        [TestMethod]
+        public void ShouldBeFalseWhenBombDropped()
+        {
+            player = new Player(new User());
+            player.DropBomb();
+            Assert.IsFalse(player.Bomb.Droped);
+        }
+
+        [TestMethod]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporaryJump, typeof(MoveJumpStrategy))]
+        [DataRow(TileEnumerator.TileTypeEnum.PUTemporarySwim, typeof(MoveSwimStrategy))]
+        [DataRow(TileEnumerator.TileTypeEnum.PUBombKick, typeof(MoveKickStrategy))]
+        public void ShouldFailWhenIncorrectStrategyChosenAfterPowerUp(TileEnumerator.TileTypeEnum tileType, Type strategyType)
+        {
+            Pickable item = new Pickable();
+            player = new Player(new User());
+
+            item.type = tileType;
+            player.AddPowerUp(item);
+
+            Assert.AreEqual(player.moveStrategy.GetType(), strategyType);
+        }
+
+        [TestMethod]
+        public void ShouldFailIfYDoesntDecreaseWhenMovingUp()
+        {
+            player = new Player(new User());
+            int prevY = player.xy.Y;
+            player.MoveUp();
+            Assert.AreEqual(player.xy.Y, prevY - 1);
+        }
+
+        [TestMethod]
+        public void ShouldFailIfYDoesntIncreaseWhenMovingDown()
+        {
+            player = new Player(new User());
+            int prevY = player.xy.Y;
+            player.MoveDown();
+            Assert.AreEqual(player.xy.Y, prevY + 1);
+        }
+
+        [TestMethod]
+        public void ShouldFailIfXDoesntDecreaseWhenMovingLeft()
+        {
+            player = new Player(new User());
+            int prevX = player.xy.X;
+            player.MoveLeft();
+            Assert.AreEqual(player.xy.X, prevX - 1);
+        }
+
+        [TestMethod]
+        public void ShouldFailIfXDoesntIncreaseWhenMovingRight()
+        {
+            player = new Player(new User());
+            int prevX = player.xy.X;
+            player.MoveRight();
+            Assert.AreEqual(player.xy.X, prevX + 1);
+        }
+
+        [TestMethod]
+        public void ShouldFailIfBombLimitOverMax()
+        {
+            player = new Player(new User());
+            for (int i = 0; i < Server.constants.Constants.MaxBombLimit + 10; i++)
+            {
+                player.IncBombLimit();
+            }
+
+            Assert.AreEqual(player.BombLimit, Server.constants.Constants.MaxBombLimit);
+        }
+
+        [TestMethod]
+        public void ShouldFailIfBombLimitLessThanOne()
+        {
+            player = new Player(new User());
+            for (int i = 0; i < Server.constants.Constants.MaxBombLimit; i++)
+            {
+                player.DecBombLimit();
+            }
+
+            Assert.AreEqual(player.BombLimit, 1);
         }
     }
 }
