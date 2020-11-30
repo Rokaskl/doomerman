@@ -57,6 +57,7 @@ namespace Server.GameLobby
                 this.readyCommands.Add(command);
                 if(this.readyCommands.Count>= 2)
                 {
+                    this.source = new CancellationTokenSource();
                     StartCountdown();
                 }
                 return true;
@@ -111,6 +112,7 @@ namespace Server.GameLobby
 
         private void CancelCountdown()
         {
+            this.isStarting = false;
             this.source.Cancel();
            // SendInfo();//Todo remove from here
         }
