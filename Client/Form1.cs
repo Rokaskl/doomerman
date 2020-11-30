@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -28,6 +28,8 @@ namespace OPP
         Thread gfxThread;
         ThreadStart gfxThreadRef;
 
+        Contex gameStateContex = new Contex();
+
         static public int IDcounter = 0;
 
         bool pressedA, pressedW, pressedS, pressedD, pressedSpace;
@@ -52,6 +54,8 @@ namespace OPP
 
             InitializeComponent();
 
+            drawingArea.Focus();
+
             GraphicsDatabase.LoadImages();
 
             screenGfx = drawingArea.CreateGraphics();           
@@ -69,7 +73,7 @@ namespace OPP
             KeyUp += Form1_KeyUp;
             KeyPress += Form1_KeyPress;
 
-
+            gameStateContex.SetState(new MainMenuState());
         }
        
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
@@ -98,15 +102,14 @@ namespace OPP
                         this.SendSignal(1, CommandTypeEnum.Arena);
                     }
 
-                    if (pressedSpace)
-                    {
-                        this.SendSignal(4, CommandTypeEnum.Arena);
-                        pressedSpace = false;
-                    }
-
-
                     lastInputWatch.Restart();
                 }
+            }
+
+            if (pressedSpace)
+            {
+                gameStateContex.GetState().PressSpace(this);
+                pressedSpace = false;
             }
         }
 
@@ -159,23 +162,25 @@ namespace OPP
                     case Keys.D:
                         pressedD = true;
                         break;
-
-                    case Keys.Space:
-                        pressedSpace = true;
-                        break;
-
                 }
             }
+
+            if (e.KeyCode == Keys.Space)
+                pressedSpace = true;
+
+
         }
 
         private void btPlay_Click(object sender, EventArgs e)
         {
             panel1.Visible = true;
-           
-
+            gameStateContex.SetState(new ConnectMenuState());
         }
-       
 
+        public void ClickStart()
+        {
+            btPlay.PerformClick();
+        }
      
 
     
@@ -202,6 +207,11 @@ namespace OPP
             }
         }
 
+        public void ClickJoin()
+        {
+            button1.PerformClick();
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             string text = richTextBox1.Text;
@@ -213,7 +223,7 @@ namespace OPP
                 Int32 port = Int32.Parse(array[1]);
                 ConnectClient(ip, port);
                 SendSignal(0, CommandTypeEnum.General);
-
+                gameStateContex.SetState(new LobbyState());
             }
         }
         public void ShowGame()
@@ -231,23 +241,25 @@ namespace OPP
 
             Task.Run(() =>
             {
-            while (true)
-            {
-                if (ClientManager.Instance.IDIsSet())
+                while (true)
                 {
-                    if (PB_connectedUser.InvokeRequired)
+                    if (ClientManager.Instance.IDIsSet())
                     {
-                        PB_connectedUser.Invoke(new MethodInvoker(delegate { SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());}));
-                    }
-                     else    
-                     {
-                        SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
-                     }            
+                        if (PB_connectedUser.InvokeRequired)
+                        {
+                            PB_connectedUser.Invoke(new MethodInvoker(delegate { SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());}));
+                        }
+                        else    
+                        {
+                            SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
+                        }            
                         break;
                     }
                     Thread.Sleep(10);
                 }
             });
+
+            gameStateContex.SetState(new GameState());
         }
         private void CreateLobby()
         {
@@ -352,9 +364,14 @@ namespace OPP
 
         }
 
+        public void ClickReady()
+        {
+            button3.PerformClick();
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
-            this.lobby.ToggleReady();
+            this.lobby.ToggleReady();        
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -363,6 +380,11 @@ namespace OPP
             //soundPlayer.PlayLooping();
             //soundPlayer.Stop();
             isPlaying = false;
+        }
+
+        public void DropBomb()
+        {
+            this.SendSignal(4, CommandTypeEnum.Arena);
         }
 
         public async void SendSignal(int actionNum, CommandTypeEnum commandType)
