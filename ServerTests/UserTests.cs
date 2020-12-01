@@ -1,5 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Server;
+using ServerTests;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Text;
 namespace Server.Tests
 {
     [TestClass()]
-    public class UserTests
+    public class UserTests : TestBase
     {
         [TestMethod]
         public void ShouldFailWhenUsernamesSame()

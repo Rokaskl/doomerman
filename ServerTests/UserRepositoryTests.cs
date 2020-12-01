@@ -7,7 +7,7 @@ using System.Linq;
 namespace ServerTests
 {
     [TestClass]
-    public class UserRepositoryTests
+    public class UserRepositoryTests : TestBase
     {
         private MockRepository mockRepository;
         private UserRepository userRepository { get; } = new UserRepository();

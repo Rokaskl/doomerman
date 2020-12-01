@@ -5,7 +5,7 @@ using Server;
 namespace ServerTests
 {
     [TestClass]
-    public class CoordinatesTests
+    public class CoordinatesTests : TestBase
     {
 
         [TestMethod()]
