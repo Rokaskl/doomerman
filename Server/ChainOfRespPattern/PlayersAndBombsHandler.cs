@@ -41,9 +41,9 @@ namespace Server.ChainOfRespPattern
 
         private void AddPlayersAndBombsToGrid()
         {
-            List<Player> CurrentPlayers = context.Players.ToList();
+            //List<Player> CurrentPlayers = context.Players.ToList();
             Explosive prototype = new Explosive();
-            foreach (Player player in CurrentPlayers)
+            context.Players.Copy().CreateIterator().ForEach(player =>
             {
                 if (!player.Bomb.Droped)
                 {
@@ -64,7 +64,7 @@ namespace Server.ChainOfRespPattern
                 List<int> cleanTile = new List<int>();
                 cleanTile.Add(player.User.Id);
                 context.grid.UpdateTile(playerX, playerY, cleanTile);
-            }
+            });
         }
 
         private bool IsBombValid(Player player)
