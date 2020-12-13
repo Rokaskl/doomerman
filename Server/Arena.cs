@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Server.Iterator;
 
 namespace Server
 {
@@ -8,7 +9,7 @@ namespace Server
     {
         public List<IGameObject> flames = new List<IGameObject>();
         public List<IGameObject> gameObjects = new List<IGameObject>();
-        public List<Player> Players;
+        public IAggregate<Player> Players;
         public int[,] walls;
         public Grid grid;
         public bool UpdateRequired;

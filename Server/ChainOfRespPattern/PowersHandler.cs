@@ -37,7 +37,7 @@ namespace Server.ChainOfRespPattern
 
         private void CheckForPowers()
         {
-            foreach (Player player in context.Players)
+            context.Players.CreateIterator().ForEach(player =>
             {
                 context.grid.GetGrid()[player.xy.X, player.xy.Y].ForEach(x =>
                 {
@@ -90,7 +90,7 @@ namespace Server.ChainOfRespPattern
                     }
                 });
 
-            }
+            });
         }
     }
 

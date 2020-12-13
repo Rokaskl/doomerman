@@ -19,6 +19,7 @@ using Server.constants;
 using Server.MapObject.PowerDowns;
 using System.IO;
 using Server.ChainOfRespPattern;
+using Server.Iterator;
 
 namespace Server
 {
@@ -34,7 +35,8 @@ namespace Server
         public GameArena(int id)
         {
             this.Id = id;
-            this.Players = new List<Player>();
+            //this.Players = new List<Player>();
+            this.Players = new Aggregate<Player>();
             this.lobby = new Lobby(this);
             this.Calculator = new LogicFacade(this, lobby);
 
@@ -54,15 +56,15 @@ namespace Server
         public void Notify()
         {
 
-            foreach (Player player in Players)
+            Players.CreateIterator().ForEach(player =>
             {
                 player.Update(this.grid, DeadPlayers());
-            }
+            });
         }
         public List<int> DeadPlayers()
         {
             var deads = new List<int>();
-            Players.ForEach(x =>
+            Players.CreateIterator().ForEach(x =>
             {
                 if (!x.Alive) deads.Add(x.User.Id);
             });
