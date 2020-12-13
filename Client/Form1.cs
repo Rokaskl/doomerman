@@ -24,6 +24,7 @@ namespace OPP
 
         SoundPlayer soundPlayer;
         bool isPlaying = false;
+        bool isGameStarted = false;
 
         Thread gfxThread;
         ThreadStart gfxThreadRef;
@@ -228,6 +229,7 @@ namespace OPP
         }
         public void ShowGame()
         {
+            this.isGameStarted = true;
             // Hide all Lobby panels
             for (int i = 1; i < 5;i ++) 
             {
@@ -277,11 +279,14 @@ namespace OPP
 
         public void UpdateLobby(LobbyData lobbyData)
         {
-            if(this.lobby == null)
+            if (!this.isGameStarted)
             {
-                this.CreateLobby();
+                if (this.lobby == null)
+                {
+                    this.CreateLobby();
+                }
+                this.lobby.UpdateLobby(lobbyData);
             }
-            this.lobby.UpdateLobby(lobbyData);
         }
 
         public void showPlayerLobby(int id,bool show, bool ready,string  name)
