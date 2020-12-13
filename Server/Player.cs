@@ -9,10 +9,12 @@ using static Server.TileEnumerator;
 using System.Security.Cryptography.X509Certificates;
 using System.Runtime.CompilerServices;
 using System.Linq;
+using Server.Mediator;
+using Server.FacadePattern;
 
 namespace Server
 {
-    public class Player : IPlayer
+    public class Player : IColleague, IPlayer
     {
         public User User;
         public Coordinates xy;
@@ -25,6 +27,26 @@ namespace Server
         public bool Ready { get; set; }
         public Lobby PlayerLobby { get; set; }
         public List<Pickable> PowerUps { get; set; }
+        private IMediator mediator;
+        public IMediator Mediator
+        {
+            get => this.mediator;
+            set => this.mediator = value;
+        }
+        private IColleague colleague;
+        public IColleague BondedColleague
+        {
+            get => this.colleague;
+            set
+            {
+                this.colleague = value;
+                if (this.colleague != null && this.colleague.BondedColleague == null)
+                {
+                    this.colleague.BondedColleague = this;
+                }
+            }
+        }
+
         public IMoveStrategy moveStrategy = new MoveNormalStrategy();
         public Player(User user)
         {
@@ -219,5 +241,9 @@ namespace Server
                 BombLimit--;
         }
 
+        public void StartListenerService(LogicFacade logic)
+        {
+            this.mediator.ExecuteCommand("Listen", this.BondedColleague, logic);
+        }
     }
 }

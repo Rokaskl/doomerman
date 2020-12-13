@@ -20,10 +20,11 @@ using Server.MapObject.PowerDowns;
 using System.IO;
 using Server.ChainOfRespPattern;
 using Server.Iterator;
+using Server.Mediator;
 
 namespace Server
 {
-    public class GameArena : Arena, IGameArenaObserver
+    public class GameArena : Arena, IGameArenaObserver, IColleague
     {
         public int Id;
         private LogicFacade Calculator;
@@ -31,15 +32,34 @@ namespace Server
         private Lobby lobby;
         public Walls wallsObj = new Walls();
         public bool isStarted = false;
+        private IMediator mediator;
+
+        public IMediator Mediator
+        {
+            get => this.mediator;
+            set => this.mediator = value;
+        }
+        private IColleague colleague;
+        public IColleague BondedColleague
+        {
+            get => this.colleague;
+            set
+            {
+                this.colleague = value;
+                if (this.colleague != null && this.colleague.BondedColleague == null)
+                {
+                    this.colleague.BondedColleague = this;
+                }
+            }
+        }
 
         public GameArena(int id)
         {
             this.Id = id;
-            //this.Players = new List<Player>();
             this.Players = new Aggregate<Player>();
             this.lobby = new Lobby(this);
             this.Calculator = new LogicFacade(this, lobby);
-
+            this.mediator = new PlayerMediator();
             this.grid = new WallsAdapter(wallsObj);
             walls = wallsObj.GetWalls();
             SetupHandlerChain();
@@ -47,11 +67,12 @@ namespace Server
         }
         public void AddPlayer(Player player)
         {
-            //player.Update(grid);
             this.Players.Add(player);
             player.sender.Send(1, player.User.Id.ToString());//Answer to handshake
-            var service = new PlayerServiceProxy();
-            service.ListenPlayer(player, this.Calculator);
+            var serviceColleague = new PlayerServiceProxyColleague();
+            serviceColleague.BondedColleague = player;
+            this.mediator.Register(serviceColleague);
+            player.StartListenerService(this.Calculator);
         }
 
         public void Notify()
@@ -154,7 +175,6 @@ namespace Server
             this.updateHandler.HandleRequest();
             Notify();
             UpdateRequired = false;
-
         }
         
         private async void UpdateAtInterval(int timeout)

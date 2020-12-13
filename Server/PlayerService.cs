@@ -27,10 +27,6 @@ namespace Server
         {
             init.Invoke(this, "Player service has started");
         }
-        public PlayerService(Player player, LogicFacade logic)
-        {
-            Task.Run(() => ListenPlayer(player, logic));
-        }
 
         public async Task ListenPlayer(Player player, LogicFacade logic)
         {
