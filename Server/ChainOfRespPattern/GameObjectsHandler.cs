@@ -7,7 +7,7 @@ using static Server.TileEnumerator;
 
 namespace Server.ChainOfRespPattern
 {
-    public class GameObjectsHandler<T> : IHandler where T : Arena
+    public class GameObjectsHandler<T> : ChainTemplate where T : Arena
     {
         private T context;
         private IHandler successor;
@@ -21,7 +21,7 @@ namespace Server.ChainOfRespPattern
 
         }
 
-        public void HandleRequest()
+        public override void HandleRequest()
         {
             this.AddGameObjsToGrid();
             if (this.successor != null)
@@ -29,7 +29,7 @@ namespace Server.ChainOfRespPattern
                 this.successor.HandleRequest();
             }
         }
-        public IHandler SetSuccessor(IHandler successor)
+        public override IHandler SetSuccessor(IHandler successor)
         {
             this.successor = successor;
             return this.successor;

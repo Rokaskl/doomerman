@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Server.ChainOfRespPattern
 {
-    public class CleanGridHandler<T> : IHandler where T : Arena
+    public class CleanGridHandler<T> : ChainTemplate where T : Arena
     {
         private T context;
         private IHandler successor;
@@ -18,7 +18,7 @@ namespace Server.ChainOfRespPattern
 
         }
         
-        public void HandleRequest()
+        public override void HandleRequest()
         {
             this.CleanGrid();
             if (this.successor != null)
@@ -27,7 +27,7 @@ namespace Server.ChainOfRespPattern
             }
         }
 
-        public IHandler SetSuccessor(IHandler successor)
+        public override IHandler SetSuccessor(IHandler successor)
         {
             this.successor = successor;
             return this.successor;
