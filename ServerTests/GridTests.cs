@@ -5,7 +5,7 @@ using Server;
 namespace ServerTests
 {
     [TestClass]
-    public class GridTests
+    public class GridTests : TestBase
     {
 
         [TestMethod]

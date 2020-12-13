@@ -6,7 +6,7 @@ using Server.MapObject;
 namespace ServerTests
 {
     [TestClass]
-    public class WallsAdapterTests
+    public class WallsAdapterTests : TestBase
     {
         private MockRepository mockRepository;
 

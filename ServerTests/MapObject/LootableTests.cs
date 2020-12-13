@@ -6,7 +6,7 @@ using Server;
 namespace ServerTests.MapObject
 {
     [TestClass]
-    public class LootableTests
+    public class LootableTests : TestBase
     {
         private Mock<Coordinates> cords;
         private Mock<Pickable> pickable;

@@ -7,7 +7,7 @@ using System;
 namespace ServerTests.MapObject.PowerUps
 {
     [TestClass]
-    public class PowerUpFactoryTests
+    public class PowerUpFactoryTests : TestBase
     {
         private PowerUpFactory factory;
 

@@ -25,6 +25,8 @@ namespace Server
                 {
                     Inst = new ApplicationInst(options);
                     Inst.Log("singleton created.");
+                    Inst.Setup();
+                    Inst.Log("singleton setup finished.");
                 }
             }
            
@@ -66,14 +68,20 @@ namespace Server
 
             protected Application(AppOptions options)
             {
-                this.UserRepo = new UserRepository();
+                this.UserRepo = null;
                 this.options = options;
-                this.Arena = new GameArena(options.ArenaId);
+                this.Arena = null;
             }
 
             public void Log(string message)
             {
                 Console.WriteLine(DateTime.Now.ToString() + " " + message);
+            }
+
+            public void Setup()
+            {
+                this.UserRepo = new UserRepository();
+                this.Arena = new GameArena(this.options.ArenaId);
             }
         }
 
