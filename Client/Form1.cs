@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,6 +19,8 @@ namespace OPP
 {
     public partial class Form1 : Form
     {
+        
+
         Graphics screenGfx; // Graphics element in which to draw
         DrawQueue drawQueue;// Renders image elements
 
@@ -52,7 +54,8 @@ namespace OPP
 
             InitializeComponent();
 
-            GraphicsDatabase.LoadImages();
+           
+
 
             screenGfx = drawingArea.CreateGraphics();           
             drawQueue = new DrawQueue(screenGfx, drawingArea);

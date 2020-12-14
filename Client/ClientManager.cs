@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +9,7 @@ namespace OPP
 {
     public sealed class ClientManager
     {
+        private TilesGraphicsData tilesGraphicsData = new TilesGraphicsData();
         private static ClientManager instance = null;
         private static readonly object padlock = new object();
 
@@ -104,20 +105,19 @@ namespace OPP
                 Parallel.For(0, 13, (y) =>
                 {
                     List<Tile> tiles = new List<Tile>();
-                    foreach (var intTile in grid[x, y])
+                    foreach (int intTile in grid[x, y])
                     {
                         Tile tile;
 
                         if (Tile.isTileAnimated((TileEnumerator.TileTypeEnum)intTile))
                         {
-                            tile = new AnimatedTile();
-                            TileGraphics tileGraphics = new TileGraphics();
-                            tile.SetTileGfx(tileGraphics);
+                            tile = new AnimatedTile(this.tilesGraphicsData.GetTilesGraphicsDataObject(intTile).FrameCount, true );
+                            tile.SetTileGfx(this.tilesGraphicsData.GetTileGrapchicsObject(intTile));
                         }
                         else
                         {
                             tile = new StaticTile();
-                            TileGraphics tileGraphics = new TileGraphics();
+                            TileGraphics tileGraphics = new StaticTileGraphics();
                             tile.SetTileGfx(tileGraphics);
                         }
 

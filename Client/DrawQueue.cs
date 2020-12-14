@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,7 +57,10 @@ namespace OPP
             // draws background to image first
             if (drawingArea.InvokeRequired)
             {
-                drawingArea.Invoke(new MethodInvoker(delegate { imageGfx.DrawImage(Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png"), 0, 0); }));
+                drawingArea.Invoke(new MethodInvoker(delegate
+                {
+                    imageGfx.DrawImage(Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png"), 0, 0);
+                }));
             }
             else
             {
@@ -68,7 +71,7 @@ namespace OPP
             {
                 for(int y = 0; y < 13; y++)
                 {
-                    foreach(var tile in ClientManager.Instance.GetGrid().GetTile(x, y))
+                    foreach(Tile tile in ClientManager.Instance.GetGrid().GetTile(x, y))
                     {
                         imageGfx.DrawImage(tile.GetTileGfx(), tile.GetTileGfxPosition());
                     }
