@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OPP
 {
-    public class Contex
+    public class Context
     {
         private IState state;
         private IState prevState;

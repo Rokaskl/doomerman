@@ -29,7 +29,7 @@ namespace OPP
         Thread gfxThread;
         ThreadStart gfxThreadRef;
 
-        Contex gameStateContex = new Contex();
+        Context gameStateContext = new Context();
 
         static public int IDcounter = 0;
 
@@ -73,7 +73,7 @@ namespace OPP
             KeyDown += Form1_KeyDown;
             KeyPress += Form1_KeyPress;
 
-            gameStateContex.SetState(new MainMenuState());
+            this.gameStateContext.SetState(new MainMenuState());
         }
        
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
@@ -81,7 +81,7 @@ namespace OPP
 
             if (lastInputWatch.Elapsed.TotalMilliseconds >= 150)
             {
-                this.gameStateContex.GetState().HandleInputKeyPress(this, e.KeyChar);
+                this.gameStateContext.GetState().HandleInputKeyPress(this, e.KeyChar);
 
                 lastInputWatch.Restart();
             }
@@ -89,13 +89,13 @@ namespace OPP
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            this.gameStateContex.GetState().HandleInputKeyDown(this, e.KeyCode);
+            this.gameStateContext.GetState().HandleInputKeyDown(this, e.KeyCode);
         }
 
         private void btPlay_Click(object sender, EventArgs e)
         {
             panel1.Visible = true;
-            gameStateContex.SetState(new ConnectMenuState());
+            this.gameStateContext.SetState(new ConnectMenuState());
         }
 
         public void ClickStart()
@@ -151,7 +151,7 @@ namespace OPP
                 if (connected)
                 {
                     SendSignal(0, CommandTypeEnum.General);
-                    gameStateContex.SetState(new LobbyState());
+                    this.gameStateContext.SetState(new LobbyState());
                 }
             }
         }
@@ -189,7 +189,7 @@ namespace OPP
                 }
             });
 
-            gameStateContex.SetState(new GameState());
+            this.gameStateContext.SetState(new GameState());
         }
         private void CreateLobby()
         {
@@ -296,7 +296,7 @@ namespace OPP
         private void button2_Click(object sender, EventArgs e) // Join menu cancel button
         {
             panel1.Visible = false;
-            this.gameStateContex.SetState(this.gameStateContex.GetPreviousState());
+            this.gameStateContext.SetState(this.gameStateContext.GetPreviousState());
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)

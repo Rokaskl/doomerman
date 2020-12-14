@@ -54,7 +54,7 @@
     <Compile Include="AnimatedTile.cs" />
     <Compile Include="Bomb.cs" />
     <Compile Include="States\ConnectMenuState.cs" />
-    <Compile Include="States\Contex.cs" />
+    <Compile Include="States\Context.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="GraphicsDatabase.cs" />
     <Compile Include="Lobby.cs" />
