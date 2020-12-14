@@ -60,6 +60,7 @@ namespace OPP
 
         private void updateAnimatedTiles(object sender, EventArgs e)
         {
+            bool updateRequired = false;
             for (int x = 0; x < 13; x++)
             {
                 for (int y = 0; y < 13; y++)
@@ -69,9 +70,15 @@ namespace OPP
                         if (tile.IsTileAnimated())
                         {
                             imageGfx.DrawImage(tile.GetTileGfx(), tile.GetTileGfxPosition());
+                            updateRequired = true;
                         }
                     }
                 }
+            }
+            if (updateRequired)
+            {
+                //drawingArea.InvokeRequired = false;
+                Draw();
             }
         }
         public static void Draw()
@@ -89,7 +96,7 @@ namespace OPP
             }
             else
             {
-                imageGfx.DrawImage(drawingArea.Image, 0, 0);
+                imageGfx.DrawImage(Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/Background.png"), 0, 0);
             }
 
             for(int x = 0; x < 13; x++)
