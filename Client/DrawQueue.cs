@@ -77,7 +77,6 @@ namespace OPP
             }
             if (updateRequired)
             {
-                //drawingArea.InvokeRequired = false;
                 Draw();
             }
         }
