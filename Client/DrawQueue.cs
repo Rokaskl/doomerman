@@ -16,6 +16,7 @@ namespace OPP
         static Graphics screenGfx;
         static Bitmap bitmap;
         static PictureBox drawingArea;
+        Timer timer;
 
         public DrawQueue(Graphics _screenGfx, PictureBox _drawingArea)
         {
@@ -26,7 +27,7 @@ namespace OPP
             screenGfx.InterpolationMode = InterpolationMode.NearestNeighbor;
 
             ClientManager.Instance.SetGrid( new Grid());
-
+            InitTimer();
         }
 
         /// <summary>
@@ -47,8 +48,32 @@ namespace OPP
         public List<Tile> GetTiles(Point pos)
         {
             return ClientManager.Instance.GetGrid().GetTile(pos.X, pos.Y);
-        }   
+        }
 
+        public void InitTimer()
+        {
+            timer = new Timer();
+            timer.Tick += new EventHandler(updateAnimatedTiles);
+            timer.Interval = 500; // in miliseconds
+            timer.Start();
+        }
+
+        private void updateAnimatedTiles(object sender, EventArgs e)
+        {
+            for (int x = 0; x < 13; x++)
+            {
+                for (int y = 0; y < 13; y++)
+                {
+                    foreach (Tile tile in ClientManager.Instance.GetGrid().GetTile(x, y))
+                    {
+                        if (tile.IsTileAnimated())
+                        {
+                            imageGfx.DrawImage(tile.GetTileGfx(), tile.GetTileGfxPosition());
+                        }
+                    }
+                }
+            }
+        }
         public static void Draw()
         {
 
@@ -77,7 +102,7 @@ namespace OPP
                     }
                 }
             }
-     
+            
             screenGfx.DrawImage(bitmap, 0, 0, 960, 960);
 
         }

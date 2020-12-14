@@ -18,7 +18,7 @@ namespace OPP
         public void SetTileType(TileTypeEnum type)
         {
             tileType = type;
-           // UpdateGfx(tileType);
+            // UpdateGfx(tileType);
         }
 
         public void SetTilePosition(int xGrid, int yGrid)
@@ -55,10 +55,21 @@ namespace OPP
                     return false;
             }
         }
+        public bool IsTileAnimated()
+        {
+            if (tileType == TileEnumerator.TileTypeEnum.Empty)
+                return false;
 
+            return this.tileGraphics.GetFramesCount() != 1;
+        }
         public Image GetTileGfx()
         {
             return tileGraphics.GetTileGfx();
+        }
+
+        internal void UpdateGfx()
+        {
+            throw new NotImplementedException();
         }
     }
 }

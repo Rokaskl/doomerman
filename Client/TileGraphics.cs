@@ -12,15 +12,16 @@ namespace OPP
     public abstract class TileGraphics
     {
 
-        protected Image tileGfx;
+        protected Image currentFrameImage;
 
         public TileGraphics(Image tileGfx)
         {
-            this.tileGfx = tileGfx;
+            this.currentFrameImage = tileGfx;
         }
+
         public TileGraphics()
         {
-            this.tileGfx = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\empty.png")); // Empty tile
+            this.currentFrameImage = Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\empty.png")); // Empty tile
         }
         public Image GetTileGfx(int currentFrame)
         {
@@ -28,9 +29,9 @@ namespace OPP
         }
         public Image GetTileGfx()
         {
-            return this.tileGfx;
+            return this.currentFrameImage;
         }
-        public void SetTileGfx(Image image) => this.tileGfx = image;
+        public void SetTileGfx(Image image) => this.currentFrameImage = image;
         public abstract void Add(TileGraphics tileGraphics);
         public abstract void Remove(TileGraphics tileGraphics);
         public abstract List<Image> GetFrames();

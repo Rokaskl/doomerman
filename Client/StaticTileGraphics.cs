@@ -19,7 +19,7 @@ namespace OPP
         {
             List<Image> singleFrameList = new List<Image>
             {
-                this.tileGfx
+                this.currentFrameImage
             };
             return singleFrameList;
         }

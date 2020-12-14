@@ -9,7 +9,6 @@ namespace OPP
 {
     public sealed class ClientManager
     {
-        private TilesGraphicsData tilesGraphicsData = new TilesGraphicsData();
         private static ClientManager instance = null;
         private static readonly object padlock = new object();
 
@@ -111,26 +110,23 @@ namespace OPP
 
                         if (Tile.isTileAnimated((TileEnumerator.TileTypeEnum)intTile))
                         {
-                            tile = new AnimatedTile(this.tilesGraphicsData.GetTilesGraphicsDataObject(intTile).FrameCount, true );
-                            tile.SetTileGfx(this.tilesGraphicsData.GetTileGrapchicsObject(intTile));
+                            tile = new AnimatedTile(TilesGraphicsData.GetTilesGraphicsDataObject(intTile).FrameCount, true );
+                            tile.SetTileGfx(TilesGraphicsData.GetTileGrapchicsObject(intTile));
                         }
                         else
                         {
                             tile = new StaticTile();
-                            TileGraphics tileGraphics = new StaticTileGraphics();
-                            tile.SetTileGfx(tileGraphics);
+                            tile.SetTileGfx(TilesGraphicsData.GetTileGrapchicsObject(intTile));
                         }
 
                         if (deadPlayers.Contains(intTile))
                         {
-                            tile.SetTileType(TileEnumerator.TileTypeEnum.Dead);
-                        }
-                        else
-                        {
-                            tile.SetTileType((TileEnumerator.TileTypeEnum)intTile);
+                            tile.SetTileGfx(TilesGraphicsData.GetTileGrapchicsObject((int)TileEnumerator.TileTypeEnum.Dead));
                         }
                         tile.SetTilePosition(x, y);
                         tiles.Add(tile);
+                        tile.SetTileType((TileEnumerator.TileTypeEnum) intTile);
+
                     }
 
                     Instance.GetGrid().SetTile(x, y, tiles);

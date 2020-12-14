@@ -51,7 +51,9 @@ namespace OPP
 
         public Form1()
         {
-
+            GraphicsDatabase.LoadStaticImages();
+            GraphicsDatabase.LoadAnimatedImages();
+            TilesGraphicsData.LoadData();
             InitializeComponent();
 
            

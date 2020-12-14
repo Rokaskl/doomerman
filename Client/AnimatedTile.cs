@@ -24,6 +24,9 @@ namespace OPP
         public override void UpdateGfx(TileGraphics tileGraphics)
         {
             this.tileGraphics = tileGraphics;
+
+
+
             //switch (tileType)
             //{
             //    case TileTypeEnum.Bomb:
