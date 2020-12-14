@@ -174,6 +174,7 @@ namespace Server
             App.Inst.Log("Chain of responsibility executed update handlers chain.");
             this.updateHandler.HandleRequest();
             Notify();
+            // Save grid to stack
             UpdateRequired = false;
         }
         

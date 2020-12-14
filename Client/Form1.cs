@@ -71,7 +71,6 @@ namespace OPP
             lastInputWatch.Start();
 
             KeyDown += Form1_KeyDown;
-            KeyUp += Form1_KeyUp;
             KeyPress += Form1_KeyPress;
 
             gameStateContex.SetState(new MainMenuState());
@@ -79,97 +78,18 @@ namespace OPP
        
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (ClientManager.Instance.isAlive)
+
+            if (lastInputWatch.Elapsed.TotalMilliseconds >= 150)
             {
-                if (lastInputWatch.Elapsed.TotalMilliseconds >= 150)
-                {
-                    if (pressedA)
-                    {
-                        this.SendSignal(2, CommandTypeEnum.Arena);
-                    }
+                this.gameStateContex.GetState().HandleInputKeyPress(this, e.KeyChar);
 
-                    if (pressedD)
-                    {
-                        this.SendSignal(3, CommandTypeEnum.Arena);
-                    }
-
-                    if (pressedW)
-                    {
-                        this.SendSignal(0, CommandTypeEnum.Arena);
-                    }
-
-                    if (pressedS)
-                    {
-                        this.SendSignal(1, CommandTypeEnum.Arena);
-                    }
-
-                    lastInputWatch.Restart();
-                }
-            }
-
-            if (pressedSpace)
-            {
-                gameStateContex.GetState().PressSpace(this);
-                pressedSpace = false;
-            }
-        }
-
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (ClientManager.Instance.IDIsSet())
-            {
-                switch (e.KeyCode)
-                {
-
-                    case Keys.A:
-                        pressedA = false;
-                        break;
-
-                    case Keys.W:
-                        pressedW = false;
-                        break;
-
-                    case Keys.S:
-                        pressedS = false;
-                        break;
-
-                    case Keys.D:
-                        pressedD = false;
-                        break;
-
-                }            
+                lastInputWatch.Restart();
             }
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (ClientManager.Instance.IDIsSet())
-            {
-                switch (e.KeyCode)
-                {
-
-                    case Keys.A:
-                        pressedA = true;
-                        break;
-
-                    case Keys.W:
-                        pressedW = true;
-                        break;
-
-                    case Keys.S:
-                        pressedS = true;
-                        break;
-
-                    case Keys.D:
-                        pressedD = true;
-                        break;
-                }
-            }
-
-            if (e.KeyCode == Keys.Space)
-                pressedSpace = true;
-
-
+            this.gameStateContex.GetState().HandleInputKeyDown(this, e.KeyCode);
         }
 
         private void btPlay_Click(object sender, EventArgs e)
@@ -182,9 +102,12 @@ namespace OPP
         {
             btPlay.PerformClick();
         }
-     
 
-    
+        public void ClickExit()
+        {
+            this.btQuit.PerformClick();
+        }
+
         private void btQuit_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -217,14 +140,19 @@ namespace OPP
         {
             string text = richTextBox1.Text;
             text = "127.0.0.1:13000";
+            bool connected = false;
+
             if (Regex.IsMatch(text, @"[0-9]+(?:\.[0-9]+){3}:[0-9]+"))  //Check IP:PORT pattern
             {
                 string[] array = text.Split(':');
                 string ip = array[0];
                 Int32 port = Int32.Parse(array[1]);
-                ConnectClient(ip, port);
-                SendSignal(0, CommandTypeEnum.General);
-                gameStateContex.SetState(new LobbyState());
+                connected = ConnectClient(ip, port);
+                if (connected)
+                {
+                    SendSignal(0, CommandTypeEnum.General);
+                    gameStateContex.SetState(new LobbyState());
+                }
             }
         }
         public void ShowGame()
@@ -251,10 +179,10 @@ namespace OPP
                         {
                             PB_connectedUser.Invoke(new MethodInvoker(delegate { SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());}));
                         }
-                        else    
+                        else
                         {
                             SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
-                        }            
+                        }
                         break;
                     }
                     Thread.Sleep(10);
@@ -272,7 +200,7 @@ namespace OPP
             drawingArea.Focus();
             drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/MenuBackground.png");
 
-            
+
 
             panel6.Visible = true;//Ready button panel
         }
@@ -359,9 +287,16 @@ namespace OPP
 
             }
         }
-        private void button2_Click(object sender, EventArgs e)
+
+        public void ClickCancel()
+        {
+            this.button2.PerformClick();
+        }
+
+        private void button2_Click(object sender, EventArgs e) // Join menu cancel button
         {
             panel1.Visible = false;
+            this.gameStateContex.SetState(this.gameStateContex.GetPreviousState());
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -376,7 +311,7 @@ namespace OPP
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.lobby.ToggleReady();        
+            this.lobby.ToggleReady();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -385,11 +320,6 @@ namespace OPP
             //soundPlayer.PlayLooping();
             //soundPlayer.Stop();
             isPlaying = false;
-        }
-
-        public void DropBomb()
-        {
-            this.SendSignal(4, CommandTypeEnum.Arena);
         }
 
         public async void SendSignal(int actionNum, CommandTypeEnum commandType)
@@ -419,10 +349,19 @@ namespace OPP
             }
         }
 
-        public void ConnectClient(string ip, Int32 port)
+        public bool ConnectClient(string ip, Int32 port)
         {
-         
-            client = new TcpClient(ip, port);
+            this.errorLabel.Visible = false;
+            try
+            {
+                client = new TcpClient(ip, port);
+            }
+            catch (Exception ex)
+            {
+                this.errorLabel.Text = string.Format(@"Couldn't connect to {0}:{1}, check server status", ip, port);
+                this.errorLabel.Visible = true;
+                return false;
+            }
 
             new Thread(() =>
             {
@@ -430,6 +369,8 @@ namespace OPP
                 Listener serverListener = new Listener(client, this);
 
             }).Start();
+
+            return true;
         }
 
         public void SetConnectedPlayerIcon(int ID)
@@ -439,7 +380,7 @@ namespace OPP
 
             switch (ID)
             {
-                
+
                 case 0:
                     graphics.DrawImage(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\p1_icon.png")), 0, 0, 30, 30);
                     break;
