@@ -8,7 +8,7 @@ using System;
 namespace ServerTests.MapObject.PowerDowns
 {
     [TestClass]
-    public class PowerDownFactoryTests
+    public class PowerDownFactoryTests : TestBase
     {
         private PowerDownFactory powerDownFactory;
 

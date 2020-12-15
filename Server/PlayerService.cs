@@ -1,4 +1,4 @@
-﻿using Server.CommandPattern;
+using Server.CommandPattern;
 using Server.FacadePattern;
 using Server.GameLobby;
 using Server.Logic;
@@ -9,19 +9,30 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-
-    public  class PlayerService
+    public class Progress : EventArgs
     {
-        public PlayerService(Player player, LogicFacade logic)
+        public string message;
+        public User UserData;
+        public Progress(User user, string msg = "")
         {
-            Task.Run(() => ListenPlayer(player, logic));
+            this.UserData = user;
+            message = msg;
         }
-        
+    }
+    public class PlayerService : IPlayerService
+    {
+        public EventHandler<Progress> progress;
+        public EventHandler<string> init = delegate { };
+        public PlayerService()
+        {
+            init.Invoke(this, "Player service has started");
+        }
+
         public async Task ListenPlayer(Player player, LogicFacade logic)
         {
             try
             {
-                Console.WriteLine("Player " + player.User.Id + " added.");
+                progress.Invoke(this, new Progress(player.User));
                 var stream = player.User.Client.GetStream();
                 while (true)
                 {
@@ -37,16 +48,19 @@ namespace Server
                             int index = 1;
                             int commandType = BitConverter.ToInt32(buffer, 0);
                             Command cmd = null;
+                            
                             switch (commandType)
                             {
                                 case 1:
                                     {
                                         cmd = new ArenaCommand { Author = player, TimeStamp = DateTime.UtcNow };
+                                        progress.Invoke(this, new Progress(player.User, "Got message: ArenaCommand - " + commandType));
                                         break;
                                     }
                                 case 0:
                                     {
                                         cmd = new GeneralCommand { Author = player, TimeStamp = DateTime.UtcNow };
+                                        progress.Invoke(this, new Progress(player.User, "Got message: GeneralCommand - " + commandType));
                                         break;
                                     }
                                 default:

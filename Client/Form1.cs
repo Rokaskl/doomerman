@@ -26,9 +26,12 @@ namespace OPP
 
         SoundPlayer soundPlayer;
         bool isPlaying = false;
+        bool isGameStarted = false;
 
         Thread gfxThread;
         ThreadStart gfxThreadRef;
+
+        Contex gameStateContex = new Contex();
 
         static public int IDcounter = 0;
 
@@ -56,7 +59,10 @@ namespace OPP
             TilesGraphicsData.LoadData();
             InitializeComponent();
 
-           
+
+            drawingArea.Focus();
+
+            GraphicsDatabase.LoadImages();
 
 
             screenGfx = drawingArea.CreateGraphics();           
@@ -71,119 +77,43 @@ namespace OPP
             lastInputWatch.Start();
 
             KeyDown += Form1_KeyDown;
-            KeyUp += Form1_KeyUp;
             KeyPress += Form1_KeyPress;
 
-
+            gameStateContex.SetState(new MainMenuState());
         }
        
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (ClientManager.Instance.isAlive)
+
+            if (lastInputWatch.Elapsed.TotalMilliseconds >= 150)
             {
-                if (lastInputWatch.Elapsed.TotalMilliseconds >= 150)
-                {
-                    if (pressedA)
-                    {
-                        this.SendSignal(2, CommandTypeEnum.Arena);
-                    }
+                this.gameStateContex.GetState().HandleInputKeyPress(this, e.KeyChar);
 
-                    if (pressedD)
-                    {
-                        this.SendSignal(3, CommandTypeEnum.Arena);
-                    }
-
-                    if (pressedW)
-                    {
-                        this.SendSignal(0, CommandTypeEnum.Arena);
-                    }
-
-                    if (pressedS)
-                    {
-                        this.SendSignal(1, CommandTypeEnum.Arena);
-                    }
-
-                    if (pressedSpace)
-                    {
-                        this.SendSignal(4, CommandTypeEnum.Arena);
-                        pressedSpace = false;
-                    }
-
-
-                    lastInputWatch.Restart();
-                }
-            }
-        }
-
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (ClientManager.Instance.IDIsSet())
-            {
-                switch (e.KeyCode)
-                {
-
-                    case Keys.A:
-                        pressedA = false;
-                        break;
-
-                    case Keys.W:
-                        pressedW = false;
-                        break;
-
-                    case Keys.S:
-                        pressedS = false;
-                        break;
-
-                    case Keys.D:
-                        pressedD = false;
-                        break;
-
-                }            
+                lastInputWatch.Restart();
             }
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (ClientManager.Instance.IDIsSet())
-            {
-                switch (e.KeyCode)
-                {
-
-                    case Keys.A:
-                        pressedA = true;
-                        break;
-
-                    case Keys.W:
-                        pressedW = true;
-                        break;
-
-                    case Keys.S:
-                        pressedS = true;
-                        break;
-
-                    case Keys.D:
-                        pressedD = true;
-                        break;
-
-                    case Keys.Space:
-                        pressedSpace = true;
-                        break;
-
-                }
-            }
+            this.gameStateContex.GetState().HandleInputKeyDown(this, e.KeyCode);
         }
 
         private void btPlay_Click(object sender, EventArgs e)
         {
             panel1.Visible = true;
-           
-
+            gameStateContex.SetState(new ConnectMenuState());
         }
-       
 
-     
+        public void ClickStart()
+        {
+            btPlay.PerformClick();
+        }
 
-    
+        public void ClickExit()
+        {
+            this.btQuit.PerformClick();
+        }
+
         private void btQuit_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -207,22 +137,33 @@ namespace OPP
             }
         }
 
+        public void ClickJoin()
+        {
+            button1.PerformClick();
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             string text = richTextBox1.Text;
             text = "127.0.0.1:13000";
+            bool connected = false;
+
             if (Regex.IsMatch(text, @"[0-9]+(?:\.[0-9]+){3}:[0-9]+"))  //Check IP:PORT pattern
             {
                 string[] array = text.Split(':');
                 string ip = array[0];
                 Int32 port = Int32.Parse(array[1]);
-                ConnectClient(ip, port);
-                SendSignal(0, CommandTypeEnum.General);
-
+                connected = ConnectClient(ip, port);
+                if (connected)
+                {
+                    SendSignal(0, CommandTypeEnum.General);
+                    gameStateContex.SetState(new LobbyState());
+                }
             }
         }
         public void ShowGame()
         {
+            this.isGameStarted = true;
             // Hide all Lobby panels
             for (int i = 1; i < 5;i ++) 
             {
@@ -236,23 +177,25 @@ namespace OPP
 
             Task.Run(() =>
             {
-            while (true)
-            {
-                if (ClientManager.Instance.IDIsSet())
+                while (true)
                 {
-                    if (PB_connectedUser.InvokeRequired)
+                    if (ClientManager.Instance.IDIsSet())
                     {
-                        PB_connectedUser.Invoke(new MethodInvoker(delegate { SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());}));
-                    }
-                     else    
-                     {
-                        SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
-                     }            
+                        if (PB_connectedUser.InvokeRequired)
+                        {
+                            PB_connectedUser.Invoke(new MethodInvoker(delegate { SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());}));
+                        }
+                        else
+                        {
+                            SetConnectedPlayerIcon(ClientManager.Instance.GetPlayerID());
+                        }
                         break;
                     }
                     Thread.Sleep(10);
                 }
             });
+
+            gameStateContex.SetState(new GameState());
         }
         private void CreateLobby()
         {
@@ -263,18 +206,21 @@ namespace OPP
             drawingArea.Focus();
             drawingArea.Image = Image.FromFile(ClientManager.Instance.ProjectPath + "/Resources/MenuBackground.png");
 
-            
+
 
             panel6.Visible = true;//Ready button panel
         }
 
         public void UpdateLobby(LobbyData lobbyData)
         {
-            if(this.lobby == null)
+            if (!this.isGameStarted)
             {
-                this.CreateLobby();
+                if (this.lobby == null)
+                {
+                    this.CreateLobby();
+                }
+                this.lobby.UpdateLobby(lobbyData);
             }
-            this.lobby.UpdateLobby(lobbyData);
         }
 
         public void showPlayerLobby(int id,bool show, bool ready,string  name)
@@ -347,14 +293,26 @@ namespace OPP
 
             }
         }
-        private void button2_Click(object sender, EventArgs e)
+
+        public void ClickCancel()
+        {
+            this.button2.PerformClick();
+        }
+
+        private void button2_Click(object sender, EventArgs e) // Join menu cancel button
         {
             panel1.Visible = false;
+            this.gameStateContex.SetState(this.gameStateContex.GetPreviousState());
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        public void ClickReady()
+        {
+            button3.PerformClick();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -397,10 +355,19 @@ namespace OPP
             }
         }
 
-        public void ConnectClient(string ip, Int32 port)
+        public bool ConnectClient(string ip, Int32 port)
         {
-         
-            client = new TcpClient(ip, port);
+            this.errorLabel.Visible = false;
+            try
+            {
+                client = new TcpClient(ip, port);
+            }
+            catch (Exception ex)
+            {
+                this.errorLabel.Text = string.Format(@"Couldn't connect to {0}:{1}, check server status", ip, port);
+                this.errorLabel.Visible = true;
+                return false;
+            }
 
             new Thread(() =>
             {
@@ -408,6 +375,8 @@ namespace OPP
                 Listener serverListener = new Listener(client, this);
 
             }).Start();
+
+            return true;
         }
 
         public void SetConnectedPlayerIcon(int ID)
@@ -417,7 +386,7 @@ namespace OPP
 
             switch (ID)
             {
-                
+
                 case 0:
                     graphics.DrawImage(Image.FromFile(Path.Combine(ClientManager.Instance.ProjectPath, "Resources\\p1_icon.png")), 0, 0, 30, 30);
                     break;

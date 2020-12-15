@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Server;
 using Server.MapObject.PowerUps;
 using System;
@@ -8,7 +8,7 @@ using System.Text;
 namespace ServerTests.MapObject.PowerDowns
 {
     [TestClass]
-    public class SpeedDecreaseTests
+    public class SpeedDecreaseTests : TestBase
     {
         private SpeedDecrease speedDecrease;
 

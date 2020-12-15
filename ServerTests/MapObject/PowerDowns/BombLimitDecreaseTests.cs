@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Server.MapObject.PowerDowns;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text;
 namespace ServerTests.MapObject.PowerDowns
 {
     [TestClass]
-    public class BombLimitDecreaseTests
+    public class BombLimitDecreaseTests : TestBase
     {
         private BombLimitDecrease bombLimitDecrease;
 

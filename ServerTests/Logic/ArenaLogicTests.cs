@@ -8,7 +8,7 @@ using System;
 namespace ServerTests.Logic
 {
     [TestClass]
-    public class ArenaLogicTests
+    public class ArenaLogicTests : TestBase
     {
 
         [TestMethod]

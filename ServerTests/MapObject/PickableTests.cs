@@ -5,7 +5,7 @@ using Server;
 namespace ServerTests.MapObject
 {
     [TestClass]
-    public class PickableTests
+    public class PickableTests : TestBase
     {
         private Mock<Coordinates> cords;
 

@@ -1,4 +1,4 @@
-﻿namespace OPP
+namespace OPP
 {
     partial class Form1
     {
@@ -60,6 +60,7 @@
             this.player4Icon = new System.Windows.Forms.PictureBox();
             this.player4ReadyBox = new System.Windows.Forms.PictureBox();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.errorLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.drawingArea)).BeginInit();
             this.panelMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_connectedUser)).BeginInit();
@@ -469,6 +470,18 @@
             this.panel6.TabIndex = 7;
             this.panel6.Visible = false;
             // 
+            // errorLabel
+            // 
+            this.errorLabel.AutoSize = true;
+            this.errorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.errorLabel.ForeColor = System.Drawing.Color.Red;
+            this.errorLabel.Location = new System.Drawing.Point(53, 9);
+            this.errorLabel.Name = "errorLabel";
+            this.errorLabel.Size = new System.Drawing.Size(34, 13);
+            this.errorLabel.TabIndex = 8;
+            this.errorLabel.Text = "Error";
+            this.errorLabel.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -477,6 +490,7 @@
             this.BackgroundImage = global::OPP.Properties.Resources.main_menu;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(505, 503);
+            this.Controls.Add(this.errorLabel);
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.player4Panel);
             this.Controls.Add(this.player3Panel);
@@ -519,6 +533,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.player4ReadyBox)).EndInit();
             this.panel6.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -555,6 +570,7 @@
         private System.Windows.Forms.PictureBox player3Icon;
         private System.Windows.Forms.Label player4Name;
         private System.Windows.Forms.PictureBox player4Icon;
+        private System.Windows.Forms.Label errorLabel;
     }
 }
 

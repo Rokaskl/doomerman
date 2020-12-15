@@ -3,6 +3,7 @@ using Moq;
 using Server;
 using Server.MapObject;
 using Server.MapObject.PowerUps;
+using ServerTests;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,7 +12,7 @@ using System.Text;
 namespace Server.Tests
 {
     [TestClass()]
-    public class GameArenaTests
+    public class GameArenaTests : TestBase
     {
 
         [TestMethod()]
@@ -97,7 +98,7 @@ namespace Server.Tests
             //Arrange
             GameArena arena = new GameArena(0);
             // Act
-            arena.AddWallsToGrid();
+            arena.UpdateGrid();
             //Assert
             for (int i = 0; i < 13; i++)
             {

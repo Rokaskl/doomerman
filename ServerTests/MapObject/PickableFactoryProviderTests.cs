@@ -6,7 +6,7 @@ using Server.MapObject.PowerUps;
 namespace ServerTests.MapObject
 {
     [TestClass]
-    public class PickableFactoryProviderTests
+    public class PickableFactoryProviderTests : TestBase
     {
 
         [TestMethod]

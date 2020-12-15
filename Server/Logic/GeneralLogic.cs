@@ -1,4 +1,4 @@
-﻿using Server.CommandPattern;
+using Server.CommandPattern;
 using Server.FacadePattern;
 using Server.GameLobby;
 using System;
@@ -51,10 +51,10 @@ namespace Server.Logic
 
         public void FinalizeExecute()
         {
-            if (this.lobby.isStarting)
-            {
+            //if (this.lobby.isStarting)
+            //{
                 this.lobby.SendInfo();
-            }
+            //}
 
         }
     }

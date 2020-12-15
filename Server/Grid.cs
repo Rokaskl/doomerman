@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
@@ -142,6 +142,46 @@ namespace Server
                     this._grid[i, j] = new List<int>();
                 }
 
+            }
+        }
+
+        public Memento SaveToMemento()
+        {
+            return new Memento(this._grid);
+        }
+
+        public void RestoreFromMemento(Memento memento)
+        {
+            this._grid = memento.GetSavedGrid();
+        }
+
+        public class Memento
+        {
+            private DateTime date;
+            private List<int>[,] grid;
+
+            public Memento(List<int>[,] gridToSave)
+            {
+                this.date = DateTime.Now;
+
+                this.grid = new List<int>[gridToSave.GetLength(0), gridToSave.GetLength(1)];
+                for (int i = 0; i < gridToSave.GetLength(0); i++)
+                {
+                    for (int j = 0; j < gridToSave.GetLength(1); j++)
+                    {
+                        this.grid[i, j] = new List<int>(gridToSave[i, j]);
+                    }
+                }
+            }
+
+            public List<int>[,] GetSavedGrid()
+            {
+                return this.grid;
+            }
+
+            public DateTime GetSavedDate()
+            {
+                return this.date;
             }
         }
     }
