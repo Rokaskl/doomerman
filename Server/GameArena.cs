@@ -21,6 +21,7 @@ using System.IO;
 using Server.ChainOfRespPattern;
 using Server.Iterator;
 using Server.Mediator;
+using Server.Visitor;
 
 namespace Server
 {
@@ -33,6 +34,10 @@ namespace Server
         public Walls wallsObj = new Walls();
         public bool isStarted = false;
         private IMediator mediator;
+        private PlayerPossitionLogger playerPossitionLogger = new PlayerPossitionLogger("PlayersPossitions");
+        private PlayerPowerUpsLogger playerPowerUpsLogger = new PlayerPowerUpsLogger("PlayersPowerUps");
+        private PlayerStatusLogger playerStatusLogger = new PlayerStatusLogger("PlayersStatuses");
+        private LoggablePlayers loggablePlayers = new LoggablePlayers();
 
         public IMediator Mediator
         {
@@ -73,6 +78,7 @@ namespace Server
             serviceColleague.BondedColleague = player;
             this.mediator.Register(serviceColleague);
             player.StartListenerService(this.Calculator);
+            loggablePlayers.AddPlayer(player);
         }
 
         public void Notify()
@@ -82,6 +88,12 @@ namespace Server
             {
                 player.Update(this.grid, DeadPlayers());
             });
+        }
+        public void LogPlayersInfo()
+        {
+            loggablePlayers.PerformLogging(playerPossitionLogger);
+            loggablePlayers.PerformLogging(playerPowerUpsLogger);
+            loggablePlayers.PerformLogging(playerStatusLogger);
         }
         public List<int> DeadPlayers()
         {
@@ -171,6 +183,7 @@ namespace Server
 
         public void UpdateGrid()
         {
+            LogPlayersInfo();
             App.Inst.Log("Chain of responsibility executed update handlers chain.");
             this.updateHandler.HandleRequest();
             Notify();

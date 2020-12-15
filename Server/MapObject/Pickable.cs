@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -28,6 +28,9 @@ namespace Server
         {
             return base.GetCords();
         }
-
+        public override string ToString()
+        {
+            return Enum.GetName(typeof(TileEnumerator.TileTypeEnum), type);
+        }
     }
 }

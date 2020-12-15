@@ -11,10 +11,11 @@ using System.Runtime.CompilerServices;
 using System.Linq;
 using Server.Mediator;
 using Server.FacadePattern;
+using Server.Visitor;
 
 namespace Server
 {
-    public class Player : IColleague, IPlayer
+    public class Player : IColleague, IPlayer, IElement
     {
         public User User;
         public Coordinates xy;
@@ -45,6 +46,10 @@ namespace Server
                     this.colleague.BondedColleague = this;
                 }
             }
+        }
+        public void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         public IMoveStrategy moveStrategy = new MoveNormalStrategy();
