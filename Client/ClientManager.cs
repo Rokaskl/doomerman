@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -104,33 +104,29 @@ namespace OPP
                 Parallel.For(0, 13, (y) =>
                 {
                     List<Tile> tiles = new List<Tile>();
-                    foreach (var intTile in grid[x, y])
+                    foreach (int intTile in grid[x, y])
                     {
                         Tile tile;
 
                         if (Tile.isTileAnimated((TileEnumerator.TileTypeEnum)intTile))
                         {
-                            tile = new AnimatedTile();
-                            TileGraphics tileGraphics = new TileGraphics();
-                            tile.SetTileGfx(tileGraphics);
+                            tile = new AnimatedTile(TilesGraphicsData.GetTilesGraphicsDataObject(intTile).FrameCount, true );
+                            tile.SetTileGfx(TilesGraphicsData.GetTileGrapchicsObject(intTile));
                         }
                         else
                         {
                             tile = new StaticTile();
-                            TileGraphics tileGraphics = new TileGraphics();
-                            tile.SetTileGfx(tileGraphics);
+                            tile.SetTileGfx(TilesGraphicsData.GetTileGrapchicsObject(intTile));
                         }
 
                         if (deadPlayers.Contains(intTile))
                         {
-                            tile.SetTileType(TileEnumerator.TileTypeEnum.Dead);
-                        }
-                        else
-                        {
-                            tile.SetTileType((TileEnumerator.TileTypeEnum)intTile);
+                            tile.SetTileGfx(TilesGraphicsData.GetTileGrapchicsObject((int)TileEnumerator.TileTypeEnum.Dead));
                         }
                         tile.SetTilePosition(x, y);
                         tiles.Add(tile);
+                        tile.SetTileType((TileEnumerator.TileTypeEnum) intTile);
+
                     }
 
                     Instance.GetGrid().SetTile(x, y, tiles);

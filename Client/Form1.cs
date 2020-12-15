@@ -19,6 +19,8 @@ namespace OPP
 {
     public partial class Form1 : Form
     {
+        
+
         Graphics screenGfx; // Graphics element in which to draw
         DrawQueue drawQueue;// Renders image elements
 
@@ -52,12 +54,16 @@ namespace OPP
 
         public Form1()
         {
-
+            GraphicsDatabase.LoadStaticImages();
+            GraphicsDatabase.LoadAnimatedImages();
+            TilesGraphicsData.LoadData();
             InitializeComponent();
+
 
             drawingArea.Focus();
 
             GraphicsDatabase.LoadImages();
+
 
             screenGfx = drawingArea.CreateGraphics();           
             drawQueue = new DrawQueue(screenGfx, drawingArea);

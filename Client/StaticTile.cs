@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +8,9 @@ namespace OPP
 {
     public class StaticTile : Tile
     {
-        public override void UpdateGfx(TileEnumerator.TileTypeEnum tileType)
+        public override void UpdateGfx(TileGraphics tileGraphics)
         {
-            base.UpdateGfx(tileType);
+            base.UpdateGfx(tileGraphics);
         }
     }
 }
