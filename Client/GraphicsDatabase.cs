@@ -49,7 +49,7 @@ namespace OPP
         }
         public static void LoadAnimatedImages()
         {
-            animatedImages.Add(AnimationsEnum.ChillWater, new List<Image> { Image.FromFile(Path.Combine( ProjectPath, "Resources\\water_frame0.png")), Image.FromFile(Path.Combine( ProjectPath, "Resources\\water_frame1.png")) }) ;
+            animatedImages.Add(AnimationsEnum.ChillWater, new List<Image> { Image.FromFile(Path.Combine( ProjectPath, "Resources\\water_frame0.png")), Image.FromFile(Path.Combine( ProjectPath, "Resources\\water_frame1.png")), Image.FromFile(Path.Combine(ProjectPath, "Resources\\water_frame2.png")) }) ;
             animatedImages.Add(AnimationsEnum.StormWater, new List<Image> { Image.FromFile(Path.Combine( ProjectPath, "Resources\\waterStorm_frame0.png")), Image.FromFile(Path.Combine( ProjectPath, "Resources\\waterStorm_frame1.png")) });
 
         }
