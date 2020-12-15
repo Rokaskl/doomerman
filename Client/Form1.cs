@@ -62,8 +62,6 @@ namespace OPP
 
             drawingArea.Focus();
 
-            GraphicsDatabase.LoadImages();
-
 
             screenGfx = drawingArea.CreateGraphics();           
             drawQueue = new DrawQueue(screenGfx, drawingArea);
